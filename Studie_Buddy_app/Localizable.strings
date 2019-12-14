@@ -1,0 +1,27 @@
+/* 
+  Localizable.strings
+  Studie_Buddy_app
+
+  Created by Jordy Twisk on 02/12/2019.
+  Copyright © 2019 ProjectGroep5. All rights reserved.
+*/
+
+"login" = "Login";
+"username" = "Username";
+"password" = "Password";
+"registerhere" = "Don't have a account? Register here!";
+"next" = "Next";
+"cpassword" = "Confirm password";
+"register" = "Register";
+"profile"  = "Profile";
+"name" = "Name";
+"bio" = "Bio";
+"study" = "Study";
+"bday" = "Date of birth";
+"city" = "City";
+"prestudy" = "Pre study";
+"home" = "Home";
+"messages" = "Berichten";
+"send" = "Send";
+"save" = "Save";
+"newmessage" = "Type a message...";
