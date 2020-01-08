@@ -40,9 +40,9 @@ final class InboxTableViewCell: UITableViewCell{
         bubblebackgroundview.translatesAutoresizingMaskIntoConstraints = false
         
         let constraints = [
-            NewMessagesLabel.topAnchor.constraint(equalTo: topAnchor, constant: 25),
-            NewMessagesLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0),
-            NewMessagesLabel.widthAnchor.constraint(equalToConstant: 18),
+            NewMessagesLabel.topAnchor.constraint(equalTo: topAnchor, constant: 35),
+            NewMessagesLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
+            NewMessagesLabel.widthAnchor.constraint(equalToConstant: 20),
             NewMessagesLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
             
             bubblebackgroundview.topAnchor.constraint(equalTo: NewMessagesLabel.topAnchor, constant: 0),

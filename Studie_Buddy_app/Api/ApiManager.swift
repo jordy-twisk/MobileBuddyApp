@@ -13,19 +13,63 @@ import SwiftKeychainWrapper
 
 final class ApiManager{
     
-    static var BaseURL = "http://192.168.178.227:7071/"
+    static var BaseURL = "https://dev-tinderclonefa-test.azurewebsites.net/"
     
-    static func getMessages() -> DataRequest{
-        return Alamofire.request(BaseURL + "api/messages/701/710", method: .get)
+    static func getMessages(senderID: Int , receiverID: Int) -> DataRequest{
+        let authToken = KeychainWrapper.standard.string(forKey: "AuthToken")
+        let authID = KeychainWrapper.standard.string(forKey: "StudentID")
+        let headers: [String : String] = [
+        "AuthToken": "\(authToken!)",
+        "AuthID": "\(authID!)"
+        ]
+        return Alamofire.request(BaseURL + "api/messages/\(senderID)/\(receiverID)", method: .get, headers: headers)
     }
     
-    static func getProfile() -> DataRequest{
+    static func getTutors(studentID: Int) -> DataRequest{
+        let authToken = KeychainWrapper.standard.string(forKey: "AuthToken")
+        let authID = KeychainWrapper.standard.string(forKey: "StudentID")
+        let headers: [String : String] = [
+        "AuthToken": "\(authToken!)",
+        "AuthID": "\(authID!)"
+        ]
+        return Alamofire.request(BaseURL + "api/coachTutorant/coach/\(studentID)", method: .get, headers: headers)
+    }
+    
+    static func getProfile(studentID: Int) -> DataRequest{
+        let authToken = KeychainWrapper.standard.string(forKey: "AuthToken")
+        let authID = KeychainWrapper.standard.string(forKey: "StudentID")
+        let headers: [String : String] = [
+        "AuthToken": "\(authToken!)",
+        "AuthID": "\(authID!)"
+        ]
+        return Alamofire.request(BaseURL + "api/student/\(studentID)", method: .get, headers: headers)
+    }
+    
+    static func updateProfile(student: Student) -> DataRequest{
+        let authToken = KeychainWrapper.standard.string(forKey: "AuthToken")
+        let authID = KeychainWrapper.standard.string(forKey: "StudentID")
+        let headers: [String : String] = [
+        "AuthToken": "\(authToken!)",
+        "AuthID": "\(authID!)"
+        ]
+        let parameters: [String : String] = [
+            "studentID": "\(student.studentid)",
+            "firstName": "\(student.firstname)",
+            "surName": "\(student.surname)",
+            "phoneNumber": "\(student.phonenumber)",
+            "photo": "\(student.photo)",
+            "description": "\(student.description)",
+            "degree": "\(student.degree)",
+            "study": "\(student.study)",
+            "studyYear": "\(student.studyyear)",
+            "interests": "\(student.interests)"
         
-        return Alamofire.request(BaseURL + "api/student/123456", method: .get)
+        ]
+        return Alamofire.request(BaseURL + "api/student/\(student.studentid)", method: .put, parameters: parameters, headers: headers)
     }
     
     static func LogUserIn(username: String, password: String) -> DataRequest{
-        let parameters: [String : Any] = [
+        let parameters: [String : String] = [
                 "studentID": "\(username)",
                 "password": "\(password)"
         ]
@@ -45,8 +89,13 @@ final class ApiManager{
     
     
     static func SendMessage(senderid: Int, payload: String, receiverid: Int) -> DataRequest{
+        let authToken = KeychainWrapper.standard.string(forKey: "AuthToken")
+        let authID = KeychainWrapper.standard.string(forKey: "StudentID")
+        let headers: [String : String] = [
+        "AuthToken": "\(authToken!)",
+        "AuthID": "\(authID!)"
+        ]
         let parameters: [String : Any] = [
-                "messageID": 1,
                 "type": "text",
                 "payload": "\(payload)",
                 "created": "10/12/2019",
@@ -54,7 +103,7 @@ final class ApiManager{
                 "senderID": (senderid),
                 "receiverID": (receiverid)
         ]
-        return Alamofire.request(BaseURL + "api/message",method: .post, parameters: parameters, encoding: JSONEncoding.default)
+        return Alamofire.request(BaseURL + "api/message",method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
     }
 }
  

@@ -25,3 +25,11 @@
 "send" = "Send";
 "save" = "Save";
 "newmessage" = "Type a message...";
+"inbox" = "Inbox";
+"tryagain" = "Try again please!";
+"fill_in" = "Please fill in your credentials.";
+"wrongInput" = "Wrong Input, pleas try again.";
+"newtutortext" = "Yes! You have a new buddy!";
+"newtutortype" = "NewTutor";
+"newMessagetext" = "You got a new message!";
+"newMessagetype" = "NewMessage";

@@ -30,22 +30,12 @@
                         <color key="textColor" red="0.88945585490000001" green="0.0063219629229999998" blue="0.50003874299999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BFR-5G-kTh">
-                        <rect key="frame" x="344" y="20" width="50" height="25"/>
-                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                        <state key="normal" title="Button">
-                            <color key="titleColor" red="0.88945585490000001" green="0.0063219629229999998" blue="0.50003874299999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </state>
-                    </button>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="BFR-5G-kTh" secondAttribute="bottom" id="9AZ-n3-qqd"/>
                     <constraint firstItem="4OD-CG-Qwu" firstAttribute="top" secondItem="Dpu-R1-Dzc" secondAttribute="top" id="9vx-rD-EJY"/>
                     <constraint firstItem="4OD-CG-Qwu" firstAttribute="leading" secondItem="Dpu-R1-Dzc" secondAttribute="leading" id="BiN-VR-PWH"/>
                     <constraint firstItem="D4O-RK-v7a" firstAttribute="top" secondItem="Dpu-R1-Dzc" secondAttribute="top" constant="5" id="Gpt-Ch-w5e"/>
-                    <constraint firstAttribute="trailing" secondItem="BFR-5G-kTh" secondAttribute="trailing" constant="20" id="MgN-EE-DId"/>
                     <constraint firstAttribute="bottom" secondItem="Sok-lJ-tFC" secondAttribute="bottom" constant="20" id="R90-ku-ScM"/>
-                    <constraint firstItem="BFR-5G-kTh" firstAttribute="top" secondItem="Dpu-R1-Dzc" secondAttribute="top" constant="20" id="TIq-QV-OZU"/>
                     <constraint firstItem="Sok-lJ-tFC" firstAttribute="top" secondItem="Dpu-R1-Dzc" secondAttribute="top" id="aNp-aL-shM"/>
                     <constraint firstAttribute="trailing" secondItem="Sok-lJ-tFC" secondAttribute="trailing" constant="20" id="dWM-Ao-y40"/>
                     <constraint firstAttribute="trailing" secondItem="4OD-CG-Qwu" secondAttribute="trailing" id="rVc-cF-kdZ"/>
@@ -57,7 +47,6 @@
                 <outlet property="HeaderImage" destination="4OD-CG-Qwu" id="8Gw-eo-6od"/>
                 <outlet property="Notification" destination="Sok-lJ-tFC" id="I45-cv-1rS"/>
                 <outlet property="NotificationDate" destination="D4O-RK-v7a" id="BHs-hl-gMf"/>
-                <outlet property="ResponseButton" destination="BFR-5G-kTh" id="voc-CJ-Zgh"/>
             </connections>
             <point key="canvasLocation" x="411.59420289855075" y="-318.41517857142856"/>
         </tableViewCell>

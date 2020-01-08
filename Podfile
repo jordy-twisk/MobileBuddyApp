@@ -12,6 +12,7 @@ target 'Studie_Buddy_app' do
 	pod 'SwiftKeychainWrapper'
 	pod 'Fabric'
 	pod 'Crashlytics'
+	pod 'SwiftyJSON'
 
 
   target 'Studie_Buddy_appTests' do

@@ -18,6 +18,8 @@
 		3C3B2FC6239962BF000A445D /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3B2FC5239962BF000A445D /* MessagesViewController.swift */; };
 		3C3B2FC8239963B6000A445D /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3B2FC7239963B6000A445D /* MessageTableViewCell.swift */; };
 		3C3B2FCA239963C8000A445D /* MessageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C3B2FC9239963C8000A445D /* MessageTableViewCell.xib */; };
+		3C678A1223C3BC0600DB26D5 /* Tutorants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C678A1123C3BC0600DB26D5 /* Tutorants.swift */; };
+		3C678A1423C5132700DB26D5 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C678A1323C5132700DB26D5 /* Notification.swift */; };
 		3C91C3AD239FBD390081F7B7 /* Student.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C91C3AC239FBD390081F7B7 /* Student.swift */; };
 		3C9E81DA237B007C00284CDC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9E81D9237B007C00284CDC /* AppDelegate.swift */; };
 		3C9E81DC237B007C00284CDC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9E81DB237B007C00284CDC /* SceneDelegate.swift */; };
@@ -71,6 +73,8 @@
 		3C3B2FC5239962BF000A445D /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		3C3B2FC7239963B6000A445D /* MessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
 		3C3B2FC9239963C8000A445D /* MessageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageTableViewCell.xib; sourceTree = "<group>"; };
+		3C678A1123C3BC0600DB26D5 /* Tutorants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tutorants.swift; sourceTree = "<group>"; };
+		3C678A1323C5132700DB26D5 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		3C91C3AC239FBD390081F7B7 /* Student.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Student.swift; sourceTree = "<group>"; };
 		3C9E81D6237B007C00284CDC /* Studie_Buddy_app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Studie_Buddy_app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C9E81D9237B007C00284CDC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -170,6 +174,8 @@
 				3C3B2FC123995DF9000A445D /* ApiManager.swift */,
 				3C3B2FC323996142000A445D /* Messages.swift */,
 				3C91C3AC239FBD390081F7B7 /* Student.swift */,
+				3C678A1123C3BC0600DB26D5 /* Tutorants.swift */,
+				3C678A1323C5132700DB26D5 /* Notification.swift */,
 			);
 			path = Api;
 			sourceTree = "<group>";
@@ -202,8 +208,8 @@
 				3C9E81D9237B007C00284CDC /* AppDelegate.swift */,
 				3CD4884523A4FD78001FBB47 /*  UIColor+FlatColors.swift */,
 				3C06C37C23951C5100E05EAE /* Localizable.strings */,
-				3C9E81DB237B007C00284CDC /* SceneDelegate.swift */,
 				3C3B2FC023995DE2000A445D /* Api */,
+				3C9E81DB237B007C00284CDC /* SceneDelegate.swift */,
 				3C3B2FBB23992FBF000A445D /* TableViewCells */,
 				3C3B2FB823992802000A445D /* View Controllers */,
 				3C9E81DF237B007C00284CDC /* Main.storyboard */,
@@ -499,7 +505,9 @@
 				3C9E81DC237B007C00284CDC /* SceneDelegate.swift in Sources */,
 				3CD4884023A40C5F001FBB47 /* InboxTableViewCell.swift in Sources */,
 				3C06C3812395208700E05EAE /* RegisterViewController.swift in Sources */,
+				3C678A1223C3BC0600DB26D5 /* Tutorants.swift in Sources */,
 				3C3B2FBA23992A39000A445D /* HomeViewController.swift in Sources */,
+				3C678A1423C5132700DB26D5 /* Notification.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -680,6 +688,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SV55MP2BFF;
 				INFOPLIST_FILE = Studie_Buddy_app/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -699,6 +708,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SV55MP2BFF;
 				INFOPLIST_FILE = Studie_Buddy_app/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

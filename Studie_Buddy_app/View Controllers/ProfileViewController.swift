@@ -23,6 +23,7 @@ class profileviewcontroller: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var BioTextbox: UITextField!
     @IBOutlet weak var ProfileNameTextbox: UITextField!
     @IBOutlet weak var ProfileImageView: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -53,8 +54,10 @@ class profileviewcontroller: UIViewController, UIImagePickerControllerDelegate, 
         
         
  }
+    
+    
     func Makeprofilecall(){
-    ApiManager.getProfile().responseData(completionHandler: { [weak self] (response) in
+        ApiManager.getProfile(studentID: 123456).responseData(completionHandler: { [weak self] (response) in
         let jsonData = response.data!
         let decoder = JSONDecoder()
         Studentprofile = try? decoder.decode(Student.self, from: jsonData)
@@ -66,6 +69,50 @@ class profileviewcontroller: UIViewController, UIImagePickerControllerDelegate, 
         self!.RegisterButton.setTitle(NSLocalizedString("save", comment: ""), for: .normal)
         })
     }
+    
+    @IBAction func SaveButtonClicked(_ sender: Any) {
+        if self.ProfileNameTextbox.text != ""{
+            Studentprofile?.firstname = ProfileNameTextbox.text!
+            
+            ProfileNameTextbox.text = ""
+            
+        }
+        if self.BioTextbox.text != ""{
+            Studentprofile?.description = BioTextbox.text!
+            BioTextbox.text = ""
+            
+            
+        }
+        if self.StudyTextbox.text != ""{
+            Studentprofile?.study = StudyTextbox.text!
+            StudyTextbox.text = ""
+                    }
+        if self.CityTextbox.text != ""{
+            Studentprofile?.degree = CityTextbox.text!
+            CityTextbox.text = ""
+            
+        }
+        if self.PreStudyTextbox.text != ""{
+            Studentprofile?.interests = PreStudyTextbox.text!
+            PreStudyTextbox.text = ""
+            
+        }
+        ProfileNameTextbox.placeholder = Studentprofile?.firstname
+        BioTextbox.placeholder = Studentprofile?.description
+        StudyTextbox.placeholder = Studentprofile?.study
+        CityTextbox.placeholder = Studentprofile?.degree
+        PreStudyTextbox.placeholder = Studentprofile?.interests
+        
+        ApiManager.updateProfile(student: Studentprofile!).responseData(completionHandler: { [weak self] (response) in
+            let jsonData = response.data!
+            print(Studentprofile?.firstname, Studentprofile?.description, Studentprofile?.degree, Studentprofile?.interests)
+                print(jsonData)
+        })
+        
+        //Makeprofilecall()
+    
+    }
+    
     
     @IBAction func TakePicture(_ sender: Any) {
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera){

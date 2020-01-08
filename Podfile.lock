@@ -7,6 +7,7 @@ PODS:
     - Kingfisher/Core (= 5.8.1)
   - Kingfisher/Core (5.8.1)
   - SwiftKeychainWrapper (3.4.0)
+  - SwiftyJSON (5.0.0)
 
 DEPENDENCIES:
   - Alamofire
@@ -14,6 +15,7 @@ DEPENDENCIES:
   - Fabric
   - Kingfisher
   - SwiftKeychainWrapper
+  - SwiftyJSON
 
 SPEC REPOS:
   trunk:
@@ -22,6 +24,7 @@ SPEC REPOS:
     - Fabric
     - Kingfisher
     - SwiftKeychainWrapper
+    - SwiftyJSON
 
 SPEC CHECKSUMS:
   Alamofire: afc3e7c6db61476cb45cdd23fed06bad03bbc321
@@ -29,7 +32,8 @@ SPEC CHECKSUMS:
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   Kingfisher: de969e451c81ca6c07a454bc36fea84b8b08c3c7
   SwiftKeychainWrapper: 6fc49fbf7d4a6b0772917acb0e53a1639f6078d6
+  SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
 
-PODFILE CHECKSUM: 8c37825c09864aa97123f697abbc4c3c3410afed
+PODFILE CHECKSUM: f0bd0a715276e13ca1f72f1af43df3a8e2f2b992
 
 COCOAPODS: 1.8.4

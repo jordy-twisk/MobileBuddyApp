@@ -19,7 +19,7 @@ class Messages: Codable{
         
         
         enum CodingKeys: String, CodingKey{
-            case messageid = "MessageID"
+            case messageid = "messageID"
             case type = "type"
             case payload = "payload"
             case created = "created"
