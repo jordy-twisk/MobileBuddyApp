@@ -203,9 +203,11 @@ func MakeApiCall(){
             self!.LoadingIndicator.stopAnimating()
             self!.LoadingIndicator.isHidden = true
             self!.MessagesTableView.reloadData()
-            //let lastSection: Int = self!.MessagesTableView.numberOfSections
-            //let lastRow: Int = self!.MessagesTableView.numberOfRows(inSection: lastSection) - 1
-            //self!.MessagesTableView.scrollToRow(at: IndexPath(row: lastRow, section: lastSection), at: .bottom, animated: false)
+            let lastSection: Int = (self!.MessagesTableView.numberOfSections - 1)
+            let lastRow: Int = (self!.MessagesTableView.numberOfRows(inSection: lastSection) - 1)
+            print("lastrow is: \(lastRow), lastsection is: \(lastSection)")
+            self!.MessagesTableView.scrollToRow(at: IndexPath(row: lastRow, section: lastSection), at: .bottom, animated: false)
+                
             //UserDefaults.standard.set(MessageArray, forKey: "Messages")
             //let encodedData: Data = try! NSKeyedArchiver.archivedData(withRootObject: MessageArray, requiringSecureCoding: true)
             //userDefaults.set(encodedData, forKey: "Messages")

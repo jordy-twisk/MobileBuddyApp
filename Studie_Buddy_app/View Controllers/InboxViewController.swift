@@ -137,7 +137,7 @@ extension inboxviewcontroller: UITableViewDataSource, UITableViewDelegate{
             if tutorantenProfiles.count != 0 {
             cell.InboxChatName.text = tutorantenProfiles[indexPath.row].firstname
             }
-           // cell.InboxDateLabel.text = String(Date())
+            cell.InboxDateLabel.text = "8/1/2020"
             let message = LatestMessage
             let trimmed = message.trimmingCharacters(in: .whitespacesAndNewlines)
             let newMessage = trimmed.data(using: .utf8)

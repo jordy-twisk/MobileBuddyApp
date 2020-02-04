@@ -36,16 +36,23 @@
                                     <action selector="LoginButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nVH-BA-yax"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="ZI2-Fd-qZy">
+                                <rect key="frame" x="197" y="273" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.88945585490000001" green="0.0063219629229999998" blue="0.50003874299999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="JJw-iG-lXr" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="225" id="MOl-YH-3gw"/>
+                            <constraint firstItem="ZI2-Fd-qZy" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="185" id="TNq-hH-rCm"/>
+                            <constraint firstItem="ZI2-Fd-qZy" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="197" id="cp5-f0-f0F"/>
+                            <constraint firstItem="JJw-iG-lXr" firstAttribute="top" secondItem="ZI2-Fd-qZy" secondAttribute="bottom" constant="20" id="dJZ-Yf-E8O"/>
                             <constraint firstItem="JJw-iG-lXr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="100" id="ggf-x9-aFY"/>
                             <constraint firstItem="wDc-hk-GYh" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="100" id="l9y-zw-jiv"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="4dS-qx-lAu" secondAttribute="trailing" constant="100" id="n1j-9Y-mtJ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="JJw-iG-lXr" secondAttribute="trailing" constant="100" id="qD7-ul-5Cs"/>
                             <constraint firstItem="4dS-qx-lAu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="100" id="rcr-yT-DHj"/>
                             <constraint firstItem="wDc-hk-GYh" firstAttribute="top" secondItem="4dS-qx-lAu" secondAttribute="bottom" constant="20" id="u08-7e-O2U"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ZI2-Fd-qZy" secondAttribute="trailing" constant="197" id="vjU-Ww-rks"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="wDc-hk-GYh" secondAttribute="trailing" constant="100" id="w76-sK-6Ly"/>
                             <constraint firstItem="4dS-qx-lAu" firstAttribute="top" secondItem="JJw-iG-lXr" secondAttribute="bottom" constant="20" id="xs7-ru-fn1"/>
                         </constraints>
@@ -53,6 +60,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="dxC-b9-sIF"/>
                     <connections>
+                        <outlet property="LoadingIndicator" destination="ZI2-Fd-qZy" id="xHU-6z-7tP"/>
                         <outlet property="LoginButton" destination="wDc-hk-GYh" id="NNU-BJ-NRK"/>
                         <outlet property="NavigationBAr" destination="dxC-b9-sIF" id="4nJ-Dh-si3"/>
                         <outlet property="PasswordTextbox" destination="4dS-qx-lAu" id="kvh-ag-OiQ"/>
@@ -327,9 +335,10 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mCC-cF-WYZ">
-                                        <rect key="frame" x="20" y="106" width="85" height="30"/>
+                                        <rect key="frame" x="30" y="106" width="85" height="30"/>
                                         <state key="normal" title="Take Picture"/>
                                         <connections>
+                                            <action selector="OpenCamera:" destination="mVn-cD-mRA" eventType="touchUpInside" id="hzO-MD-keX"/>
                                             <action selector="TakePicture:" destination="mVn-cD-mRA" eventType="touchUpInside" id="0cl-Me-CsI"/>
                                         </connections>
                                     </button>
@@ -354,7 +363,7 @@
                                     <constraint firstItem="oai-nu-3x9" firstAttribute="leading" secondItem="HRC-Rc-rza" secondAttribute="leading" constant="20" id="VAw-hk-TYZ"/>
                                     <constraint firstItem="j4E-l4-3cK" firstAttribute="top" secondItem="0JG-JR-yUa" secondAttribute="top" constant="30" id="Xbg-Xe-xGU"/>
                                     <constraint firstAttribute="trailing" secondItem="j4E-l4-3cK" secondAttribute="trailing" constant="20" id="c85-dJ-7pu"/>
-                                    <constraint firstItem="mCC-cF-WYZ" firstAttribute="leading" secondItem="HRC-Rc-rza" secondAttribute="leading" constant="20" id="fNH-CE-Suc"/>
+                                    <constraint firstItem="mCC-cF-WYZ" firstAttribute="leading" secondItem="HRC-Rc-rza" secondAttribute="leading" constant="30" id="fNH-CE-Suc"/>
                                     <constraint firstItem="hcG-eK-3OX" firstAttribute="leading" secondItem="HRC-Rc-rza" secondAttribute="leading" constant="20" id="hP4-wj-D3u"/>
                                     <constraint firstItem="Aii-yj-wl2" firstAttribute="top" secondItem="hcG-eK-3OX" secondAttribute="bottom" constant="30" id="hUf-Y3-Tcl"/>
                                     <constraint firstItem="j4E-l4-3cK" firstAttribute="leading" secondItem="8iw-8r-WU4" secondAttribute="trailing" constant="5" id="ifg-NG-DkI"/>

@@ -114,15 +114,14 @@ class profileviewcontroller: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     
-    @IBAction func TakePicture(_ sender: Any) {
+    @IBAction func OpenCamera(_ sender: Any) {
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera){
-            let imagepicker = UIImagePickerController()
-            imagepicker.delegate = self
-            imagepicker.sourceType = UIImagePickerController.SourceType.camera
-            imagepicker.allowsEditing = false
-            self.present(imagepicker, animated: true, completion: nil)
-        }
-        
+                 let imagepicker = UIImagePickerController()
+                 imagepicker.delegate = self
+                 imagepicker.sourceType = UIImagePickerController.SourceType.camera
+                 imagepicker.allowsEditing = false
+                 self.present(imagepicker, animated: true, completion: nil)
+            }
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
