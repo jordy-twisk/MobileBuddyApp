@@ -44,10 +44,9 @@
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Upload a profile picture</string>
+	<string>$(PRODUCT_NAME) would like to use the camera to take a picture</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
-		<string></string>
 		<string>armv7</string>
 	</array>
 	<key>UIStatusBarStyle</key>

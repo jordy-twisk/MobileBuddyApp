@@ -334,19 +334,18 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mCC-cF-WYZ">
-                                        <rect key="frame" x="30" y="106" width="85" height="30"/>
-                                        <state key="normal" title="Take Picture"/>
-                                        <connections>
-                                            <action selector="OpenCamera:" destination="mVn-cD-mRA" eventType="touchUpInside" id="hzO-MD-keX"/>
-                                            <action selector="TakePicture:" destination="mVn-cD-mRA" eventType="touchUpInside" id="0cl-Me-CsI"/>
-                                        </connections>
-                                    </button>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Aii-yj-wl2">
                                         <rect key="frame" x="20" y="348" width="374" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xmg-eT-gD2">
+                                        <rect key="frame" x="30" y="111" width="46" height="30"/>
+                                        <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="TakePicture:" destination="mVn-cD-mRA" eventType="touchUpInside" id="Bfh-yK-NWY"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="0JG-JR-yUa" firstAttribute="trailing" secondItem="Aii-yj-wl2" secondAttribute="trailing" constant="20" id="0hB-mY-jbr"/>
@@ -354,21 +353,21 @@
                                     <constraint firstItem="8iw-8r-WU4" firstAttribute="leading" secondItem="HRC-Rc-rza" secondAttribute="leading" constant="20" id="1Tr-Jc-3OU"/>
                                     <constraint firstItem="0JG-JR-yUa" firstAttribute="trailing" secondItem="oai-nu-3x9" secondAttribute="trailing" constant="20" id="324-j9-5d3"/>
                                     <constraint firstItem="Aii-yj-wl2" firstAttribute="leading" secondItem="HRC-Rc-rza" secondAttribute="leading" constant="20" id="7Qr-D8-1gk"/>
-                                    <constraint firstItem="mCC-cF-WYZ" firstAttribute="top" secondItem="8iw-8r-WU4" secondAttribute="bottom" constant="5" id="7s5-3p-tzh"/>
                                     <constraint firstAttribute="bottom" secondItem="Xfu-7Z-Ec5" secondAttribute="bottom" constant="233" id="HAk-1f-ua1"/>
+                                    <constraint firstItem="xmg-eT-gD2" firstAttribute="leading" secondItem="0JG-JR-yUa" secondAttribute="leading" constant="30" id="HOc-YW-gsi"/>
                                     <constraint firstItem="Xfu-7Z-Ec5" firstAttribute="leading" secondItem="0JG-JR-yUa" secondAttribute="leading" constant="20" id="Jp3-Ez-rY3"/>
                                     <constraint firstItem="0JG-JR-yUa" firstAttribute="trailing" secondItem="hcG-eK-3OX" secondAttribute="trailing" constant="20" id="K1K-Tx-Gyu"/>
                                     <constraint firstItem="vfh-iA-Lex" firstAttribute="leading" secondItem="HRC-Rc-rza" secondAttribute="leading" constant="20" id="RY8-Qm-eiv"/>
                                     <constraint firstItem="oai-nu-3x9" firstAttribute="top" secondItem="vfh-iA-Lex" secondAttribute="bottom" constant="30" id="VAc-6B-xzz"/>
                                     <constraint firstItem="oai-nu-3x9" firstAttribute="leading" secondItem="HRC-Rc-rza" secondAttribute="leading" constant="20" id="VAw-hk-TYZ"/>
                                     <constraint firstItem="j4E-l4-3cK" firstAttribute="top" secondItem="0JG-JR-yUa" secondAttribute="top" constant="30" id="Xbg-Xe-xGU"/>
+                                    <constraint firstItem="vfh-iA-Lex" firstAttribute="top" secondItem="xmg-eT-gD2" secondAttribute="bottom" constant="15" id="ZCe-lc-1HJ"/>
                                     <constraint firstAttribute="trailing" secondItem="j4E-l4-3cK" secondAttribute="trailing" constant="20" id="c85-dJ-7pu"/>
-                                    <constraint firstItem="mCC-cF-WYZ" firstAttribute="leading" secondItem="HRC-Rc-rza" secondAttribute="leading" constant="30" id="fNH-CE-Suc"/>
                                     <constraint firstItem="hcG-eK-3OX" firstAttribute="leading" secondItem="HRC-Rc-rza" secondAttribute="leading" constant="20" id="hP4-wj-D3u"/>
                                     <constraint firstItem="Aii-yj-wl2" firstAttribute="top" secondItem="hcG-eK-3OX" secondAttribute="bottom" constant="30" id="hUf-Y3-Tcl"/>
                                     <constraint firstItem="j4E-l4-3cK" firstAttribute="leading" secondItem="8iw-8r-WU4" secondAttribute="trailing" constant="5" id="ifg-NG-DkI"/>
                                     <constraint firstItem="0JG-JR-yUa" firstAttribute="trailing" secondItem="vfh-iA-Lex" secondAttribute="trailing" constant="20" id="ioP-pr-xC6"/>
-                                    <constraint firstItem="vfh-iA-Lex" firstAttribute="top" secondItem="mCC-cF-WYZ" secondAttribute="bottom" constant="20" id="pYE-nI-aCc"/>
+                                    <constraint firstItem="xmg-eT-gD2" firstAttribute="top" secondItem="8iw-8r-WU4" secondAttribute="bottom" constant="10" id="ok6-58-63S"/>
                                     <constraint firstItem="8iw-8r-WU4" firstAttribute="top" secondItem="HRC-Rc-rza" secondAttribute="top" constant="30" id="qdT-Hi-BsX"/>
                                     <constraint firstItem="Xfu-7Z-Ec5" firstAttribute="top" secondItem="Aii-yj-wl2" secondAttribute="bottom" constant="20" id="rKz-aG-oOi"/>
                                     <constraint firstItem="0JG-JR-yUa" firstAttribute="trailing" secondItem="Xfu-7Z-Ec5" secondAttribute="trailing" constant="20" id="udg-gH-XD5"/>
@@ -397,6 +396,7 @@
                         <outlet property="ProfileImageView" destination="8iw-8r-WU4" id="wnU-dX-gKm"/>
                         <outlet property="ProfileNameTextbox" destination="j4E-l4-3cK" id="gmJ-x1-DnE"/>
                         <outlet property="RegisterButton" destination="Xfu-7Z-Ec5" id="uHE-Lg-rzX"/>
+                        <outlet property="ScrollView" destination="cjJ-9e-7ce" id="mY6-OQ-YoB"/>
                         <outlet property="StudyTextbox" destination="hcG-eK-3OX" id="j2K-Tc-t7z"/>
                     </connections>
                 </viewController>

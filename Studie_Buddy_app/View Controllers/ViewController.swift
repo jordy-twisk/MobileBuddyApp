@@ -59,6 +59,7 @@ class ViewController: UIViewController {
                 self.LoadingIndicator.stopAnimating()
                 self.LoadingIndicator.isHidden = true
                 if AuthToken == nil || AuthToken == ""{
+                    self.isPressed = false
                     print("wrong credentials")
                     let wronginput = UIAlertController(title: NSLocalizedString("tryagain", comment: ""), message: NSLocalizedString("wrongInput", comment: ""), preferredStyle: .alert)
 
@@ -75,6 +76,7 @@ class ViewController: UIViewController {
                 }
                 }
             }else{
+                isPressed = false
             print("no credentials")
                 self.LoadingIndicator.stopAnimating()
                 self.LoadingIndicator.isHidden = true
