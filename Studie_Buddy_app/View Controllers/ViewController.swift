@@ -23,6 +23,8 @@ class ViewController: UIViewController {
     var isPressed: Bool = false
     override func viewDidLoad() {
         LoadingIndicator.isHidden = true
+        LoadingIndicator.color = .white
+        
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         //HeaderImage.image = UIImage(named: "header")

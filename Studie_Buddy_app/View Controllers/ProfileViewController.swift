@@ -117,10 +117,11 @@ UINavigationControllerDelegate {
             
         }
         */
+        let sizeToButton = view.frame.maxY - RegisterButton.frame.height
         
         if notification.name == UIResponder.keyboardWillShowNotification || notification.name == UIResponder.keyboardWillChangeFrameNotification{
             let heightToMove = keyboardFrame.height - ((navigationController?.navigationBar.frame.height)! + (view.window?.windowScene?.statusBarManager?.statusBarFrame.height)!)
-            view.frame.origin.y = -heightToMove
+            view.frame.origin.y = -heightToMove - sizeToButton
         }else {
             view.frame.origin.y = (navigationController?.navigationBar.frame.height)! + (view.window?.windowScene?.statusBarManager?.statusBarFrame.height)!
             ScrollView.isScrollEnabled = false
