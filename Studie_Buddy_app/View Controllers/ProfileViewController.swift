@@ -183,19 +183,22 @@ UINavigationControllerDelegate {
             PreStudyTextbox.text = ""
             
         }
+        /*
         ProfileNameTextbox.placeholder = Studentprofile?.firstname
         BioTextbox.placeholder = Studentprofile?.description
         StudyTextbox.placeholder = Studentprofile?.study
         CityTextbox.placeholder = Studentprofile?.degree
         PreStudyTextbox.placeholder = Studentprofile?.interests
-        
+ */
         ApiManager.updateProfile(student: Studentprofile!).responseData(completionHandler: { [weak self] (response) in
             let jsonData = response.data!
-            print(Studentprofile?.firstname, Studentprofile?.description, Studentprofile?.degree, Studentprofile?.interests)
+            print(response.data!)
+            //print(Studentprofile?.firstname, Studentprofile?.description, Studentprofile?.degree, Studentprofile?.interests)
                 print(jsonData)
+            self!.Makeprofilecall()
         })
         
-        //Makeprofilecall()
+        
     
     }
 
