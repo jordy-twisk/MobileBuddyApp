@@ -48,7 +48,7 @@ class registerviewcontroller: UIViewController {
         if PasswordTextbox.text == PasswordCheckTextbox.text {
             password = PasswordTextbox.text!
         }
-        ApiManager.register(studentid: ((Int)(username) ?? 1), password: password)//.responseData(completionHandler: { [weak self] (response) in
+       // ApiManager.register(studentid: ((Int)(username) ?? 1), password: password)//.responseData(completionHandler: { [weak self] (response) in
             //let jsonData = response.data!
             //let decoder = JSONDecoder()
             //let sendresult = try? decoder.decode(loginResult.self, from: jsonData)

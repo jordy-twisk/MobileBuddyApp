@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SAConfettiView
 
 var newMessages: Bool = false
 var numberOfTutorants: Int = UserDefaults.standard.integer(forKey: "NumberOfTutoranten")
@@ -44,6 +45,11 @@ class homeviewcontroller: UIViewController {
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.view.backgroundColor = .clear
+        
+        //setting up the confetti
+        
+        
+        
         checknewmessages()
         print("Number of tutorqnts is: ",numberOfTutorants)
         checkTutoranten()
@@ -63,10 +69,36 @@ class homeviewcontroller: UIViewController {
             if numberOfTutorants < tutorants!.count{
                 newMessages = true
                 NewNotificationsMessages.append(newtutor)
+                self!.NewTutorantMessage()
             }
             })
                 
         }
+    
+    func NewTutorantMessage(){
+        let confettiView = SAConfettiView(frame: self.view.bounds)
+        confettiView.type = .Confetti
+        confettiView.colors = [UIColor.InhollandPink, UIColor.purple, UIColor.red]
+        confettiView.intensity = 1
+        self.view.addSubview(confettiView)
+        confettiView.startConfetti()
+        let alert = UIAlertController(title: NSLocalizedString("NewTutorTitle", comment: ""), message: NSLocalizedString("NewTutorMSG", comment: ""), preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: "") , style: .default, handler: {(action) in
+            alert.dismiss(animated: true, completion: nil)
+            confettiView.stopConfetti()
+            repeat {
+                
+            }while (confettiView.isActive() == true)
+            confettiView.removeFromSuperview()
+        }))
+        
+        
+        self.present(alert, animated: true, completion: nil)
+        
+        
+        
+    }
     
      func checknewmessages() {
         

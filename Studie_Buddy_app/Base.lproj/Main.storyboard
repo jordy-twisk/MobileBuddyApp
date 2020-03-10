@@ -346,6 +346,9 @@
                                             <action selector="TakePicture:" destination="mVn-cD-mRA" eventType="touchUpInside" id="Bfh-yK-NWY"/>
                                         </connections>
                                     </button>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="I2A-rf-1W7">
+                                        <rect key="frame" x="197" y="352.5" width="20" height="20"/>
+                                    </activityIndicatorView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="0JG-JR-yUa" firstAttribute="trailing" secondItem="Aii-yj-wl2" secondAttribute="trailing" constant="20" id="0hB-mY-jbr"/>
@@ -353,6 +356,7 @@
                                     <constraint firstItem="8iw-8r-WU4" firstAttribute="leading" secondItem="HRC-Rc-rza" secondAttribute="leading" constant="20" id="1Tr-Jc-3OU"/>
                                     <constraint firstItem="0JG-JR-yUa" firstAttribute="trailing" secondItem="oai-nu-3x9" secondAttribute="trailing" constant="20" id="324-j9-5d3"/>
                                     <constraint firstItem="Aii-yj-wl2" firstAttribute="leading" secondItem="HRC-Rc-rza" secondAttribute="leading" constant="20" id="7Qr-D8-1gk"/>
+                                    <constraint firstItem="I2A-rf-1W7" firstAttribute="centerX" secondItem="cjJ-9e-7ce" secondAttribute="centerX" id="BDM-O3-SpO"/>
                                     <constraint firstAttribute="bottom" secondItem="Xfu-7Z-Ec5" secondAttribute="bottom" constant="233" id="HAk-1f-ua1"/>
                                     <constraint firstItem="xmg-eT-gD2" firstAttribute="leading" secondItem="0JG-JR-yUa" secondAttribute="leading" constant="30" id="HOc-YW-gsi"/>
                                     <constraint firstItem="Xfu-7Z-Ec5" firstAttribute="leading" secondItem="0JG-JR-yUa" secondAttribute="leading" constant="20" id="Jp3-Ez-rY3"/>
@@ -362,6 +366,7 @@
                                     <constraint firstItem="oai-nu-3x9" firstAttribute="leading" secondItem="HRC-Rc-rza" secondAttribute="leading" constant="20" id="VAw-hk-TYZ"/>
                                     <constraint firstItem="j4E-l4-3cK" firstAttribute="top" secondItem="cjJ-9e-7ce" secondAttribute="top" constant="30" id="Xbg-Xe-xGU"/>
                                     <constraint firstItem="vfh-iA-Lex" firstAttribute="top" secondItem="xmg-eT-gD2" secondAttribute="bottom" constant="15" id="ZCe-lc-1HJ"/>
+                                    <constraint firstItem="I2A-rf-1W7" firstAttribute="centerY" secondItem="cjJ-9e-7ce" secondAttribute="centerY" id="a2w-o4-rJy"/>
                                     <constraint firstAttribute="trailing" secondItem="j4E-l4-3cK" secondAttribute="trailing" constant="20" id="c85-dJ-7pu"/>
                                     <constraint firstItem="hcG-eK-3OX" firstAttribute="leading" secondItem="HRC-Rc-rza" secondAttribute="leading" constant="20" id="hP4-wj-D3u"/>
                                     <constraint firstItem="Aii-yj-wl2" firstAttribute="top" secondItem="hcG-eK-3OX" secondAttribute="bottom" constant="30" id="hUf-Y3-Tcl"/>
@@ -390,6 +395,7 @@
                     <navigationItem key="navigationItem" id="zar-Z1-zD9"/>
                     <connections>
                         <outlet property="BioTextbox" destination="Aii-yj-wl2" id="H3F-wp-Th1"/>
+                        <outlet property="ChoosePictureButton" destination="xmg-eT-gD2" id="TvT-Cl-WN7"/>
                         <outlet property="CityTextbox" destination="vfh-iA-Lex" id="Yai-iB-MHn"/>
                         <outlet property="NavigationBar" destination="zar-Z1-zD9" id="83i-b8-FBs"/>
                         <outlet property="PreStudyTextbox" destination="oai-nu-3x9" id="7Dt-tj-xXg"/>
@@ -398,11 +404,12 @@
                         <outlet property="RegisterButton" destination="Xfu-7Z-Ec5" id="uHE-Lg-rzX"/>
                         <outlet property="ScrollView" destination="cjJ-9e-7ce" id="mY6-OQ-YoB"/>
                         <outlet property="StudyTextbox" destination="hcG-eK-3OX" id="j2K-Tc-t7z"/>
+                        <outlet property="UpdateIndicator" destination="I2A-rf-1W7" id="nJH-Ip-3S5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uri-qw-8er" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="761" y="51"/>
+            <point key="canvasLocation" x="760.86956521739137" y="50.892857142857139"/>
         </scene>
         <!--Profile-->
         <scene sceneID="upF-nX-mOj">

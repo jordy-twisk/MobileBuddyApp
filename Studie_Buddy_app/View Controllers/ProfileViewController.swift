@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Kingfisher
 
 var Studentprofile: Student?
 var loggedin: Bool = true
@@ -26,22 +27,26 @@ UINavigationControllerDelegate {
     @IBOutlet weak var ProfileNameTextbox: UITextField!
     @IBOutlet weak var ProfileImageView: UIImageView!
     @IBOutlet weak var ScrollView: UIScrollView!
+    @IBOutlet weak var ChoosePictureButton: UIButton!
+    @IBOutlet weak var UpdateIndicator: UIActivityIndicatorView!
     
     @IBAction func TakePicture(_ sender: Any) {
         
-        /*if UIImagePickerController.isSourceTypeAvailable(.camera) {
+       /* if UIImagePickerController.isSourceTypeAvailable(.camera) {
             var imagePicker = UIImagePickerController()
             imagePicker.delegate = self
             imagePicker.sourceType = .camera
             imagePicker.allowsEditing = false
             self.present(imagePicker, animated: true, completion: nil)
-         */
+        */
+        
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-        var imagePicker = UIImagePickerController()
+        let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary;
         imagePicker.allowsEditing = true
         self.present(imagePicker, animated: true, completion: nil)
+ 
         }
 
     }
@@ -57,7 +62,10 @@ UINavigationControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        UpdateIndicator.isHidden = true
+        UpdateIndicator.startAnimating()
         NavigationBar.title = NSLocalizedString("profile", comment: "")
+        ChoosePictureButton.setTitle(NSLocalizedString("ChoosePic", comment: ""), for: .normal)
         //let InhollandPink = UIColor(red: 235.0/255.0, green: 0.0/255.0, blue: 145.0/255.0, alpha: 1.0)
         ProfileImageView.image = UIImage(named: "Profile")
         if loggedin == false{
@@ -68,6 +76,7 @@ UINavigationControllerDelegate {
             CityTextbox.placeholder = NSLocalizedString("city", comment: "")
             PreStudyTextbox.placeholder = NSLocalizedString("prestudy", comment: "")
             RegisterButton.setTitle(NSLocalizedString("register", comment: ""), for: .normal)
+            
         }else if loggedin == true{
             Makeprofilecall()
         }
@@ -81,6 +90,7 @@ UINavigationControllerDelegate {
         
         RegisterButton.backgroundColor = .InhollandPink
         RegisterButton.tintColor = UIColor.white
+        RegisterButton.setTitle(NSLocalizedString("save", comment: ""), for: .normal)
             
         self.navigationController!.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
         self.navigationController!.navigationBar.tintColor = #colorLiteral(red: 1, green: 0.99997437, blue: 0.9999912977, alpha: 1)
@@ -144,15 +154,20 @@ UINavigationControllerDelegate {
     
     func Makeprofilecall(){
         ApiManager.getProfile(studentID: 123456).responseData(completionHandler: { [weak self] (response) in
+            self!.UpdateIndicator.isHidden = false
         let jsonData = response.data!
         let decoder = JSONDecoder()
         Studentprofile = try? decoder.decode(Student.self, from: jsonData)
+            print(Studentprofile!.firstname,Studentprofile!.surname, Studentprofile!.degree, Studentprofile!.description, Studentprofile!.interests, Studentprofile!.phonenumber, Studentprofile!.photo, Studentprofile!.study, Studentprofile!.studyyear, Studentprofile!.studentid)
         self!.ProfileNameTextbox.placeholder = Studentprofile?.firstname
         self!.BioTextbox.placeholder = Studentprofile?.description
         self!.StudyTextbox.placeholder = Studentprofile?.study
         self!.CityTextbox.placeholder = Studentprofile?.degree
         self!.PreStudyTextbox.placeholder = Studentprofile?.interests
-        self!.RegisterButton.setTitle(NSLocalizedString("save", comment: ""), for: .normal)
+        let ImageUrl = URL(string: Studentprofile!.photo)
+        self!.ProfileImageView.kf.setImage(with: ImageUrl)
+            self!.UpdateIndicator.isHidden = true
+        
         })
     }
     
@@ -190,11 +205,10 @@ UINavigationControllerDelegate {
         CityTextbox.placeholder = Studentprofile?.degree
         PreStudyTextbox.placeholder = Studentprofile?.interests
  */
+        
         ApiManager.updateProfile(student: Studentprofile!).responseData(completionHandler: { [weak self] (response) in
-            let jsonData = response.data!
-            print(response.data!)
-            //print(Studentprofile?.firstname, Studentprofile?.description, Studentprofile?.degree, Studentprofile?.interests)
-                print(jsonData)
+            self!.UpdateIndicator.isHidden = false
+           // let jsonData = response.data!
             self!.Makeprofilecall()
         })
         

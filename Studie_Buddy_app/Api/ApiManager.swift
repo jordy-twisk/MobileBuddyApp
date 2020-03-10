@@ -63,9 +63,8 @@ final class ApiManager{
             "study": "\(student.study)",
             "studyYear": "\(student.studyyear)",
             "interests": "\(student.interests)"
-        
         ]
-        return Alamofire.request(BaseURL + "api/student/\(student.studentid)", method: .put, parameters: parameters, headers: headers)
+        return Alamofire.request(BaseURL + "api/student/\(student.studentid)", method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
     }
     
     static func LogUserIn(username: String, password: String) -> DataRequest{

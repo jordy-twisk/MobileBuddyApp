@@ -136,7 +136,7 @@ class messagesviewcontroller: UIViewController {
         {
         let message = textmessage!.data(using: .nonLossyASCII)
         let newMessage = String(data: message!, encoding: .utf8)
-        print("new message is: ", newMessage)
+            print("new message is: ", newMessage!)
         ApiManager.SendMessage(senderid: 701, payload: newMessage!, receiverid: 710).responseData(completionHandler: { (response) in
             let jsonData = response.data!
             let decoder = JSONDecoder()
@@ -162,7 +162,9 @@ func MakeApiCall(){
             let jsonData = responseSender.data!
             let decoder = JSONDecoder()
             let NewMessagesSender = try? decoder.decode([Messages].self, from: jsonData)
+            let totalMessages = (NewMessagesSender!.count + NewMessagesReceiver!.count)
             print("total messages :",NewMessagesSender!.count, NewMessagesReceiver!.count)
+            UserDefaults.standard.set(totalMessages, forKey: "MessageAmount")
             
             if NewMessagesSender != nil && NewMessagesReceiver != nil{
                 while SSize < NewMessagesSender!.count {
