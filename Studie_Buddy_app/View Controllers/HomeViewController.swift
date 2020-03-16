@@ -46,9 +46,6 @@ class homeviewcontroller: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.view.backgroundColor = .clear
         
-        //setting up the confetti
-        
-        
         
         checknewmessages()
         print("Number of tutorqnts is: ",numberOfTutorants)
@@ -70,8 +67,10 @@ class homeviewcontroller: UIViewController {
                 newMessages = true
                 NewNotificationsMessages.append(newtutor)
                 self!.NewTutorantMessage()
+                self!.TableView.reloadData()
             }
             })
+        
                 
         }
     

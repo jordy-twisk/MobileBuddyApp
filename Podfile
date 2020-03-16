@@ -13,6 +13,7 @@ target 'Studie_Buddy_app' do
 	pod 'Fabric'
 	pod 'Crashlytics'
 	pod 'SwiftyJSON'
+	pod 'SAConfettiView'
 
 
   target 'Studie_Buddy_appTests' do

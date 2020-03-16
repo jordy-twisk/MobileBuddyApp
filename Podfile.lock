@@ -6,6 +6,7 @@ PODS:
   - Kingfisher (5.8.1):
     - Kingfisher/Core (= 5.8.1)
   - Kingfisher/Core (5.8.1)
+  - SAConfettiView (0.1.8)
   - SwiftKeychainWrapper (3.4.0)
   - SwiftyJSON (5.0.0)
 
@@ -14,6 +15,7 @@ DEPENDENCIES:
   - Crashlytics
   - Fabric
   - Kingfisher
+  - SAConfettiView
   - SwiftKeychainWrapper
   - SwiftyJSON
 
@@ -23,6 +25,7 @@ SPEC REPOS:
     - Crashlytics
     - Fabric
     - Kingfisher
+    - SAConfettiView
     - SwiftKeychainWrapper
     - SwiftyJSON
 
@@ -31,9 +34,10 @@ SPEC CHECKSUMS:
   Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   Kingfisher: de969e451c81ca6c07a454bc36fea84b8b08c3c7
+  SAConfettiView: c87031a2280659261b730fce3669fb10e73636ee
   SwiftKeychainWrapper: 6fc49fbf7d4a6b0772917acb0e53a1639f6078d6
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
 
-PODFILE CHECKSUM: f0bd0a715276e13ca1f72f1af43df3a8e2f2b992
+PODFILE CHECKSUM: 24cbdf2a6f0b635a0a82670f08241ac34a7c28de
 
 COCOAPODS: 1.8.4

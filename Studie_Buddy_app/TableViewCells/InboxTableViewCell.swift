@@ -29,8 +29,10 @@ final class InboxTableViewCell: UITableViewCell{
         InboxLatestChat.textColor = .lightGray
         InboxChatName.textColor = .black
         bubblebackgroundview.backgroundColor = .InhollandPink
-        NewMessagesLabel.textColor = .white
-
+        NewMessagesLabel.textColor = .black
+        
+        NewMessagesLabel.text = "10"
+            
         addSubview(NewMessagesLabel)
         NewMessagesLabel.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         NewMessagesLabel.translatesAutoresizingMaskIntoConstraints = false

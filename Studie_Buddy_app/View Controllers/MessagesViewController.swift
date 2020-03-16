@@ -166,21 +166,98 @@ func MakeApiCall(){
             print("total messages :",NewMessagesSender!.count, NewMessagesReceiver!.count)
             UserDefaults.standard.set(totalMessages, forKey: "MessageAmount")
             
-            if NewMessagesSender != nil && NewMessagesReceiver != nil{
-                while SSize < NewMessagesSender!.count {
-                    while RSize < NewMessagesReceiver!.count {
+            
+            if (NewMessagesSender != nil && NewMessagesReceiver != nil){
+                var counter = 0
+                while counter < totalMessages{
+                    if SSize < NewMessagesSender!.count && RSize < NewMessagesReceiver!.count {
                         if NewMessagesSender![SSize].messageid < NewMessagesReceiver![RSize].messageid {
                             MessageArray.append(NewMessagesSender![SSize])
                             //print(NewMessagesSender![SSize].messageid)
                             print("Ssize is: ", SSize)
+                            if SSize < NewMessagesSender!.count{
                             SSize = SSize + 1
-                            
+                            counter = counter + 1
+                            }
+                        
                         }else if (NewMessagesSender![SSize].messageid > NewMessagesReceiver![RSize].messageid)// && (NewMessagesReceiver![RSize].messageid < NewMessagesSender![SSize + 1].messageid )  {
                         {
-                                        MessageArray.append(NewMessagesReceiver![RSize])
-                                        //print(NewMessagesReceiver![RSize].messageid)
-                                        print("Rsize is : ", RSize)
-                                        RSize = RSize + 1
+                            MessageArray.append(NewMessagesReceiver![RSize])
+                            //print(NewMessagesReceiver![RSize].messageid)
+                            print("Rsize is : ", RSize)
+                            if RSize < NewMessagesReceiver!.count{
+                            RSize = RSize + 1
+                            counter = counter + 1
+                            }
+                        
+                        }
+                    }
+                    else if SSize < NewMessagesSender!.count {
+                        MessageArray.append(NewMessagesSender![SSize])
+                        //print(NewMessagesSender![SSize].messageid)
+                        print("Ssize is: ", SSize)
+                        if SSize < NewMessagesSender!.count{
+                        SSize = SSize + 1
+                        counter = counter + 1
+                        }
+                        
+                    }
+                    else if RSize < NewMessagesReceiver!.count {
+                        MessageArray.append(NewMessagesReceiver![RSize])
+                        //print(NewMessagesReceiver![RSize].messageid)
+                        print("Rsize is : ", RSize)
+                        if RSize < NewMessagesReceiver!.count{
+                        RSize = RSize + 1
+                        counter = counter + 1
+                        }
+                            
+                    }
+                    else{
+                        print("Ssize : ", SSize, "Rsize : ", RSize)
+                        break
+                    }
+                
+                        
+                    /*}else if (NewMessagesSender![SSize].messageid > NewMessagesReceiver![RSize].messageid)
+                    {
+                        MessageArray.append(NewMessagesReceiver![RSize])
+                        print(NewMessagesReceiver![RSize].messageid)
+                        RSize = RSize + 1
+                    }
+                         */
+                        
+                   
+                }
+                /*
+                if SSize < NewMessagesSender!.count{
+                MessageArray.append(NewMessagesSender![SSize])
+                print(NewMessagesSender![SSize].messageid)
+                counter = counter + 1
+                SSize = SSize + 1
+                }
+                */
+            
+           /*
+            if (NewMessagesSender != nil && NewMessagesReceiver != nil){
+                while SSize < NewMessagesSender!.count {
+                    while RSize < NewMessagesReceiver!.count {
+                        if SSize < NewMessagesSender!.count {
+                            if NewMessagesSender![SSize].messageid < NewMessagesReceiver![RSize].messageid {
+                                MessageArray.append(NewMessagesSender![SSize])
+                                //print(NewMessagesSender![SSize].messageid)
+                                print("Ssize is: ", SSize)
+                                if SSize < NewMessagesSender!.count{
+                                SSize = SSize + 1
+                                }
+                            
+                            }else if (NewMessagesSender![SSize].messageid > NewMessagesReceiver![RSize].messageid)// && (NewMessagesReceiver![RSize].messageid < NewMessagesSender![SSize + 1].messageid )  {
+                            {
+                                MessageArray.append(NewMessagesReceiver![RSize])
+                                //print(NewMessagesReceiver![RSize].messageid)
+                                print("Rsize is : ", RSize)
+                                if RSize < NewMessagesReceiver!.count{
+                                RSize = RSize + 1
+                                }
                             
                             }
                         /*}else if (NewMessagesSender![SSize].messageid > NewMessagesReceiver![RSize].messageid)
@@ -189,16 +266,33 @@ func MakeApiCall(){
                             print(NewMessagesReceiver![RSize].messageid)
                             RSize = RSize + 1
                         }
- */
+                             */                 }
+                       else if RSize < NewMessagesReceiver!.count{
+                            if (NewMessagesSender![SSize].messageid > NewMessagesReceiver![RSize].messageid)// && (NewMessagesReceiver![RSize].messageid < NewMessagesSender![SSize + 1].messageid )  {
+                            {
+                                MessageArray.append(NewMessagesReceiver![RSize])
+                                //print(NewMessagesReceiver![RSize].messageid)
+                                print("Rsize is : ", RSize)
+                                if RSize < NewMessagesReceiver!.count{
+                                RSize = RSize + 1
+                                }
+                            
+                            }
+                        }
+                        else{
+                            break
+                        }
                     }
-                    
+                    if SSize < NewMessagesSender!.count{
                     MessageArray.append(NewMessagesSender![SSize])
                     print(NewMessagesSender![SSize].messageid)
-                    if SSize < NewMessagesSender!.count{
+                    
                     SSize = SSize + 1
                     }
                     
                 }
+ 
+*/
            // UserDefaults.standard.set(MessageArray.count, forKey: "MessageAmount")
             //UserDefaults.standard.set(MessageArray[MessageArray.count - 1], forKey: "LastMessage")
                 
@@ -209,6 +303,7 @@ func MakeApiCall(){
             let lastRow: Int = (self!.MessagesTableView.numberOfRows(inSection: lastSection) - 1)
             print("lastrow is: \(lastRow), lastsection is: \(lastSection)")
             self!.MessagesTableView.scrollToRow(at: IndexPath(row: lastRow, section: lastSection), at: .bottom, animated: false)
+        
                 
             //UserDefaults.standard.set(MessageArray, forKey: "Messages")
             //let encodedData: Data = try! NSKeyedArchiver.archivedData(withRootObject: MessageArray, requiringSecureCoding: true)

@@ -143,6 +143,7 @@ extension inboxviewcontroller: UITableViewDataSource, UITableViewDelegate{
             let newMessage = trimmed.data(using: .utf8)
             cell.InboxLatestChat.text = String(data: newMessage!, encoding: .nonLossyASCII)
             
+            
             return cell
         }
         
