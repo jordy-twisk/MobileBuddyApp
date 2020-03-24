@@ -3,18 +3,13 @@
 
 target 'Studie_Buddy_app' do
   # Comment the next line if you don't want to use dynamic frameworks
- # use_frameworks!
+  use_frameworks!
 
   # Pods for Studie_Buddy_app
-
 	pod 'Alamofire'
 	pod 'Kingfisher'
-	pod 'SwiftKeychainWrapper'
-	pod 'Fabric'
-	pod 'Crashlytics'
-	pod 'SwiftyJSON'
 	pod 'SAConfettiView'
-
+	pod 'SwiftKeychainWrapper'
 
   target 'Studie_Buddy_appTests' do
     inherit! :search_paths
@@ -26,3 +21,6 @@ target 'Studie_Buddy_app' do
   end
 
 end
+
+
+

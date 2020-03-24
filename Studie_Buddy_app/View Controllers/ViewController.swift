@@ -57,7 +57,7 @@ class ViewController: UIViewController {
             let password = PasswordTextbox.text
             if username != "" && password != ""{
             ApiManager.LogUserIn(username: username!, password: password!).responseString { response in
-                let AuthToken =  response.result.value
+                let AuthToken =  response.value
                 self.LoadingIndicator.stopAnimating()
                 self.LoadingIndicator.isHidden = true
                 if AuthToken == nil || AuthToken == ""{

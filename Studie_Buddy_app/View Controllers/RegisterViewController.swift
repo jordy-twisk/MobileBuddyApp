@@ -43,11 +43,11 @@ class registerviewcontroller: UIViewController {
  }
 
     @IBAction func RegisterButtonClicked() {
-        let username = UsernameTextbox.text!
-        var password = ""
-        if PasswordTextbox.text == PasswordCheckTextbox.text {
-            password = PasswordTextbox.text!
-        }
+       // let username = UsernameTextbox.text!
+        //var password = ""
+        //if PasswordTextbox.text == PasswordCheckTextbox.text {
+        //    password = PasswordTextbox.text!
+        //}
        // ApiManager.register(studentid: ((Int)(username) ?? 1), password: password)//.responseData(completionHandler: { [weak self] (response) in
             //let jsonData = response.data!
             //let decoder = JSONDecoder()

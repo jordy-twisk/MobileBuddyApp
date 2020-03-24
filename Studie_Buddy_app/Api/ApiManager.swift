@@ -5,6 +5,15 @@
 //  Created by Jordy Twisk on 05/12/2019.
 //  Copyright © 2019 ProjectGroep5. All rights reserved.
 //
+/*
+pod 'Alamofire'
+pod 'Kingfisher'
+pod 'SwiftKeychainWrapper'
+pod 'Fabric'
+pod 'SwiftyJSON'
+pod 'SAConfettiView'
+
+*/
 
 import Foundation
 import Alamofire
@@ -18,37 +27,37 @@ final class ApiManager{
     static func getMessages(senderID: Int , receiverID: Int) -> DataRequest{
         let authToken = KeychainWrapper.standard.string(forKey: "AuthToken")
         let authID = KeychainWrapper.standard.string(forKey: "StudentID")
-        let headers: [String : String] = [
+        let headers: HTTPHeaders = [
         "AuthToken": "\(authToken!)",
         "AuthID": "\(authID!)"
         ]
-        return Alamofire.request(BaseURL + "api/messages/\(senderID)/\(receiverID)", method: .get, headers: headers)
+        return AF.request(BaseURL + "api/messages/\(senderID)/\(receiverID)", method: .get, headers: headers)
     }
     
     static func getTutors(studentID: Int) -> DataRequest{
         let authToken = KeychainWrapper.standard.string(forKey: "AuthToken")
         let authID = KeychainWrapper.standard.string(forKey: "StudentID")
-        let headers: [String : String] = [
+        let headers: HTTPHeaders = [
         "AuthToken": "\(authToken!)",
         "AuthID": "\(authID!)"
         ]
-        return Alamofire.request(BaseURL + "api/coachTutorant/coach/\(studentID)", method: .get, headers: headers)
+        return AF.request(BaseURL + "api/coachTutorant/coach/\(studentID)", method: .get, headers: headers)
     }
     
     static func getProfile(studentID: Int) -> DataRequest{
         let authToken = KeychainWrapper.standard.string(forKey: "AuthToken")
         let authID = KeychainWrapper.standard.string(forKey: "StudentID")
-        let headers: [String : String] = [
+        let headers: HTTPHeaders = [
         "AuthToken": "\(authToken!)",
         "AuthID": "\(authID!)"
         ]
-        return Alamofire.request(BaseURL + "api/student/\(studentID)", method: .get, headers: headers)
+        return AF.request(BaseURL + "api/student/\(studentID)", method: .get, headers: headers)
     }
     
     static func updateProfile(student: Student) -> DataRequest{
         let authToken = KeychainWrapper.standard.string(forKey: "AuthToken")
         let authID = KeychainWrapper.standard.string(forKey: "StudentID")
-        let headers: [String : String] = [
+        let headers: HTTPHeaders  = [
         "AuthToken": "\(authToken!)",
         "AuthID": "\(authID!)"
         ]
@@ -64,7 +73,7 @@ final class ApiManager{
             "studyYear": "\(student.studyyear)",
             "interests": "\(student.interests)"
         ]
-        return Alamofire.request(BaseURL + "api/student/\(student.studentid)", method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+        return AF.request(BaseURL + "api/student/\(student.studentid)", method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
     }
     
     static func LogUserIn(username: String, password: String) -> DataRequest{
@@ -72,7 +81,7 @@ final class ApiManager{
                 "studentID": "\(username)",
                 "password": "\(password)"
         ]
-        return Alamofire.request(BaseURL + "api/auth/login", method: .post, parameters: parameters, encoding: JSONEncoding.default)
+        return AF.request(BaseURL + "api/auth/login", method: .post, parameters: parameters, encoding: JSONEncoding.default)
     }
     static func register(studentid: Int, password: String) -> DataRequest{
         let parameters: [String : Any] = [
@@ -82,7 +91,7 @@ final class ApiManager{
                 "password": "\(password)",
                 "role": 2
         ]
-        return Alamofire.request(BaseURL + "api/auth/register", method: .post, parameters: parameters, encoding: JSONEncoding.default)
+        return AF.request(BaseURL + "api/auth/register", method: .post, parameters: parameters, encoding: JSONEncoding.default)
     }
     
     
@@ -90,7 +99,7 @@ final class ApiManager{
     static func SendMessage(senderid: Int, payload: String, receiverid: Int) -> DataRequest{
         let authToken = KeychainWrapper.standard.string(forKey: "AuthToken")
         let authID = KeychainWrapper.standard.string(forKey: "StudentID")
-        let headers: [String : String] = [
+        let headers: HTTPHeaders = [
         "AuthToken": "\(authToken!)",
         "AuthID": "\(authID!)"
         ]
@@ -102,7 +111,17 @@ final class ApiManager{
                 "senderID": (senderid),
                 "receiverID": (receiverid)
         ]
-        return Alamofire.request(BaseURL + "api/message",method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+        return AF.request(BaseURL + "api/message",method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+    }
+    
+    static func SaveImage (ImageUrl: URL) -> DataRequest{
+        let ID = KeychainWrapper.standard.string(forKey: "StudentID")
+        let parameters: [String : Any] = [
+                        "key": "99f5ca23983d05472617629cd9834816",
+                        "image": "\(ImageUrl)",
+                        "name": "\(ID)"
+               ]
+        return AF.request("https://api.imgbb.com/1/upload", method: .post, parameters: parameters)
     }
 }
  

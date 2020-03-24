@@ -12,6 +12,13 @@ import UIKit
 
 
 final class InboxTableViewCell: UITableViewCell{
+    
+    var UnreadMessages: Bool!{
+        didSet{
+            bubblebackgroundview.backgroundColor = UnreadMessages ? UIColor.white : UIColor.InhollandPink
+            //NewMessagesLabel.textColor = incomming ? .black : .white
+        }
+    }
 
     @IBOutlet weak var NewMessagesLabel: UILabel!
     @IBOutlet weak var InboxDateLabel: UILabel!
@@ -31,7 +38,7 @@ final class InboxTableViewCell: UITableViewCell{
         bubblebackgroundview.backgroundColor = .InhollandPink
         NewMessagesLabel.textColor = .black
         
-        NewMessagesLabel.text = "10"
+        //NewMessagesLabel.text = "10"
             
         addSubview(NewMessagesLabel)
         NewMessagesLabel.frame = CGRect(x: 0, y: 0, width: 100, height: 100)

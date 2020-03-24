@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import Kingfisher
 import Alamofire
-import SwiftyJSON
+//import SwiftyJSON
 
 var MessageArray: [Messages] = []
 
@@ -24,7 +24,7 @@ var firstload: Bool = true
 
 var shownMessages: Int = 0
 let userDefaults = UserDefaults.standard
-
+var ScrollToBottom = true
 
 
 class messagesviewcontroller: UIViewController {
@@ -60,7 +60,7 @@ class messagesviewcontroller: UIViewController {
         SendButton.setTitle(NSLocalizedString("send", comment: ""), for: .normal)
         NewMessageTextbox.placeholder = NSLocalizedString("newmessage", comment: "")
         MessagesTableView.reloadData()
-        //_ = Timer.scheduledTimer(timeInterval: 5.0,target: self,selector: #selector(execute),userInfo: nil,repeats: true)
+        _ = Timer.scheduledTimer(timeInterval: 5.0,target: self,selector: #selector(execute),userInfo: nil,repeats: true)
 
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -73,8 +73,8 @@ class messagesviewcontroller: UIViewController {
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
-
     
+   
     @objc func handleKeyboardNotification(notifcation: NSNotification){
         if let userinfo = notifcation.userInfo {
             let keyboardframe = userinfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
@@ -85,51 +85,19 @@ class messagesviewcontroller: UIViewController {
             UIView.animate(withDuration: 0, delay: 0, options: UIView.AnimationOptions.curveEaseOut , animations: {
                 self.view.layoutIfNeeded()
             }, completion:{ (completed) in
-                let indexpath = IndexPath(item: self.MessagesTableView.numberOfRows(inSection: 0) - 1, section: 0)
-                self.MessagesTableView.scrollToRow(at: indexpath, at: .bottom, animated: true)
+                    let lastSection: Int = (self.MessagesTableView.numberOfSections - 1)
+                    let lastRow: Int = (self.MessagesTableView.numberOfRows(inSection: lastSection) - 1)
+                    self.MessagesTableView.scrollToRow(at: IndexPath(row: lastRow, section: lastSection), at: .bottom, animated: false)
+                
             })
         }
     }
-    /*
+    
     @objc func execute() {
-        MessageArray = []
-        var SSize = 0
-        var RSize = 0
-        ApiManager.getMessages(senderID: 710 , receiverID: 701).responseData(completionHandler: { [weak self] (responseReceiver) in
-            let jsonData = responseReceiver.data!
-            let decoder = JSONDecoder()
-            let NewMessagesReceiver = try? decoder.decode([Messages].self, from: jsonData)
-            ApiManager.getMessages(senderID: 701 , receiverID: 710).responseData(completionHandler: { [weak self] (responseSender) in
-                let jsonData = responseSender.data!
-                let decoder = JSONDecoder()
-                let NewMessagesSender = try? decoder.decode([Messages].self, from: jsonData)
-                
-                if NewMessagesSender != nil && NewMessagesReceiver != nil{
-                    while SSize < NewMessagesSender!.count{
-                        while RSize < NewMessagesReceiver!.count{
-                            if NewMessagesSender![SSize].messageid < NewMessagesReceiver![RSize].messageid {
-                                MessageArray.append(NewMessagesSender![SSize])
-                                //print(NewMessagesSender![SSize].messageid)
-                                SSize = SSize + 1
-                            }else if NewMessagesSender![SSize].messageid > NewMessagesReceiver![RSize].messageid && NewMessagesReceiver![RSize].messageid < NewMessagesSender![SSize + 1].messageid  {
-                                MessageArray.append(NewMessagesReceiver![RSize])
-                                //print(NewMessagesReceiver![RSize].messageid)
-                                RSize = RSize + 1
-                                
-                            }
-                        }
-                        MessageArray.append(NewMessagesSender![SSize])
-                        //print(NewMessagesSender![SSize].messageid)
-                        SSize = SSize + 1
-                        
-                        
-                    }
-                    
-        }else {print("messages is nul")}
-            })})
- 
+        ScrollToBottom = false
+        MakeApiCall()
     }
-*/
+
     @IBAction func SendButtonClicked() {
         let textmessage = NewMessageTextbox.text
         if textmessage != ""
@@ -144,6 +112,7 @@ class messagesviewcontroller: UIViewController {
             print("sendresult is: ",sendresult as Any)
             })
         NewMessageTextbox.text = ""
+        ScrollToBottom = true
         MakeApiCall()
         }
     }
@@ -299,12 +268,15 @@ func MakeApiCall(){
             self!.LoadingIndicator.stopAnimating()
             self!.LoadingIndicator.isHidden = true
             self!.MessagesTableView.reloadData()
+                
+            if ScrollToBottom == true {
+                
             let lastSection: Int = (self!.MessagesTableView.numberOfSections - 1)
             let lastRow: Int = (self!.MessagesTableView.numberOfRows(inSection: lastSection) - 1)
             print("lastrow is: \(lastRow), lastsection is: \(lastSection)")
             self!.MessagesTableView.scrollToRow(at: IndexPath(row: lastRow, section: lastSection), at: .bottom, animated: false)
         
-                
+            }
             //UserDefaults.standard.set(MessageArray, forKey: "Messages")
             //let encodedData: Data = try! NSKeyedArchiver.archivedData(withRootObject: MessageArray, requiringSecureCoding: true)
             //userDefaults.set(encodedData, forKey: "Messages")
@@ -387,6 +359,18 @@ extension messagesviewcontroller: UITableViewDataSource, UITableViewDelegate{
         
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let lastSection: Int = (self.MessagesTableView.numberOfSections - 1)
+        let lastRow: Int = (self.MessagesTableView.numberOfRows(inSection: lastSection) - 1)
+        if indexPath.row + 1 == lastRow {
+            ScrollToBottom = true
+           }
+        else{
+            ScrollToBottom = false
+        }
+       }
+       
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
     }
@@ -400,6 +384,7 @@ extension messagesviewcontroller: UITableViewDataSource, UITableViewDelegate{
             let cell = tableView.dequeueReusableCell(withIdentifier: "MessageTableViewCell",
             for: indexPath) as! MessageTableViewCell
             let cellnumber = indexPath.row + messagesNumber[indexPath.section]
+            if cellnumber < MessageArray.count {
                 if userid == MessageArray[cellnumber].senderid {
                     cell.incomming = false
                 }else if receivedfrom == MessageArray[cellnumber].senderid {
@@ -409,9 +394,7 @@ extension messagesviewcontroller: UITableViewDataSource, UITableViewDelegate{
                 let trimmed = message.trimmingCharacters(in: .whitespacesAndNewlines)
                 let newMessage = trimmed.data(using: .utf8)
                 cell.MessagePayloadLabel.text = String(data: newMessage!, encoding: .nonLossyASCII)
+            }
             return cell
         }
 }
-
-
-

@@ -1,4 +1,5 @@
 ${PODS_ROOT}/Target Support Files/Pods-Studie_Buddy_app/Pods-Studie_Buddy_app-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework
 ${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework
+${BUILT_PRODUCTS_DIR}/SAConfettiView/SAConfettiView.framework
 ${BUILT_PRODUCTS_DIR}/SwiftKeychainWrapper/SwiftKeychainWrapper.framework

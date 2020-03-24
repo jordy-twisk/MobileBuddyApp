@@ -16,6 +16,8 @@ import SwiftKeychainWrapper
 var tutoranten: [Tutorants] = []
 var tutorantenProfiles: [Student] = []
 var LatestMessage: String = ""
+var latestMessageDate: String = "2000-01-01T00:00:00+0000"
+var totalNewMessages = 0
 
 class inboxviewcontroller: UIViewController {
     
@@ -93,11 +95,15 @@ func loadnewtutorants(){
             let NewMessagesSender = try? decoder.decode([Messages].self, from: jsonData)
             let size1 = NewMessagesSender!.count - 1
             let size2 = NewMessagesReceiver!.count - 1
+            totalNewMessages = (NewMessagesReceiver!.count + NewMessagesSender!.count)
             if NewMessagesSender![size1].messageid < NewMessagesReceiver![size2].messageid {
                 LatestMessage = NewMessagesReceiver![size2].payload
+                latestMessageDate = NewMessagesReceiver![size2].created
             }else
             {
                 LatestMessage = NewMessagesSender![size1].payload
+                latestMessageDate = NewMessagesSender![size1].created
+                
             }
             self?.InboxTableView.reloadData()
         })
@@ -137,7 +143,22 @@ extension inboxviewcontroller: UITableViewDataSource, UITableViewDelegate{
             if tutorantenProfiles.count != 0 {
             cell.InboxChatName.text = tutorantenProfiles[indexPath.row].firstname
             }
-            cell.InboxDateLabel.text = "8/1/2020"
+            
+            /*let dateFormatter = DateFormatter()
+            dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+            dateFormatter.dateFormat = "HH:mm"
+            let MessDate = dateFormatter.date(from:latestMessageDate)
+            */
+            let date = latestMessageDate.prefix(10)
+            cell.InboxDateLabel.text = String(date)
+            
+            let NumberOfMessages = UserDefaults.standard.integer(forKey: "MessageAmount")
+            if NumberOfMessages < totalNewMessages{
+                cell.UnreadMessages = false
+            }
+            else{
+                cell.UnreadMessages = true
+            }
             let message = LatestMessage
             let trimmed = message.trimmingCharacters(in: .whitespacesAndNewlines)
             let newMessage = trimmed.data(using: .utf8)
