@@ -58,6 +58,36 @@ UINavigationControllerDelegate {
         }
         picker.dismiss(animated: true, completion: nil)
     }
+    
+    @IBAction func EditingchangedName(_ sender: UITextField) {
+        setSaveButtonPink()
+    }
+    
+    @IBAction func EditingchangedDegree(_ sender: UITextField) {
+        setSaveButtonPink()
+    }
+    
+    @IBAction func EditingchangedInterest(_ sender: UITextField) {
+        setSaveButtonPink()
+    }
+    
+    @IBAction func EditingchangedStudy(_ sender: UITextField) {
+        setSaveButtonPink()
+    }
+    
+    @IBAction func EditingchangedBio(_ sender: UITextField) {
+        setSaveButtonPink()
+    }
+    
+    func setSaveButtonPink(){
+        RegisterButton.backgroundColor = .InhollandPink
+    }
+    
+    
+    
+    
+    
+    
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,7 +118,7 @@ UINavigationControllerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil )
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil )
         
-        RegisterButton.backgroundColor = .InhollandPink
+        RegisterButton.backgroundColor = .gray
         RegisterButton.tintColor = UIColor.white
         RegisterButton.setTitle(NSLocalizedString("save", comment: ""), for: .normal)
             
@@ -172,6 +202,10 @@ UINavigationControllerDelegate {
     }
     
     @IBAction func SaveButtonClicked(_ sender: Any) {
+        if (ProfileNameTextbox.text!.isEmpty == false || BioTextbox.text!.isEmpty == false || StudyTextbox.text!.isEmpty == false || CityTextbox.text!.isEmpty == false || PreStudyTextbox.text!.isEmpty == false) {
+            
+       
+            
         if self.ProfileNameTextbox.text != ""{
             Studentprofile?.firstname = ProfileNameTextbox.text!
             
@@ -208,12 +242,13 @@ UINavigationControllerDelegate {
         
         ApiManager.updateProfile(student: Studentprofile!).responseData(completionHandler: { [weak self] (response) in
             self!.UpdateIndicator.isHidden = false
+            self!.RegisterButton.backgroundColor = .gray
            // let jsonData = response.data!
             self!.Makeprofilecall()
         })
         
         
-    
+        }
     }
 
 }

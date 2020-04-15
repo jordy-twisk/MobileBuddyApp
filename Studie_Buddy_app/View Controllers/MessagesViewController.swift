@@ -106,10 +106,10 @@ class messagesviewcontroller: UIViewController {
         let newMessage = String(data: message!, encoding: .utf8)
             print("new message is: ", newMessage!)
         ApiManager.SendMessage(senderid: 701, payload: newMessage!, receiverid: 710).responseData(completionHandler: { (response) in
-            let jsonData = response.data!
-            let decoder = JSONDecoder()
-            let sendresult = try? decoder.decode(Data.self, from: jsonData)
-            print("sendresult is: ",sendresult as Any)
+           // let jsonData = response.data!
+            //let decoder = JSONDecoder()
+            //let sendresult = try? decoder.decode(Data.self, from: jsonData)
+            //print("sendresult is: ",sendresult as Any)
             })
         NewMessageTextbox.text = ""
         ScrollToBottom = true

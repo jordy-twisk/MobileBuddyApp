@@ -1,35 +1,30 @@
 PODS:
-  - Alamofire (4.9.0)
-  - Crashlytics (3.14.0):
-    - Fabric (~> 1.10.2)
-  - Fabric (1.10.2)
-  - Kingfisher (5.8.1):
-    - Kingfisher/Core (= 5.8.1)
-  - Kingfisher/Core (5.8.1)
+  - Alamofire (5.0.4)
+  - Kingfisher (5.13.2):
+    - Kingfisher/Core (= 5.13.2)
+  - Kingfisher/Core (5.13.2)
+  - SAConfettiView (0.1.8)
   - SwiftKeychainWrapper (3.4.0)
 
 DEPENDENCIES:
   - Alamofire
-  - Crashlytics
-  - Fabric
   - Kingfisher
+  - SAConfettiView
   - SwiftKeychainWrapper
 
 SPEC REPOS:
   trunk:
     - Alamofire
-    - Crashlytics
-    - Fabric
     - Kingfisher
+    - SAConfettiView
     - SwiftKeychainWrapper
 
 SPEC CHECKSUMS:
-  Alamofire: afc3e7c6db61476cb45cdd23fed06bad03bbc321
-  Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
-  Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
-  Kingfisher: de969e451c81ca6c07a454bc36fea84b8b08c3c7
+  Alamofire: 0fe5fd24b4298dc377a6550da7d5f1b30e286fcb
+  Kingfisher: d342c8354c10c3d85a27d6d4c42c41285924b898
+  SAConfettiView: c87031a2280659261b730fce3669fb10e73636ee
   SwiftKeychainWrapper: 6fc49fbf7d4a6b0772917acb0e53a1639f6078d6
 
-PODFILE CHECKSUM: 8c37825c09864aa97123f697abbc4c3c3410afed
+PODFILE CHECKSUM: f5cd93455008c527c0e5073e45aacc13e7d6cbc1
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.1
