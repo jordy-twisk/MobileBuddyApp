@@ -312,7 +312,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
-                                            <action selector="EditingchangedName:" destination="mVn-cD-mRA" eventType="editingChanged" id="AtB-zs-Jgx"/>
+                                            <action selector="EditingchangedName:" destination="mVn-cD-mRA" eventType="editingDidEnd" id="skT-Gl-QvU"/>
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hcG-eK-3OX">
@@ -320,7 +320,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
-                                            <action selector="EditingchangedStudy:" destination="mVn-cD-mRA" eventType="editingDidEnd" id="4jT-oU-pR8"/>
+                                            <action selector="EditingchangedStudy:" destination="mVn-cD-mRA" eventType="editingChanged" id="poB-US-MCZ"/>
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oai-nu-3x9">
@@ -328,8 +328,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
-                                            <action selector="EditingchangedInterest:" destination="mVn-cD-mRA" eventType="editingDidEnd" id="Bai-Mo-hKK"/>
-                                            <action selector="EditingchangedPreStudy:" destination="mVn-cD-mRA" eventType="editingDidEnd" id="pbZ-On-0LL"/>
+                                            <action selector="EditingchangedInterests:" destination="mVn-cD-mRA" eventType="editingChanged" id="10m-AJ-cnx"/>
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xfu-7Z-Ec5">
@@ -344,8 +343,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
-                                            <action selector="EditingchangedDegree:" destination="mVn-cD-mRA" eventType="editingDidEnd" id="Iud-la-j2G"/>
-                                            <action selector="EditingchangedStudy:" destination="mVn-cD-mRA" eventType="editingChanged" id="abx-dd-0Nz"/>
+                                            <action selector="EditingchangedDegree:" destination="mVn-cD-mRA" eventType="editingChanged" id="DFQ-Jk-XIM"/>
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Aii-yj-wl2">
@@ -353,7 +351,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
-                                            <action selector="EditingchangedBio:" destination="mVn-cD-mRA" eventType="editingDidEnd" id="uqL-Ax-fWG"/>
+                                            <action selector="EditingchangedBio:" destination="mVn-cD-mRA" eventType="editingChanged" id="Rkt-gZ-YSG"/>
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xmg-eT-gD2">

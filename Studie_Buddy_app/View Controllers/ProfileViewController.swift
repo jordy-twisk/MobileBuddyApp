@@ -67,7 +67,7 @@ UINavigationControllerDelegate {
         setSaveButtonPink()
     }
     
-    @IBAction func EditingchangedInterest(_ sender: UITextField) {
+    @IBAction func EditingchangedInterests(_ sender: UITextField) {
         setSaveButtonPink()
     }
     
