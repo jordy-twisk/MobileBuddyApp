@@ -37,3 +37,8 @@
 "NewTutorTitle" = "You have a new tutor!";
 "NewTutorMSG" = "You have a new match with a tutor, send him/her a message now!";
 "Ok" = "Oke!";
+"ChooseBuddy" = "Choose your buddy!";
+"next" = "NEXT";
+"prev" = "PREV";
+"location" = "Location of school:";
+"readmore" = "Read More...";

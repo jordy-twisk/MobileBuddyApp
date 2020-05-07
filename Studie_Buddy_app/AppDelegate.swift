@@ -11,10 +11,19 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate{
 
-
+//    var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+//        window = UIWindow()
+//        window?.makeKeyAndVisible()
+        
+//        let layout = UICollectionViewFlowLayout()
+//        let buddySwipeController = BuddySwipeController(collectionViewLayout: layout)
+//        layout.scrollDirection = .horizontal
+        
+//        window?.rootViewController = buddySwipeController
+        
         UITabBar.appearance().tintColor = UIColor(red: 235.0/255.0, green: 0.0/255.0, blue: 145.0/255.0, alpha: 1.0)
         return true
     }

@@ -270,6 +270,35 @@
             </objects>
             <point key="canvasLocation" x="2212" y="51"/>
         </scene>
+        <!--Buddy Swipe Controller-->
+        <scene sceneID="UpR-q2-EoY">
+            <objects>
+                <collectionViewController storyboardIdentifier="BuddySwipeController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="eMW-KP-P1L" customClass="BuddySwipeController" customModule="Studie_Buddy_app" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" pagingEnabled="YES" dataMode="prototypes" id="FkD-iq-4cv">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="etv-Or-YEE">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells/>
+                        <connections>
+                            <outlet property="dataSource" destination="eMW-KP-P1L" id="po4-Il-BJ5"/>
+                            <outlet property="delegate" destination="eMW-KP-P1L" id="Xle-e2-MPw"/>
+                        </connections>
+                    </collectionView>
+                    <navigationItem key="navigationItem" id="kba-ap-5sV"/>
+                    <connections>
+                        <outlet property="NavigationBar" destination="kba-ap-5sV" id="7Jg-yS-kKL"/>
+                    </connections>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vkg-hb-wwF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2941" y="51"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Ktl-gG-Vr3">
             <objects>
@@ -284,6 +313,7 @@
                         <segue destination="xIT-YL-OxL" kind="relationship" relationship="viewControllers" id="YKn-k8-1ih"/>
                         <segue destination="Bfc-hI-Uxb" kind="relationship" relationship="viewControllers" id="xMW-y0-fI5"/>
                         <segue destination="dr6-Dt-yBE" kind="relationship" relationship="viewControllers" id="ptN-VF-p9r"/>
+                        <segue destination="VCE-Rg-VdQ" kind="relationship" relationship="viewControllers" id="43O-4d-EI7"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ar7-57-KUq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -484,6 +514,23 @@
             </objects>
             <point key="canvasLocation" x="2212" y="-630"/>
         </scene>
+        <!--Buddy-->
+        <scene sceneID="rTw-tz-0E0">
+            <objects>
+                <navigationController id="VCE-Rg-VdQ" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Buddy" image="person.2" catalog="system" selectedImage="person.2" id="aW6-d8-DxY"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="2zm-Jl-Gjr">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="eMW-KP-P1L" kind="relationship" relationship="rootViewController" id="U6D-Jx-hyf"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oxi-rE-nsR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2941" y="-630"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="SkV-ua-qck">
             <objects>
@@ -525,6 +572,7 @@
     <resources>
         <image name="message" catalog="system" width="64" height="56"/>
         <image name="person" catalog="system" width="64" height="58"/>
+        <image name="person.2" catalog="system" width="64" height="40"/>
         <image name="tray.full" catalog="system" width="64" height="44"/>
     </resources>
 </document>

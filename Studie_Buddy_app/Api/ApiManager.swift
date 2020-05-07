@@ -54,6 +54,16 @@ final class ApiManager{
         return AF.request(BaseURL + "api/student/\(studentID)", method: .get, headers: headers)
     }
     
+    static func getCoaches() -> DataRequest{
+        let authToken = KeychainWrapper.standard.string(forKey: "AuthToken")
+        let authID = KeychainWrapper.standard.string(forKey: "StudentID")
+        let headers: HTTPHeaders = [
+        "AuthToken": "\(authToken!)",
+        "AuthID": "\(authID!)"
+        ]
+        return AF.request(BaseURL + "api/profile/coach", method: .get, headers: headers)
+    }
+    
     static func updateProfile(student: Student) -> DataRequest{
         let authToken = KeychainWrapper.standard.string(forKey: "AuthToken")
         let authID = KeychainWrapper.standard.string(forKey: "StudentID")
