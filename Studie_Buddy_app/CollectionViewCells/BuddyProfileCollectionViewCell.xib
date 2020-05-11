@@ -74,6 +74,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Br-03-4Gn">
                                 <rect key="frame" x="20" y="388" width="340" height="30"/>
                                 <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="ReadMoreButtonPressed:" destination="QDZ-Q0-nhl" eventType="touchUpInside" id="uW1-M1-Wox"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>

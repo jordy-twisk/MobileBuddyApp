@@ -13,6 +13,7 @@ var CoachesArray: [Coaches] = []
 let Max_Pages: Int = 10
 
 
+
 class BuddySwipeController: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     
     @IBOutlet weak var NavigationBar: UINavigationItem!
@@ -206,11 +207,30 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
         cell.BioALabel.text = CoachesArray[indexPath.item].student.description
         let ImageUrl = URL(string: CoachesArray[indexPath.item].student.photo)
         cell.ProfileImageView.kf.setImage(with: ImageUrl)
-        
-        
+
         return cell
     }
-    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let index = indexPath.item
+        print(index)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let DetailBuddyPage = (storyboard.instantiateViewController(withIdentifier:"detailpagebuddyviewcontroller") as? detailpagebuddyviewcontroller)!
+        
+        let ImageUrl = URL(string: CoachesArray[index].student.photo)
+        if ImageUrl != nil{
+           DetailBuddyPage.ProfileImageView.kf.setImage(with: ImageUrl)
+        }
+        DetailBuddyPage.name = CoachesArray[index].student.firstname
+        DetailBuddyPage.study = CoachesArray[index].student.study
+        DetailBuddyPage.studyyear = String(CoachesArray[index].student.studyyear)
+        DetailBuddyPage.degree = CoachesArray[index].student.degree
+        DetailBuddyPage.interests = CoachesArray[index].student.interests
+        DetailBuddyPage.bio = CoachesArray[index].student.description
+        
+        navigationController?.pushViewController(DetailBuddyPage, animated: true)
+
+        
+    }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
         let bounds = UIScreen.main.bounds

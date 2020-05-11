@@ -23,6 +23,13 @@ class BuddyProfileCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var ReadMoreButton: UIButton!
     @IBOutlet weak var ViewWidthConstraint: NSLayoutConstraint!
     
+//    @IBAction func ReadMoreButtonPressed(_ sender: Any) {
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//            let DetailBuddyPage = (storyboard.instantiateViewController(withIdentifier:
+//                "DetailPageBuddyViewController") as? detailpagebuddyviewcontroller)!
+//        BuddySwipeController.present(DetailBuddyPage, animated: true, completion: nil)
+//    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         self.contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -31,7 +38,7 @@ class BuddyProfileCollectionViewCell: UICollectionViewCell {
         ViewWidthConstraint.isActive = true
         ReadMoreButton.tintColor = .InhollandPink
 //        print("screen width is: ", screenWidth)
-        
+        self.contentView.isUserInteractionEnabled = false
         NameLabel.textAlignment = .center
         NameLabel.font = .boldSystemFont(ofSize: 20)
         StudyLabel.textAlignment = .center
@@ -48,7 +55,7 @@ class BuddyProfileCollectionViewCell: UICollectionViewCell {
         BioQLabel.font = .boldSystemFont(ofSize: 16)
         ReadMoreButton.setTitle(NSLocalizedString("readmore", comment: ""), for: .normal)
         ProfileImageView.image = UIImage(named: "Profile")
-        
+    
     }
     
     override func prepareForReuse() {
