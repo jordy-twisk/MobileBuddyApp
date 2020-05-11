@@ -10,11 +10,34 @@ import Foundation
 import UIKit
 
 var CoachesArray: [Coaches] = []
+let Max_Pages: Int = 10
+
 
 class BuddySwipeController: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     
     @IBOutlet weak var NavigationBar: UINavigationItem!
     
+    
+    override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let pagewidth = collectionView.frame.size.width
+        let currentPage = collectionView.contentOffset.x / pagewidth
+        let pageControlNumbersOfPages = PageControl.numberOfPages - 1
+        let datasourceCount = CGFloat(CoachesArray.count - 1)
+        let maxDotCountReduced = CGFloat(Max_Pages - 1)
+        if datasourceCount > maxDotCountReduced {
+            if currentPage >= maxDotCountReduced{
+                if currentPage == datasourceCount {
+                    PageControl.currentPage = pageControlNumbersOfPages
+                }
+                else {
+                    PageControl.currentPage = pageControlNumbersOfPages - 1
+                }
+                return
+            }
+        }
+        PageControl.currentPage = Int(currentPage)
+        print("Newpage is: ", PageControl.currentPage)
+    }
     
     private let NextButton: UIButton = {
         let button = UIButton(type: .system)
@@ -27,12 +50,39 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
     }()
     
     @objc private func handleNext() {
-        let nextIndex = min(PageControl.currentPage + 1, CoachesArray.count - 1)
-        
+        let pagewidth = collectionView.frame.size.width
+        let currentPage = collectionView.contentOffset.x / pagewidth
+        let nextIndex = min(Int(currentPage) + 1, CoachesArray.count - 1)
+        print("Next :",nextIndex, PageControl.currentPage, CoachesArray.count)
+        nextPage(nextIndex: nextIndex)
+    }
+    
+    func nextPage(nextIndex : Int) {
+        let pagewidth = collectionView.frame.size.width
+        let currentPage = collectionView.contentOffset.x / pagewidth
+        let pageControlNumbersOfPages = PageControl.numberOfPages - 1
+        let datasourceCount = CGFloat(CoachesArray.count - 1)
+        let maxDotCountReduced = CGFloat(Max_Pages - 1)
         let indexPath = IndexPath(item: nextIndex, section: 0)
+        if datasourceCount > maxDotCountReduced {
+            if currentPage >= maxDotCountReduced{
+                if currentPage == datasourceCount {
+                    PageControl.currentPage = pageControlNumbersOfPages
+                }
+                else {
+                    PageControl.currentPage = pageControlNumbersOfPages - 1
+                }
+                collectionView?.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+                return
+            }
+        }
         PageControl.currentPage = nextIndex
+        print("Newpage is: ", PageControl.currentPage)
         collectionView?.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
+    
+    
+    
     
     private let PrevButton: UIButton = {
         let button = UIButton(type: .system)
@@ -45,17 +95,17 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
     }()
     
     @objc private func handlePrev() {
-        let prevIndex = max(PageControl.currentPage - 1, 0)
-        
-        let indexPath = IndexPath(item: prevIndex, section: 0)
-        PageControl.currentPage = prevIndex
-        collectionView?.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        let pagewidth = collectionView.frame.size.width
+        let currentPage = collectionView.contentOffset.x / pagewidth
+        let prevIndex = max(Int(currentPage) - 1, 0)
+        print("Prev :",prevIndex, PageControl.currentPage, CoachesArray.count)
+        nextPage(nextIndex: prevIndex)
     }
     
     private let PageControl: UIPageControl = {
         let pc = UIPageControl()
         pc.currentPage = 0
-//        pc.numberOfPages = CoachesArray.count
+        pc.numberOfPages = Max_Pages
         pc.currentPageIndicatorTintColor = .InhollandPink
         pc.pageIndicatorTintColor = .gray
         return pc
@@ -154,6 +204,8 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
         cell.LocationALabel.text = String(CoachesArray[indexPath.item].student.studentid)
         cell.PreStudyALabel.text = CoachesArray[indexPath.item].student.degree
         cell.BioALabel.text = CoachesArray[indexPath.item].student.description
+        let ImageUrl = URL(string: CoachesArray[indexPath.item].student.photo)
+        cell.ProfileImageView.kf.setImage(with: ImageUrl)
         
         
         return cell

@@ -29,6 +29,7 @@ class BuddyProfileCollectionViewCell: UICollectionViewCell {
         let screenWidth = UIScreen.main.bounds.size.width
        ViewWidthConstraint.constant = screenWidth
         ViewWidthConstraint.isActive = true
+        ReadMoreButton.tintColor = .InhollandPink
 //        print("screen width is: ", screenWidth)
         
         NameLabel.textAlignment = .center

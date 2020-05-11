@@ -18,6 +18,7 @@
 		3C3B2FC6239962BF000A445D /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3B2FC5239962BF000A445D /* MessagesViewController.swift */; };
 		3C3B2FC8239963B6000A445D /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3B2FC7239963B6000A445D /* MessageTableViewCell.swift */; };
 		3C3B2FCA239963C8000A445D /* MessageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C3B2FC9239963C8000A445D /* MessageTableViewCell.xib */; };
+		3C4AB837246972C700C71C88 /* DetailPageBuddyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4AB836246972C700C71C88 /* DetailPageBuddyViewController.swift */; };
 		3C678A1223C3BC0600DB26D5 /* Tutorants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C678A1123C3BC0600DB26D5 /* Tutorants.swift */; };
 		3C678A1423C5132700DB26D5 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C678A1323C5132700DB26D5 /* Notification.swift */; };
 		3C91C3AD239FBD390081F7B7 /* Student.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C91C3AC239FBD390081F7B7 /* Student.swift */; };
@@ -77,6 +78,7 @@
 		3C3B2FC5239962BF000A445D /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		3C3B2FC7239963B6000A445D /* MessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
 		3C3B2FC9239963C8000A445D /* MessageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageTableViewCell.xib; sourceTree = "<group>"; };
+		3C4AB836246972C700C71C88 /* DetailPageBuddyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPageBuddyViewController.swift; sourceTree = "<group>"; };
 		3C678A1123C3BC0600DB26D5 /* Tutorants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tutorants.swift; sourceTree = "<group>"; };
 		3C678A1323C5132700DB26D5 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		3C91C3AC239FBD390081F7B7 /* Student.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Student.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				3C9E81DD237B007C00284CDC /* ViewController.swift */,
+				3C4AB836246972C700C71C88 /* DetailPageBuddyViewController.swift */,
 				3C06C382239548E500E05EAE /* ProfileViewController.swift */,
 				3C06C3802395208700E05EAE /* RegisterViewController.swift */,
 				3C3B2FB923992A39000A445D /* HomeViewController.swift */,
@@ -537,6 +540,7 @@
 				3CA1133D245C4FCD00DD39DE /* Coaches.swift in Sources */,
 				3CD4884423A410A9001FBB47 /* InboxViewController.swift in Sources */,
 				3CA11334245993E200DD39DE /* BuddySwipeController.swift in Sources */,
+				3C4AB837246972C700C71C88 /* DetailPageBuddyViewController.swift in Sources */,
 				3C91C3AD239FBD390081F7B7 /* Student.swift in Sources */,
 				3C06C383239548E500E05EAE /* ProfileViewController.swift in Sources */,
 				3C9E81DC237B007C00284CDC /* SceneDelegate.swift in Sources */,
