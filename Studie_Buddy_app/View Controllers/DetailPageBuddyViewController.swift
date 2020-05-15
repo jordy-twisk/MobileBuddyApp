@@ -8,6 +8,8 @@
 
 import Foundation
 import UIKit
+import SwiftKeychainWrapper
+import SAConfettiView
 
 class detailpagebuddyviewcontroller: UIViewController{
     
@@ -26,6 +28,7 @@ class detailpagebuddyviewcontroller: UIViewController{
     @IBOutlet weak var BioALabel: UILabel!
     @IBOutlet weak var ChooseBuddyButton: UIButton!
     
+    
     var name: String = ""
     var photo: String = ""
     var bio: String = ""
@@ -33,7 +36,7 @@ class detailpagebuddyviewcontroller: UIViewController{
     var study: String = ""
     var studyyear: String = ""
     var interests: String = ""
-    
+    var coachID: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,17 +63,49 @@ class detailpagebuddyviewcontroller: UIViewController{
         BioQLabel.font = .boldSystemFont(ofSize: 16)
         ChooseBuddyButton.setTitle(NSLocalizedString("ChooseThisBuddy", comment: ""), for: .normal)
         //ProfileImageView.image = UIImage(named: "Profile")
-        
-        
-        
-        
-
+        let ImageUrl = URL(string: photo)
+        ProfileImageView.kf.setImage(with: ImageUrl)
         NameLabel.text = name
         StudyALabel.text = study
         StudyyearALabel.text = studyyear
         PrestudyALabel.text = degree
         InterestALabel.text = interests
         BioALabel.text = bio
+        
+        
+        ChooseBuddyButton.addTarget(self, action: #selector(ChooseThisbuddyCall), for: .touchUpInside)
+    }
+    
+    @objc func ChooseThisbuddyCall(){
+        ApiManager.chooseBuddy(coachID: coachID).responseData(completionHandler: { [weak self] (response) in
+        //let jsonData = response.data!
+            
+            print("response http status code: ",response.response?.statusCode)
+            if response.response?.statusCode == 201{
+                KeychainWrapper.standard.set(self!.coachID, forKey: "CoachID")
+//                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//                let HomePage = (storyboard.instantiateViewController(withIdentifier:"homeviewcontroller") as? homeviewcontroller)!
+//                self!.navigationController?.pushViewController(HomePage, animated: true)
+                let confettiView = SAConfettiView(frame: self!.view.bounds)
+                confettiView.type = .Confetti
+                confettiView.colors = [UIColor.InhollandPink, UIColor.purple, UIColor.red]
+                confettiView.intensity = 1
+                self!.view.addSubview(confettiView)
+                confettiView.startConfetti()
+                let alert = UIAlertController(title: NSLocalizedString("NewCoachTitle", comment: ""), message: NSLocalizedString("NewCoachMSG", comment: ""), preferredStyle: .alert)
+                
+                alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: "") , style: .default, handler: {(action) in
+                alert.dismiss(animated: true, completion: nil)
+                confettiView.stopConfetti()
+                self!.tabBarController?.selectedIndex = 0
+                }))
+                self!.present(alert, animated: true, completion: nil)
+        }
+       // let decoder = JSONDecoder()
+        //let tutorants = try? decoder.decode([Tutorants].self, from: jsonData)
+        })
+        
+        
         
     }
     

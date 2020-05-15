@@ -24,6 +24,21 @@ final class ApiManager{
     
     static var BaseURL = "https://dev-tinderclonefa-test.azurewebsites.net/"
     
+    static func chooseBuddy(coachID: Int) -> DataRequest{
+        let authToken = KeychainWrapper.standard.string(forKey: "AuthToken")
+        let authID = KeychainWrapper.standard.string(forKey: "StudentID")
+        let headers: HTTPHeaders = [
+               "AuthToken": "\(authToken!)",
+               "AuthID": "\(authID!)"
+        ]
+        let parameters: [String : String] = [
+            "studentIDTutorant": "\(authID!)",
+            "studentIDCoach": "\(coachID)",
+            "status": "success"
+        ]
+        print("parameter is: ", parameters)
+        return AF.request(BaseURL + "api/coachTutorant/tutorant/\(authID!)", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+    }
     static func getMessages(senderID: Int , receiverID: Int) -> DataRequest{
         let authToken = KeychainWrapper.standard.string(forKey: "AuthToken")
         let authID = KeychainWrapper.standard.string(forKey: "StudentID")
@@ -93,17 +108,17 @@ final class ApiManager{
         ]
         return AF.request(BaseURL + "api/auth/login", method: .post, parameters: parameters, encoding: JSONEncoding.default)
     }
-    static func register(studentid: Int, password: String) -> DataRequest{
-        let parameters: [String : Any] = [
-                "AuthID": 12,
-                "AuthToken": "80-B6-87-8C-CE-78-D7-48A0-70-2A-77-22-46-BE-4F-AC-6E-31-81-D7-EE-58-5467-EC-CF-7A-42-BE-CD-67-74-2B",
-                "studentID": studentid,
-                "password": "\(password)",
-                "role": 2
-        ]
-        return AF.request(BaseURL + "api/auth/register", method: .post, parameters: parameters, encoding: JSONEncoding.default)
-    }
-    
+//    static func register(studentid: Int, password: String) -> DataRequest{
+//        let parameters: [String : Any] = [
+//                "AuthID": 12,
+//                "AuthToken": "80-B6-87-8C-CE-78-D7-48A0-70-2A-77-22-46-BE-4F-AC-6E-31-81-D7-EE-58-5467-EC-CF-7A-42-BE-CD-67-74-2B",
+//                "studentID": studentid,
+//                "password": "\(password)",
+//                "role": 2
+//        ]
+//        return AF.request(BaseURL + "api/auth/register", method: .post, parameters: parameters, encoding: JSONEncoding.default)
+//    }
+//
     
     
     static func SendMessage(senderid: Int, payload: String, receiverid: Int) -> DataRequest{

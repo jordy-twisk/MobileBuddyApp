@@ -34,7 +34,7 @@ class BuddyProfileCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         self.contentView.translatesAutoresizingMaskIntoConstraints = false
         let screenWidth = UIScreen.main.bounds.size.width
-       ViewWidthConstraint.constant = screenWidth
+        ViewWidthConstraint.constant = screenWidth
         ViewWidthConstraint.isActive = true
         ReadMoreButton.tintColor = .InhollandPink
 //        print("screen width is: ", screenWidth)

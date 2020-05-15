@@ -209,7 +209,7 @@
         <!--Homeviewcontroller-->
         <scene sceneID="pBS-cv-Y16">
             <objects>
-                <viewController id="O06-Vu-ISn" customClass="homeviewcontroller" customModule="Studie_Buddy_app" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="homeviewcontroller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="O06-Vu-ISn" customClass="homeviewcontroller" customModule="Studie_Buddy_app" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ELD-AJ-ijg">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -37,7 +37,6 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
             }
         }
         PageControl.currentPage = Int(currentPage)
-        print("Newpage is: ", PageControl.currentPage)
     }
     
     private let NextButton: UIButton = {
@@ -54,7 +53,6 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
         let pagewidth = collectionView.frame.size.width
         let currentPage = collectionView.contentOffset.x / pagewidth
         let nextIndex = min(Int(currentPage) + 1, CoachesArray.count - 1)
-        print("Next :",nextIndex, PageControl.currentPage, CoachesArray.count)
         nextPage(nextIndex: nextIndex)
     }
     
@@ -78,7 +76,6 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
             }
         }
         PageControl.currentPage = nextIndex
-        print("Newpage is: ", PageControl.currentPage)
         collectionView?.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
     
@@ -99,7 +96,6 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
         let pagewidth = collectionView.frame.size.width
         let currentPage = collectionView.contentOffset.x / pagewidth
         let prevIndex = max(Int(currentPage) - 1, 0)
-        print("Prev :",prevIndex, PageControl.currentPage, CoachesArray.count)
         nextPage(nextIndex: prevIndex)
     }
     
@@ -113,16 +109,13 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
     }()
     
     override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        
         let x = targetContentOffset.pointee.x
-        
         PageControl.currentPage = Int(x / view.frame.width)
-        print(x, view.frame.width, x / view.frame.width)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
             NavigationBar.title = NSLocalizedString("ChooseBuddy", comment: "")
              self.navigationController!.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
              self.navigationController!.navigationBar.tintColor = #colorLiteral(red: 1, green: 0.99997437, blue: 0.9999912977, alpha: 1)
@@ -149,17 +142,12 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
             let jsonData = response.data!
             let decoder = JSONDecoder()
             let AllCoaches = try? decoder.decode([Coaches].self, from: jsonData)
-            print("All coaches count is:", AllCoaches?.count)
             if (AllCoaches != nil){
                 for item in AllCoaches!{
                     CoachesArray.append(item)
-//                    print(item.student.studentid)
                 }
             }
             
-                          
-//                self!.LoadingIndicator.stopAnimating()
-//                self!.LoadingIndicator.isHidden = true
             self!.collectionView.reloadData()
             if (CoachesArray.count > 10)
                    {
@@ -194,7 +182,7 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("number of items is: ", CoachesArray.count)
+        
             return CoachesArray.count
     }
     
@@ -210,27 +198,26 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
 
         return cell
     }
+    
+    
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let index = indexPath.item
-        print(index)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let DetailBuddyPage = (storyboard.instantiateViewController(withIdentifier:"detailpagebuddyviewcontroller") as? detailpagebuddyviewcontroller)!
         
-        let ImageUrl = URL(string: CoachesArray[index].student.photo)
-        if ImageUrl != nil{
-           DetailBuddyPage.ProfileImageView.kf.setImage(with: ImageUrl)
-        }
+        DetailBuddyPage.photo = CoachesArray[index].student.photo
         DetailBuddyPage.name = CoachesArray[index].student.firstname
         DetailBuddyPage.study = CoachesArray[index].student.study
         DetailBuddyPage.studyyear = String(CoachesArray[index].student.studyyear)
         DetailBuddyPage.degree = CoachesArray[index].student.degree
         DetailBuddyPage.interests = CoachesArray[index].student.interests
         DetailBuddyPage.bio = CoachesArray[index].student.description
+        DetailBuddyPage.coachID = CoachesArray[index].coach.studentid
         
         navigationController?.pushViewController(DetailBuddyPage, animated: true)
-
-        
     }
+    
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
         let bounds = UIScreen.main.bounds
@@ -239,9 +226,6 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
         layout.itemSize = CGSize(width: width, height: width)
 
         return layout.itemSize
-        
-//        return CGSize(width: view.frame.width, height: view.frame.height)
-    
     }
     
     

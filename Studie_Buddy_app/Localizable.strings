@@ -36,6 +36,8 @@
 "ChoosePic" = "Choose picture";
 "NewTutorTitle" = "You have a new tutor!";
 "NewTutorMSG" = "You have a new match with a tutor, send him/her a message now!";
+"NewCoachTitle" = "You have a coach!";
+"NewCoachMSG" = "You have a new match with a coach, send him/her a message now!";
 "Ok" = "Oke!";
 "ChooseBuddy" = "Choose your buddy!";
 "next" = "NEXT";
@@ -45,3 +47,4 @@
 "ChooseThisBuddy" = "Choose This Buddy!";
 "StudyYear" = "Studyyear";
 "Interests" = "Interests";
+
