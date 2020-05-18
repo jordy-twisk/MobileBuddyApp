@@ -37,6 +37,9 @@ class ViewController: UIViewController {
         PasswordTextbox.placeholder = NSLocalizedString("password", comment: "")
         PasswordTextbox.isSecureTextEntry = true
         
+        self.tabBarController?.tabBar.isHidden = true
+        self.navigationController?.isNavigationBarHidden = true
+        
         
         //NavigationBAr.title = NSLocalizedString("login", comment: "")
         //self.navigationController!.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]

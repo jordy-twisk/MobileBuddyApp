@@ -93,7 +93,6 @@ class detailpagebuddyviewcontroller: UIViewController{
                 self!.view.addSubview(confettiView)
                 confettiView.startConfetti()
                 let alert = UIAlertController(title: NSLocalizedString("NewCoachTitle", comment: ""), message: NSLocalizedString("NewCoachMSG", comment: ""), preferredStyle: .alert)
-                
                 alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: "") , style: .default, handler: {(action) in
                 alert.dismiss(animated: true, completion: nil)
                 confettiView.stopConfetti()

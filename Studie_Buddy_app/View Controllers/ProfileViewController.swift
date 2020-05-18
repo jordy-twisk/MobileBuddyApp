@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Kingfisher
+import SwiftKeychainWrapper
 
 var Studentprofile: Student?
 var loggedin: Bool = true
@@ -98,18 +99,20 @@ UINavigationControllerDelegate {
         ChoosePictureButton.setTitle(NSLocalizedString("ChoosePic", comment: ""), for: .normal)
         //let InhollandPink = UIColor(red: 235.0/255.0, green: 0.0/255.0, blue: 145.0/255.0, alpha: 1.0)
         ProfileImageView.image = UIImage(named: "Profile")
-        if loggedin == false{
-            //ProfileImageView.image = UIImage(named: "Profile")
-            ProfileNameTextbox.placeholder = NSLocalizedString("name", comment: "")
-            BioTextbox.placeholder = NSLocalizedString("bio", comment: "")
-            StudyTextbox.placeholder = NSLocalizedString("study", comment: "")
-            CityTextbox.placeholder = NSLocalizedString("city", comment: "")
-            PreStudyTextbox.placeholder = NSLocalizedString("prestudy", comment: "")
-            RegisterButton.setTitle(NSLocalizedString("register", comment: ""), for: .normal)
-            
-        }else if loggedin == true{
-            Makeprofilecall()
-        }
+//        if loggedin == false{
+//            //ProfileImageView.image = UIImage(named: "Profile")
+//            ProfileNameTextbox.placeholder = NSLocalizedString("name", comment: "")
+//            BioTextbox.placeholder = NSLocalizedString("bio", comment: "")
+//            StudyTextbox.placeholder = NSLocalizedString("study", comment: "")
+//            CityTextbox.placeholder = NSLocalizedString("city", comment: "")
+//            PreStudyTextbox.placeholder = NSLocalizedString("prestudy", comment: "")
+//            RegisterButton.setTitle(NSLocalizedString("register", comment: ""), for: .normal)
+//
+//        }
+        Makeprofilecall()
+        NavigationBar.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Logout", comment: ""), style: .plain, target: self, action: #selector(LogUserOut))
+        NavigationBar.leftBarButtonItem = nil
+        
         
         let viewtap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profileviewcontroller.dismissing))
         view.addGestureRecognizer(viewtap)
@@ -135,6 +138,19 @@ UINavigationControllerDelegate {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil )
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil )
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil )
+    }
+    
+    @objc func LogUserOut(){
+        print(UserDefaults.standard.dictionaryRepresentation().keys)
+        UserDefaults.standard.set(0, forKey: "MessageAmount")
+        UserDefaults.standard.set(0, forKey: "NumberOfTutoranten")
+        KeychainWrapper.standard.set("", forKey: "StudentID")
+        KeychainWrapper.standard.set("", forKey: "AuthToken")
+        newMessages = false
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "LoginPageViewController") as UIViewController
+        self.navigationController?.pushViewController(vc, animated: true)
+        
     }
     
     @objc func keyboardWillChange(notification: Notification){
