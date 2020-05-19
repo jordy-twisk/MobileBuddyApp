@@ -66,7 +66,7 @@ class homeviewcontroller: UIViewController {
             if numberOfTutorants < tutorants!.count{
                 newMessages = true
                 NewNotificationsMessages.append(newtutor)
-                self!.NewTutorantMessage()
+               // self!.NewTutorantMessage()
                 self!.TableView.reloadData()
             }
             })
@@ -75,21 +75,21 @@ class homeviewcontroller: UIViewController {
         }
     
     func NewTutorantMessage(){
-        let confettiView = SAConfettiView(frame: self.view.bounds)
-        confettiView.type = .Confetti
-        confettiView.colors = [UIColor.InhollandPink, UIColor.purple, UIColor.red]
-        confettiView.intensity = 1
-        self.view.addSubview(confettiView)
-        confettiView.startConfetti()
+        //let confettiView = SAConfettiView(frame: self.view.bounds)
+        //confettiView.type = .Confetti
+        //confettiView.colors = [UIColor.InhollandPink, UIColor.purple, UIColor.red]
+        //confettiView.intensity = 1
+        //self.view.addSubview(confettiView)
+        //confettiView.startConfetti()
         let alert = UIAlertController(title: NSLocalizedString("NewTutorTitle", comment: ""), message: NSLocalizedString("NewTutorMSG", comment: ""), preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: "") , style: .default, handler: {(action) in
             alert.dismiss(animated: true, completion: nil)
-            confettiView.stopConfetti()
-            repeat {
-                
-            }while (confettiView.isActive() == true)
-            confettiView.removeFromSuperview()
+            //confettiView.stopConfetti()
+//            repeat {
+//
+//            }while (confettiView.isActive() == true)
+//            confettiView.removeFromSuperview()
         }))
         
         

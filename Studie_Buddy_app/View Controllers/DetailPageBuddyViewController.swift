@@ -37,9 +37,15 @@ class detailpagebuddyviewcontroller: UIViewController{
     var studyyear: String = ""
     var interests: String = ""
     var coachID: Int = 0
+    var ShowBackButton = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if ShowBackButton == false{
+            navigationController?.isNavigationBarHidden = true
+            ChooseBuddyButton.isHidden = true
+        }
+        
         ChooseBuddyButton.tintColor = .InhollandPink
         //        print("screen width is: ", screenWidth)
                 
