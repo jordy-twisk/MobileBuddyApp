@@ -64,6 +64,8 @@ class ViewController: UIViewController {
                 self.LoadingIndicator.stopAnimating()
                 self.LoadingIndicator.isHidden = true
                 if AuthToken == nil || AuthToken == ""{
+                    self.LoadingIndicator.stopAnimating()
+                    self.LoadingIndicator.isHidden = true
                     self.isPressed = false
                     print("wrong credentials")
                     let wronginput = UIAlertController(title: NSLocalizedString("tryagain", comment: ""), message: NSLocalizedString("wrongInput", comment: ""), preferredStyle: .alert)
@@ -72,15 +74,38 @@ class ViewController: UIViewController {
 
                     self.present(wronginput, animated: true)
                 }else {
+                    
+                    ApiManager.CheckIfUserIsCoach().responseData(completionHandler: { [weak self] (responsecoach) in
+                       
+                        if responsecoach.response?.statusCode == 200{
+                            UserDefaults.standard.set(true, forKey: "UserIsCoach")
+                        } else
+                        {
+                            print(response.response?.statusCode)
+                            ApiManager.CheckIfUserIsTutorant().responseData(completionHandler: { [weak self] (responsetutorant) in
+                                if responsetutorant.response?.statusCode == 200{
+                                    UserDefaults.standard.set(false, forKey: "UserIsCoach")
+                                }
+                                self!.LoadingIndicator.stopAnimating()
+                                self!.LoadingIndicator.isHidden = true
+                            })
+                        }
+                        self!.LoadingIndicator.stopAnimating()
+                        self!.LoadingIndicator.isHidden = true
+                   
+                    let iscoach = UserDefaults.standard.bool(forKey: "UserIsCoach")
+                    print("user is coach?: ",iscoach)
                     KeychainWrapper.standard.set(username!, forKey: "StudentID")
                     KeychainWrapper.standard.set(AuthToken!, forKey: "AuthToken")
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
                     let vc = storyboard.instantiateViewController(withIdentifier: "TabBarViewController") as UIViewController
-                    self.navigationController?.pushViewController(vc, animated: true)
-                    
+                    self!.navigationController?.pushViewController(vc, animated: true)
+                    })
                 }
                 }
             }else{
+                self.LoadingIndicator.stopAnimating()
+                self.LoadingIndicator.isHidden = true
                 isPressed = false
             print("no credentials")
                 self.LoadingIndicator.stopAnimating()

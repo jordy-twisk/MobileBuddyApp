@@ -51,35 +51,39 @@ func loadnewtutorants(){
     tutorantenProfiles = []
     var indexnumber = 0
     ApiManager.getTutors(studentID: 31214).responseData(completionHandler: { [weak self] (response) in
-        let jsonData = response.data!
-        let decoder = JSONDecoder()
-        let tutorants = try? decoder.decode([Tutorants].self, from: jsonData)
-        if tutorants != nil {
-            for item in tutorants!{
-                tutoranten.append(item)
-                print(item.tutorantid)
-            }
-            for i in 0...tutoranten.count - 1  {
-              
 
-                ApiManager.getProfile(studentID: tutoranten[i].tutorantid).responseData(completionHandler: { [weak self] (response) in
-                let jsonData = response.data!
-                let decoder = JSONDecoder()
-                Studentprofile = try? decoder.decode(Student.self, from: jsonData)
-                   // print(Studentprofile!.firstname)
-                if indexnumber < UserDefaults.standard.integer(forKey: "NumberOfTutoranten") || UserDefaults.standard.integer(forKey: "NumberOfTutoranten") == 0 {
-                tutorantenProfiles.insert(Studentprofile!, at: indexnumber)
-                    indexnumber = indexnumber + 1
-                    }
-                    //print("count is:",tutorantenProfiles.count)
-                        self!.InboxTableView.reloadData()
-                    UserDefaults.standard.set(tutorantenProfiles.count, forKey: "NumberOfTutoranten")
-                })
+        let jsonData = response.data
+        if jsonData != nil{
+            let decoder = JSONDecoder()
+            let tutorants = try? decoder.decode([Tutorants].self, from: jsonData!)
+            if tutorants != nil {
+                for item in tutorants!{
+                    tutoranten.append(item)
+                    print(item.tutorantid)
+                }
+                for i in 0...tutoranten.count - 1  {
+                  
+
+                    ApiManager.getProfile(studentID: tutoranten[i].tutorantid).responseData(completionHandler: { [weak self] (response) in
+                    let jsonData = response.data!
+                    let decoder = JSONDecoder()
+                    Studentprofile = try? decoder.decode(Student.self, from: jsonData)
+                       // print(Studentprofile!.firstname)
+                    if indexnumber < UserDefaults.standard.integer(forKey: "NumberOfTutoranten") || UserDefaults.standard.integer(forKey: "NumberOfTutoranten") == 0 {
+                    tutorantenProfiles.insert(Studentprofile!, at: indexnumber)
+                        indexnumber = indexnumber + 1
+                        }
+                        //print("count is:",tutorantenProfiles.count)
+                            self!.InboxTableView.reloadData()
+                        UserDefaults.standard.set(tutorantenProfiles.count, forKey: "NumberOfTutoranten")
+                    })
+                    
+                }
+                self?.InboxTableView.reloadData()
                 
             }
-            self?.InboxTableView.reloadData()
-            
         }
+        
         })
     
     }

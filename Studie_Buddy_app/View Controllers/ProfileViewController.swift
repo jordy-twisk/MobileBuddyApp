@@ -13,9 +13,10 @@ import SwiftKeychainWrapper
 
 var Studentprofile: Student?
 var loggedin: Bool = true
+var BioPlaceholder: String = ""
 class profileviewcontroller: UIViewController,
 UIImagePickerControllerDelegate,
-UINavigationControllerDelegate {
+UINavigationControllerDelegate, UITextViewDelegate {
     
     var activeField: UITextField?
     @IBOutlet weak var NavigationBar: UINavigationItem!
@@ -24,7 +25,7 @@ UINavigationControllerDelegate {
     @IBOutlet weak var PreStudyTextbox: UITextField!
     @IBOutlet weak var CityTextbox: UITextField!
     @IBOutlet weak var StudyTextbox: UITextField!
-    @IBOutlet weak var BioTextbox: UITextField!
+    @IBOutlet weak var BioTextBox: UITextView!
     @IBOutlet weak var ProfileNameTextbox: UITextField!
     @IBOutlet weak var ProfileImageView: UIImageView!
     @IBOutlet weak var ScrollView: UIScrollView!
@@ -99,16 +100,8 @@ UINavigationControllerDelegate {
         ChoosePictureButton.setTitle(NSLocalizedString("ChoosePic", comment: ""), for: .normal)
         //let InhollandPink = UIColor(red: 235.0/255.0, green: 0.0/255.0, blue: 145.0/255.0, alpha: 1.0)
         ProfileImageView.image = UIImage(named: "Profile")
-//        if loggedin == false{
-//            //ProfileImageView.image = UIImage(named: "Profile")
-//            ProfileNameTextbox.placeholder = NSLocalizedString("name", comment: "")
-//            BioTextbox.placeholder = NSLocalizedString("bio", comment: "")
-//            StudyTextbox.placeholder = NSLocalizedString("study", comment: "")
-//            CityTextbox.placeholder = NSLocalizedString("city", comment: "")
-//            PreStudyTextbox.placeholder = NSLocalizedString("prestudy", comment: "")
-//            RegisterButton.setTitle(NSLocalizedString("register", comment: ""), for: .normal)
-//
-//        }
+            //ProfileImageView.image = UIImage(named: "Profile")
+        
         Makeprofilecall()
         NavigationBar.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Logout", comment: ""), style: .plain, target: self, action: #selector(LogUserOut))
         NavigationBar.leftBarButtonItem = nil
@@ -144,6 +137,7 @@ UINavigationControllerDelegate {
         print(UserDefaults.standard.dictionaryRepresentation().keys)
         UserDefaults.standard.set(0, forKey: "MessageAmount")
         UserDefaults.standard.set(0, forKey: "NumberOfTutoranten")
+        NewNotificationsMessages = []
         KeychainWrapper.standard.set("", forKey: "StudentID")
         KeychainWrapper.standard.set("", forKey: "AuthToken")
         newMessages = false
@@ -198,27 +192,44 @@ UINavigationControllerDelegate {
         self.view.endEditing(true)
     }
     
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if BioTextBox.textColor == UIColor.lightGray {
+            BioTextBox.text = nil
+            BioTextBox.textColor = UIColor.black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if BioTextBox.text.isEmpty {
+            BioTextBox.text = BioPlaceholder
+            BioTextBox.textColor = UIColor.lightGray
+        }
+    }
+    
     func Makeprofilecall(){
-        ApiManager.getProfile(studentID: 123456).responseData(completionHandler: { [weak self] (response) in
+        let studentID = Int(KeychainWrapper.standard.string(forKey: "StudentID")!)
+        print(studentID)
+        ApiManager.getProfile(studentID: studentID!).responseData(completionHandler: { [weak self] (response) in
             self!.UpdateIndicator.isHidden = false
         let jsonData = response.data!
         let decoder = JSONDecoder()
         Studentprofile = try? decoder.decode(Student.self, from: jsonData)
-            print(Studentprofile!.firstname,Studentprofile!.surname, Studentprofile!.degree, Studentprofile!.description, Studentprofile!.interests, Studentprofile!.phonenumber, Studentprofile!.photo, Studentprofile!.study, Studentprofile!.studyyear, Studentprofile!.studentid)
         self!.ProfileNameTextbox.placeholder = Studentprofile?.firstname
-        self!.BioTextbox.placeholder = Studentprofile?.description
+        BioPlaceholder = Studentprofile!.description
+        self!.BioTextBox.text = Studentprofile?.description
+        self!.BioTextBox.textColor = .lightGray
         self!.StudyTextbox.placeholder = Studentprofile?.study
         self!.CityTextbox.placeholder = Studentprofile?.degree
         self!.PreStudyTextbox.placeholder = Studentprofile?.interests
         let ImageUrl = URL(string: Studentprofile!.photo)
         self!.ProfileImageView.kf.setImage(with: ImageUrl)
             self!.UpdateIndicator.isHidden = true
-        
+
         })
     }
     
     @IBAction func SaveButtonClicked(_ sender: Any) {
-        if (ProfileNameTextbox.text!.isEmpty == false || BioTextbox.text!.isEmpty == false || StudyTextbox.text!.isEmpty == false || CityTextbox.text!.isEmpty == false || PreStudyTextbox.text!.isEmpty == false) {
+        if (ProfileNameTextbox.text!.isEmpty == false || BioTextBox.text!.isEmpty == false || StudyTextbox.text!.isEmpty == false || CityTextbox.text!.isEmpty == false || PreStudyTextbox.text!.isEmpty == false) {
             
        
             
@@ -228,9 +239,9 @@ UINavigationControllerDelegate {
             ProfileNameTextbox.text = ""
             
         }
-        if self.BioTextbox.text != ""{
-            Studentprofile?.description = BioTextbox.text!
-            BioTextbox.text = ""
+        if self.BioTextBox.text != ""{
+            Studentprofile?.description = BioTextBox.text!
+            BioTextBox.text = ""
             
             
         }

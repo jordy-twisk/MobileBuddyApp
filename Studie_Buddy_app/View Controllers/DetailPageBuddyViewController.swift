@@ -21,11 +21,11 @@ class detailpagebuddyviewcontroller: UIViewController{
     @IBOutlet weak var StudyyearALabel: UILabel!
     @IBOutlet weak var PrestudyQLabel: UILabel!
     @IBOutlet weak var PrestudyALabel: UILabel!
-    
     @IBOutlet weak var InterestQLabel: UILabel!
     @IBOutlet weak var InterestALabel: UILabel!
     @IBOutlet weak var BioQLabel: UILabel!
-    @IBOutlet weak var BioALabel: UILabel!
+    @IBOutlet weak var BioALabel: UITextView!
+    //@IBOutlet weak var BioALabel: UILabel!
     @IBOutlet weak var ChooseBuddyButton: UIButton!
     
     
@@ -77,6 +77,8 @@ class detailpagebuddyviewcontroller: UIViewController{
         PrestudyALabel.text = degree
         InterestALabel.text = interests
         BioALabel.text = bio
+        BioALabel.isEditable = false
+        BioALabel.isSelectable = false
         
         
         ChooseBuddyButton.addTarget(self, action: #selector(ChooseThisbuddyCall), for: .touchUpInside)

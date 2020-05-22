@@ -139,35 +139,37 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
     
     func CheckIfBuddyExist(){
         ApiManager.getCoachForTutorant().responseData(completionHandler: { [weak self] (response) in
-            let jsonData = response.data!
-            let decoder = JSONDecoder()
-            let Coach = try? decoder.decode(Tutorants.self, from: jsonData)
-            if (Coach != nil){
-                ApiManager.getProfile(studentID: Coach!.coachid).responseData(completionHandler: { [weak self] (response) in
-//                    self!.UpdateIndicator.isHidden = false
-                    let jsonData = response.data!
-                    let decoder = JSONDecoder()
-                    let Coachprofile = try? decoder.decode(Student.self, from: jsonData)
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    let DetailBuddyPage = (storyboard.instantiateViewController(withIdentifier:"detailpagebuddyviewcontroller") as? detailpagebuddyviewcontroller)!
-                    if (Coachprofile != nil){
-                        DetailBuddyPage.photo = Coachprofile!.photo
-                        DetailBuddyPage.name = Coachprofile!.firstname
-                        DetailBuddyPage.study = Coachprofile!.study
-                        DetailBuddyPage.studyyear = String(Coachprofile!.studyyear)
-                        DetailBuddyPage.degree = Coachprofile!.degree
-                        DetailBuddyPage.interests = Coachprofile!.interests
-                        DetailBuddyPage.bio = Coachprofile!.description
-                        DetailBuddyPage.coachID = Coachprofile!.studentid
-                        DetailBuddyPage.ShowBackButton = false
-                    }
-                    
-                    self!.navigationController?.pushViewController(DetailBuddyPage, animated: true)
-                    
-//                    self!.UpdateIndicator.isHidden = true
-                    
-                    })
+            let jsonData = response.data
+            if jsonData != nil{
+                let decoder = JSONDecoder()
+                            let Coach = try? decoder.decode(Tutorants.self, from: jsonData!)
+                            if (Coach != nil){
+                                ApiManager.getProfile(studentID: Coach!.coachid).responseData(completionHandler: { [weak self] (response) in
+                //                    self!.UpdateIndicator.isHidden = false
+                                    let jsonData = response.data!
+                                    let decoder = JSONDecoder()
+                                    let Coachprofile = try? decoder.decode(Student.self, from: jsonData)
+                                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                                    let DetailBuddyPage = (storyboard.instantiateViewController(withIdentifier:"detailpagebuddyviewcontroller") as? detailpagebuddyviewcontroller)!
+                                    if (Coachprofile != nil){
+                                        DetailBuddyPage.photo = Coachprofile!.photo
+                                        DetailBuddyPage.name = Coachprofile!.firstname
+                                        DetailBuddyPage.study = Coachprofile!.study
+                                        DetailBuddyPage.studyyear = String(Coachprofile!.studyyear)
+                                        DetailBuddyPage.degree = Coachprofile!.degree
+                                        DetailBuddyPage.interests = Coachprofile!.interests
+                                        DetailBuddyPage.bio = Coachprofile!.description
+                                        DetailBuddyPage.coachID = Coachprofile!.studentid
+                                        DetailBuddyPage.ShowBackButton = false
+                                    }
+                                    
+                                    self!.navigationController?.pushViewController(DetailBuddyPage, animated: true)
+                                    
+                //                    self!.UpdateIndicator.isHidden = true
+                 
+                                    })
                 }
+            }
         })
         
     }

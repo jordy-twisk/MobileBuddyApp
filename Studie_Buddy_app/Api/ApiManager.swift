@@ -13,6 +13,9 @@ pod 'Fabric'
 pod 'SwiftyJSON'
 pod 'SAConfettiView'
 
+ 
+ //app beta versie testflight ios
+ 
 */
 
 import Foundation
@@ -39,6 +42,26 @@ final class ApiManager{
         print("parameter is: ", parameters)
         return AF.request(BaseURL + "api/coachTutorant/tutorant/\(authID!)", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
     }
+    
+    static func CheckIfUserIsCoach() -> DataRequest{
+        let authToken = KeychainWrapper.standard.string(forKey: "AuthToken")
+        let authID = KeychainWrapper.standard.string(forKey: "StudentID")
+        let headers: HTTPHeaders = [
+        "AuthToken": "\(authToken!)",
+        "AuthID": "\(authID!)"
+        ]
+        return AF.request(BaseURL + "api/profile/coach/\(authID!)", method: .get, headers: headers)
+    }
+    static func CheckIfUserIsTutorant() -> DataRequest{
+        let authToken = KeychainWrapper.standard.string(forKey: "AuthToken")
+        let authID = KeychainWrapper.standard.string(forKey: "StudentID")
+        let headers: HTTPHeaders = [
+        "AuthToken": "\(authToken!)",
+        "AuthID": "\(authID!)"
+        ]
+        return AF.request(BaseURL + "api/profile/tutorant/\(authID!)", method: .get, headers: headers)
+    }
+    
     static func getMessages(senderID: Int , receiverID: Int) -> DataRequest{
         let authToken = KeychainWrapper.standard.string(forKey: "AuthToken")
         let authID = KeychainWrapper.standard.string(forKey: "StudentID")

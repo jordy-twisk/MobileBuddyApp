@@ -57,18 +57,21 @@ class homeviewcontroller: UIViewController {
     
     func checkTutoranten(){
         ApiManager.getTutors(studentID: 31214).responseData(completionHandler: { [weak self] (response) in
-            let jsonData = response.data!
-            let decoder = JSONDecoder()
-            let tutorants = try? decoder.decode([Tutorants].self, from: jsonData)
-            let newtutor = NewNotifications(type: NSLocalizedString("newtutortype", comment: ""), payload: NSLocalizedString("newtutortext", comment: ""), created: Date())
-            
-            print("new tutors is:", tutorants!.count)
-            if numberOfTutorants < tutorants!.count{
-                newMessages = true
-                NewNotificationsMessages.append(newtutor)
-               // self!.NewTutorantMessage()
-                self!.TableView.reloadData()
+            let jsonData = response.data
+            if jsonData != nil {
+                let decoder = JSONDecoder()
+                let tutorants = try? decoder.decode([Tutorants].self, from: jsonData!)
+                let newtutor = NewNotifications(type: NSLocalizedString("newtutortype", comment: ""), payload: NSLocalizedString("newtutortext", comment: ""), created: Date())
+                
+                print("new tutors is:", tutorants!.count)
+                if numberOfTutorants < tutorants!.count{
+                    newMessages = true
+                    NewNotificationsMessages.append(newtutor)
+                   // self!.NewTutorantMessage()
+                    self!.TableView.reloadData()
+                }
             }
+            
             })
         
                 
