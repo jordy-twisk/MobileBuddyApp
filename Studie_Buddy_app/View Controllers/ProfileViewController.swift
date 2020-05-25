@@ -137,9 +137,11 @@ UINavigationControllerDelegate, UITextViewDelegate {
         print(UserDefaults.standard.dictionaryRepresentation().keys)
         UserDefaults.standard.set(0, forKey: "MessageAmount")
         UserDefaults.standard.set(0, forKey: "NumberOfTutoranten")
+        UserDefaults.standard.set(false, forKey: "LoggedIn")
         NewNotificationsMessages = []
         KeychainWrapper.standard.set("", forKey: "StudentID")
         KeychainWrapper.standard.set("", forKey: "AuthToken")
+        KeychainWrapper.standard.set("", forKey: "Password")
         newMessages = false
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "LoginPageViewController") as UIViewController
