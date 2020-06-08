@@ -121,7 +121,7 @@ class ViewController: UIViewController {
                     UserDefaults.standard.set(true, forKey: "UserIsCoach")
                 } else
                 {
-                    print(response.response?.statusCode)
+                    //print(response.response?.statusCode)
                     ApiManager.CheckIfUserIsTutorant().responseData(completionHandler: { [weak self] (responsetutorant) in
                     if responsetutorant.response?.statusCode == 200{
                         UserDefaults.standard.set(false, forKey: "UserIsCoach")

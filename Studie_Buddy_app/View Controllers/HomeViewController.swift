@@ -9,9 +9,13 @@
 import Foundation
 import UIKit
 import SAConfettiView
+import SwiftKeychainWrapper
 
 var newMessages: Bool = false
 var numberOfTutorants: Int = UserDefaults.standard.integer(forKey: "NumberOfTutoranten")
+var userIsCoach: Bool = false
+var tutorantenOfCoach: [Int] = []
+
 
 struct NewNotifications {
     var type: String
@@ -35,7 +39,7 @@ class homeviewcontroller: UIViewController {
     var turorants: [String] = []
     override func viewDidLoad() {
     super.viewDidLoad()
-
+        userIsCoach = UserDefaults.standard.bool(forKey: "UserIsCoach")
         self.TableView.delegate = self
         self.TableView.dataSource = self
         NavigationBar.title = NSLocalizedString("home", comment: "")
@@ -46,22 +50,47 @@ class homeviewcontroller: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.view.backgroundColor = .clear
         
+        if userIsCoach == true {
+            getTutoranten()
+            
+            
+        }else if userIsCoach == false{
+            getCoachID()
+        }
         
-        checknewmessages()
-        print("Number of tutorqnts is: ",numberOfTutorants)
-        checkTutoranten()
+        //checknewmessages()
+        //print("Number of tutorqnts is: ",numberOfTutorants)
         self.TableView.dataSource = self as UITableViewDataSource
         self.TableView.register(UINib(nibName: "HomeTableViewCell", bundle: nil), forCellReuseIdentifier: "HomeTableViewCell")
 
         }
     
-    func checkTutoranten(){
-        ApiManager.getTutors(studentID: 31214).responseData(completionHandler: { [weak self] (response) in
+    func getCoachID(){
+        ApiManager.getCoachForTutorant().responseData(completionHandler: { [weak self] (response) in
+            let jsonData = response.data
+            if jsonData != nil {
+                let decoder = JSONDecoder()
+                let CoachData = try? decoder.decode(Tutorants.self, from: jsonData!)
+                print("coachid is: ", CoachData!.coachid)
+                KeychainWrapper.standard.set(CoachData!.coachid, forKey: "CoachID")
+                self!.TableView.reloadData()
+                }
+            })
+        }
+    
+    
+    func getTutoranten(){
+        let studentID = Int(KeychainWrapper.standard.string(forKey: "StudentID")!)
+        ApiManager.getTutors(studentID: studentID!).responseData(completionHandler: { [weak self] (response) in
             let jsonData = response.data
             if jsonData != nil {
                 let decoder = JSONDecoder()
                 let tutorants = try? decoder.decode([Tutorants].self, from: jsonData!)
                 let newtutor = NewNotifications(type: NSLocalizedString("newtutortype", comment: ""), payload: NSLocalizedString("newtutortext", comment: ""), created: Date())
+                for item in tutorants!
+                {
+                    tutorantenOfCoach.append(item.tutorantid)
+                }
                 
                 print("new tutors is:", tutorants!.count)
                 if numberOfTutorants < tutorants!.count{

@@ -88,7 +88,7 @@ class detailpagebuddyviewcontroller: UIViewController{
         ApiManager.chooseBuddy(coachID: coachID).responseData(completionHandler: { [weak self] (response) in
         //let jsonData = response.data!
             
-            print("response http status code: ",response.response?.statusCode)
+            //print("response http status code: ",response.response?.statusCode)
             if response.response?.statusCode == 201{
                 KeychainWrapper.standard.set(self!.coachID, forKey: "CoachID")
 //                let storyboard = UIStoryboard(name: "Main", bundle: nil)

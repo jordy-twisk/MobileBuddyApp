@@ -142,6 +142,7 @@ UINavigationControllerDelegate, UITextViewDelegate {
         KeychainWrapper.standard.set("", forKey: "StudentID")
         KeychainWrapper.standard.set("", forKey: "AuthToken")
         KeychainWrapper.standard.set("", forKey: "Password")
+        KeychainWrapper.standard.set("", forKey: "CoachID")
         newMessages = false
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "LoginPageViewController") as UIViewController
@@ -210,7 +211,7 @@ UINavigationControllerDelegate, UITextViewDelegate {
     
     func Makeprofilecall(){
         let studentID = Int(KeychainWrapper.standard.string(forKey: "StudentID")!)
-        print(studentID)
+        //print(studentID)
         ApiManager.getProfile(studentID: studentID!).responseData(completionHandler: { [weak self] (response) in
             self!.UpdateIndicator.isHidden = false
         let jsonData = response.data!

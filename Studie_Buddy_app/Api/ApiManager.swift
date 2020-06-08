@@ -174,11 +174,11 @@ final class ApiManager{
     }
     
     static func SaveImage (ImageUrl: URL) -> DataRequest{
-        let ID = KeychainWrapper.standard.string(forKey: "StudentID")
+        let studentID = KeychainWrapper.standard.string(forKey: "StudentID")
         let parameters: [String : Any] = [
                         "key": "99f5ca23983d05472617629cd9834816",
                         "image": "\(ImageUrl)",
-                        "name": "\(ID)"
+                        "name": "\(studentID!)"
                ]
         return AF.request("https://api.imgbb.com/1/upload", method: .post, parameters: parameters)
     }

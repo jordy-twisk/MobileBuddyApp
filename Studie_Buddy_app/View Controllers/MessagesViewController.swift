@@ -18,13 +18,11 @@ var testarray: [Int] = [1,2,3,4,5]
 var dates: [String] = []
 var messagesNumber: [Int] = []
 var messagesPerDate: [Int] = []
-var userid: Int = 701
-var receivedfrom: Int = 710
 var firstload: Bool = true
-
 var shownMessages: Int = 0
 let userDefaults = UserDefaults.standard
 var ScrollToBottom = true
+var NewMessages = false
 
 
 class messagesviewcontroller: UIViewController {
@@ -35,6 +33,8 @@ class messagesviewcontroller: UIViewController {
     @IBOutlet weak var LoadingIndicator: UIActivityIndicatorView!
     @IBOutlet weak var MessagesTableView: UITableView!
     var ChatName: String = ""
+    var senderID: Int = 0
+    var receivedID: Int = 0
     
     var bottomconstraint: NSLayoutConstraint?
     override func viewDidLoad() {
@@ -55,6 +55,7 @@ class messagesviewcontroller: UIViewController {
         MessagesTableView.separatorStyle = .none
         LoadingIndicator.startAnimating()
         LoadingIndicator.isHidden = false
+        print("Senderid is:", senderID, "receiverID is: ", receivedID)
         MakeApiCall()
         //Makeprofilecall()
         SendButton.setTitle(NSLocalizedString("send", comment: ""), for: .normal)
@@ -105,7 +106,7 @@ class messagesviewcontroller: UIViewController {
         let message = textmessage!.data(using: .nonLossyASCII)
         let newMessage = String(data: message!, encoding: .utf8)
             print("new message is: ", newMessage!)
-        ApiManager.SendMessage(senderid: 701, payload: newMessage!, receiverid: 710).responseData(completionHandler: { (response) in
+        ApiManager.SendMessage(senderid: senderID, payload: newMessage!, receiverid: receivedID).responseData(completionHandler: { (response) in
            // let jsonData = response.data!
             //let decoder = JSONDecoder()
             //let sendresult = try? decoder.decode(Data.self, from: jsonData)
@@ -123,171 +124,99 @@ func MakeApiCall(){
     MessageArray = []
     var SSize = 0
     var RSize = 0
-    ApiManager.getMessages(senderID: 710 , receiverID: 701).responseData(completionHandler: { [weak self] (responseReceiver) in
-        let jsonData = responseReceiver.data!
-        let decoder = JSONDecoder()
-        let NewMessagesReceiver = try? decoder.decode([Messages].self, from: jsonData)
-        ApiManager.getMessages(senderID: 701 , receiverID: 710).responseData(completionHandler: { [weak self] (responseSender) in
-            let jsonData = responseSender.data!
+    var NewMessagesSender: [Messages] = []
+    var NewMessagesReceiver: [Messages] = []
+    ApiManager.getMessages(senderID: senderID , receiverID: receivedID).responseData(completionHandler: { [weak self] (responseReceiver) in
+        if responseReceiver.response?.statusCode == 200{
+            NewMessages = true
+            let jsonData = responseReceiver.data!
             let decoder = JSONDecoder()
-            let NewMessagesSender = try? decoder.decode([Messages].self, from: jsonData)
-            let totalMessages = (NewMessagesSender!.count + NewMessagesReceiver!.count)
-            print("total messages :",NewMessagesSender!.count, NewMessagesReceiver!.count)
-            UserDefaults.standard.set(totalMessages, forKey: "MessageAmount")
-            
-            
-            if (NewMessagesSender != nil && NewMessagesReceiver != nil){
-                var counter = 0
-                while counter < totalMessages{
-                    if SSize < NewMessagesSender!.count && RSize < NewMessagesReceiver!.count {
-                        if NewMessagesSender![SSize].messageid < NewMessagesReceiver![RSize].messageid {
-                            MessageArray.append(NewMessagesSender![SSize])
-                            //print(NewMessagesSender![SSize].messageid)
-                            print("Ssize is: ", SSize)
-                            if SSize < NewMessagesSender!.count{
-                            SSize = SSize + 1
-                            counter = counter + 1
-                            }
-                        
-                        }else if (NewMessagesSender![SSize].messageid > NewMessagesReceiver![RSize].messageid)// && (NewMessagesReceiver![RSize].messageid < NewMessagesSender![SSize + 1].messageid )  {
-                        {
-                            MessageArray.append(NewMessagesReceiver![RSize])
-                            //print(NewMessagesReceiver![RSize].messageid)
-                            print("Rsize is : ", RSize)
-                            if RSize < NewMessagesReceiver!.count{
-                            RSize = RSize + 1
-                            counter = counter + 1
-                            }
-                        
-                        }
-                    }
-                    else if SSize < NewMessagesSender!.count {
-                        MessageArray.append(NewMessagesSender![SSize])
-                        //print(NewMessagesSender![SSize].messageid)
-                        print("Ssize is: ", SSize)
-                        if SSize < NewMessagesSender!.count{
-                        SSize = SSize + 1
-                        counter = counter + 1
-                        }
-                        
-                    }
-                    else if RSize < NewMessagesReceiver!.count {
-                        MessageArray.append(NewMessagesReceiver![RSize])
-                        //print(NewMessagesReceiver![RSize].messageid)
-                        print("Rsize is : ", RSize)
-                        if RSize < NewMessagesReceiver!.count{
-                        RSize = RSize + 1
-                        counter = counter + 1
-                        }
-                            
-                    }
-                    else{
-                        print("Ssize : ", SSize, "Rsize : ", RSize)
-                        break
-                    }
+            NewMessagesReceiver = try! decoder.decode([Messages].self, from: jsonData)
+        }
+            ApiManager.getMessages(senderID: self!.receivedID , receiverID: self!.senderID).responseData(completionHandler: { [weak self] (responseSender) in
+                if responseSender.response?.statusCode == 200{
+                    NewMessages = true
+                    let jsonData = responseSender.data!
+                    let decoder = JSONDecoder()
+                    NewMessagesSender = try! decoder.decode([Messages].self, from: jsonData)
+                }
                 
-                        
-                    /*}else if (NewMessagesSender![SSize].messageid > NewMessagesReceiver![RSize].messageid)
-                    {
-                        MessageArray.append(NewMessagesReceiver![RSize])
-                        print(NewMessagesReceiver![RSize].messageid)
-                        RSize = RSize + 1
-                    }
-                         */
-                        
-                   
-                }
-                /*
-                if SSize < NewMessagesSender!.count{
-                MessageArray.append(NewMessagesSender![SSize])
-                print(NewMessagesSender![SSize].messageid)
-                counter = counter + 1
-                SSize = SSize + 1
-                }
-                */
-            
-           /*
-            if (NewMessagesSender != nil && NewMessagesReceiver != nil){
-                while SSize < NewMessagesSender!.count {
-                    while RSize < NewMessagesReceiver!.count {
-                        if SSize < NewMessagesSender!.count {
-                            if NewMessagesSender![SSize].messageid < NewMessagesReceiver![RSize].messageid {
-                                MessageArray.append(NewMessagesSender![SSize])
+                let totalMessages = (NewMessagesSender.count + NewMessagesReceiver.count)
+                print("total messages :",NewMessagesSender.count, NewMessagesReceiver.count)
+                UserDefaults.standard.set(totalMessages, forKey: "MessageAmount")
+                    
+                    
+                    if (NewMessagesSender != nil && NewMessagesReceiver != nil){
+                        var counter = 0
+                        while counter < totalMessages{
+                            if SSize < NewMessagesSender.count && RSize < NewMessagesReceiver.count {
+                                if NewMessagesSender[SSize].messageid < NewMessagesReceiver[RSize].messageid {
+                                    MessageArray.append(NewMessagesSender[SSize])
+                                    //print(NewMessagesSender![SSize].messageid)
+                                    print("Ssize is: ", SSize)
+                                    if SSize < NewMessagesSender.count{
+                                    SSize = SSize + 1
+                                    counter = counter + 1
+                                    }
+                                
+                                }else if (NewMessagesSender[SSize].messageid > NewMessagesReceiver[RSize].messageid)// && (NewMessagesReceiver![RSize].messageid < NewMessagesSender![SSize + 1].messageid )  {
+                                {
+                                    MessageArray.append(NewMessagesReceiver[RSize])
+                                    //print(NewMessagesReceiver![RSize].messageid)
+                                    print("Rsize is : ", RSize)
+                                    if RSize < NewMessagesReceiver.count{
+                                    RSize = RSize + 1
+                                    counter = counter + 1
+                                    }
+                                
+                                }
+                            }
+                            else if SSize < NewMessagesSender.count {
+                                MessageArray.append(NewMessagesSender[SSize])
                                 //print(NewMessagesSender![SSize].messageid)
                                 print("Ssize is: ", SSize)
-                                if SSize < NewMessagesSender!.count{
+                                if SSize < NewMessagesSender.count{
                                 SSize = SSize + 1
+                                counter = counter + 1
                                 }
-                            
-                            }else if (NewMessagesSender![SSize].messageid > NewMessagesReceiver![RSize].messageid)// && (NewMessagesReceiver![RSize].messageid < NewMessagesSender![SSize + 1].messageid )  {
-                            {
-                                MessageArray.append(NewMessagesReceiver![RSize])
+                                
+                            }
+                            else if RSize < NewMessagesReceiver.count {
+                                MessageArray.append(NewMessagesReceiver[RSize])
                                 //print(NewMessagesReceiver![RSize].messageid)
                                 print("Rsize is : ", RSize)
-                                if RSize < NewMessagesReceiver!.count{
+                                if RSize < NewMessagesReceiver.count{
                                 RSize = RSize + 1
+                                counter = counter + 1
                                 }
-                            
+                                    
                             }
-                        /*}else if (NewMessagesSender![SSize].messageid > NewMessagesReceiver![RSize].messageid)
-                        {
-                            MessageArray.append(NewMessagesReceiver![RSize])
-                            print(NewMessagesReceiver![RSize].messageid)
-                            RSize = RSize + 1
-                        }
-                             */                 }
-                       else if RSize < NewMessagesReceiver!.count{
-                            if (NewMessagesSender![SSize].messageid > NewMessagesReceiver![RSize].messageid)// && (NewMessagesReceiver![RSize].messageid < NewMessagesSender![SSize + 1].messageid )  {
-                            {
-                                MessageArray.append(NewMessagesReceiver![RSize])
-                                //print(NewMessagesReceiver![RSize].messageid)
-                                print("Rsize is : ", RSize)
-                                if RSize < NewMessagesReceiver!.count{
-                                RSize = RSize + 1
-                                }
-                            
+                            else{
+                                print("Ssize : ", SSize, "Rsize : ", RSize)
+                                break
                             }
+                        
                         }
-                        else{
-                            break
-                        }
+                        
+                    self!.LoadingIndicator.stopAnimating()
+                    self!.LoadingIndicator.isHidden = true
+                    self!.MessagesTableView.reloadData()
+                        
+                    if ScrollToBottom == true && NewMessages == true{
+                        
+                    let lastSection: Int = (self!.MessagesTableView.numberOfSections - 1)
+                    let lastRow: Int = (self!.MessagesTableView.numberOfRows(inSection: lastSection) - 1)
+                    print("lastrow is: \(lastRow), lastsection is: \(lastSection)")
+                    self!.MessagesTableView.scrollToRow(at: IndexPath(row: lastRow, section: lastSection), at: .bottom, animated: false)
+                
                     }
-                    if SSize < NewMessagesSender!.count{
-                    MessageArray.append(NewMessagesSender![SSize])
-                    print(NewMessagesSender![SSize].messageid)
-                    
-                    SSize = SSize + 1
-                    }
-                    
-                }
- 
-*/
-           // UserDefaults.standard.set(MessageArray.count, forKey: "MessageAmount")
-            //UserDefaults.standard.set(MessageArray[MessageArray.count - 1], forKey: "LastMessage")
-                
-            self!.LoadingIndicator.stopAnimating()
-            self!.LoadingIndicator.isHidden = true
-            self!.MessagesTableView.reloadData()
-                
-            if ScrollToBottom == true {
-                
-            let lastSection: Int = (self!.MessagesTableView.numberOfSections - 1)
-            let lastRow: Int = (self!.MessagesTableView.numberOfRows(inSection: lastSection) - 1)
-            print("lastrow is: \(lastRow), lastsection is: \(lastSection)")
-            self!.MessagesTableView.scrollToRow(at: IndexPath(row: lastRow, section: lastSection), at: .bottom, animated: false)
-        
-            }
-            //UserDefaults.standard.set(MessageArray, forKey: "Messages")
-            //let encodedData: Data = try! NSKeyedArchiver.archivedData(withRootObject: MessageArray, requiringSecureCoding: true)
-            //userDefaults.set(encodedData, forKey: "Messages")
-            //userDefaults.synchronize()
-            
-            //let name = UserDefaults.standard.string(forKey: "Messages")
-        }else {print("messages is nul")}
+                   
+                }else {print("messages is nul")}
+            })
+    })
 
-    })})
-    
     }
+    
 }
 extension messagesviewcontroller: UITableViewDataSource, UITableViewDelegate{
     
@@ -306,7 +235,7 @@ extension messagesviewcontroller: UITableViewDataSource, UITableViewDelegate{
         dates.insert("\(date)", at: numberofdates)
         messagesNumber.insert(0, at: numberofdates)
         numberofdates = numberofdates + 1
-        for i in 1...(sizeofarray - 1) {
+        for i in 0...(sizeofarray - 1) {
             if MessageArray[i].created != date{
                 date = MessageArray[i].created
                 dates.insert("\(date)", at: numberofdates)
@@ -385,9 +314,9 @@ extension messagesviewcontroller: UITableViewDataSource, UITableViewDelegate{
             for: indexPath) as! MessageTableViewCell
             let cellnumber = indexPath.row + messagesNumber[indexPath.section]
             if cellnumber < MessageArray.count {
-                if userid == MessageArray[cellnumber].senderid {
+                if senderID == MessageArray[cellnumber].senderid {
                     cell.incomming = false
-                }else if receivedfrom == MessageArray[cellnumber].senderid {
+                }else if receivedID == MessageArray[cellnumber].senderid {
                     cell.incomming = true
                 }
                 let message = MessageArray[cellnumber].payload

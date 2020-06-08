@@ -37,8 +37,33 @@ class inboxviewcontroller: UIViewController {
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.view.backgroundColor = .clear
-        loadnewtutorants()
-        CheckLatestMessage()
+        
+        if userIsCoach == true{
+            if tutorantenOfCoach.count > 0{
+                print(tutorantenOfCoach)
+                for item in tutorantenOfCoach
+                {
+                    let studentID = Int(KeychainWrapper.standard.string(forKey: "StudentID")!)
+                    CheckLatestMessage(tutorID: tutorantenOfCoach[item], coachID: studentID!)
+                }
+            }else {
+                print("No matches yet...")
+            }
+        }else if userIsCoach == false{
+            let coachID = KeychainWrapper.standard.integer(forKey: "CoachID")
+            print(coachID)
+            if coachID != nil{
+                let studentID = Int(KeychainWrapper.standard.string(forKey: "StudentID")!)
+                CheckLatestMessage(tutorID: studentID!, coachID: coachID!)
+            }
+            else
+            {
+                print("No matches yet...")
+            }
+            
+        }
+        loadnewChats()
+        
         
         InboxTableView.separatorStyle = .none
         //MakeApiCall()
@@ -47,72 +72,101 @@ class inboxviewcontroller: UIViewController {
     }
 
 
-func loadnewtutorants(){
+func loadnewChats(){
     tutorantenProfiles = []
+    let studentID = Int(KeychainWrapper.standard.string(forKey: "StudentID")!)
     var indexnumber = 0
-    ApiManager.getTutors(studentID: 31214).responseData(completionHandler: { [weak self] (response) in
+    if userIsCoach == true{
+        ApiManager.getTutors(studentID: studentID!).responseData(completionHandler: { [weak self] (response) in
 
-        let jsonData = response.data
-        if jsonData != nil{
-            let decoder = JSONDecoder()
-            let tutorants = try? decoder.decode([Tutorants].self, from: jsonData!)
-            if tutorants != nil {
-                for item in tutorants!{
-                    tutoranten.append(item)
-                    print(item.tutorantid)
-                }
-                for i in 0...tutoranten.count - 1  {
-                  
+            let jsonData = response.data
+            if jsonData != nil{
+                let decoder = JSONDecoder()
+                let tutorants = try? decoder.decode([Tutorants].self, from: jsonData!)
+                if tutorants != nil {
+                    for item in tutorants!{
+                        tutoranten.append(item)
+                        print(item.tutorantid)
+                    }
+                    for i in 0...tutoranten.count - 1  {
+                      
 
-                    ApiManager.getProfile(studentID: tutoranten[i].tutorantid).responseData(completionHandler: { [weak self] (response) in
-                    let jsonData = response.data!
-                    let decoder = JSONDecoder()
-                    Studentprofile = try? decoder.decode(Student.self, from: jsonData)
-                       // print(Studentprofile!.firstname)
-                    if indexnumber < UserDefaults.standard.integer(forKey: "NumberOfTutoranten") || UserDefaults.standard.integer(forKey: "NumberOfTutoranten") == 0 {
-                    tutorantenProfiles.insert(Studentprofile!, at: indexnumber)
-                        indexnumber = indexnumber + 1
-                        }
-                        //print("count is:",tutorantenProfiles.count)
-                            self!.InboxTableView.reloadData()
-                        UserDefaults.standard.set(tutorantenProfiles.count, forKey: "NumberOfTutoranten")
-                    })
+                        ApiManager.getProfile(studentID: tutoranten[i].tutorantid).responseData(completionHandler: { [weak self] (response) in
+                        let jsonData = response.data!
+                        let decoder = JSONDecoder()
+                        Studentprofile = try? decoder.decode(Student.self, from: jsonData)
+                           // print(Studentprofile!.firstname)
+                        if indexnumber < UserDefaults.standard.integer(forKey: "NumberOfTutoranten") || UserDefaults.standard.integer(forKey: "NumberOfTutoranten") == 0 {
+                        tutorantenProfiles.insert(Studentprofile!, at: indexnumber)
+                            indexnumber = indexnumber + 1
+                            }
+                            //print("count is:",tutorantenProfiles.count)
+                                self!.InboxTableView.reloadData()
+                            UserDefaults.standard.set(tutorantenProfiles.count, forKey: "NumberOfTutoranten")
+                        })
+                        
+                    }
+                    self?.InboxTableView.reloadData()
                     
                 }
-                self?.InboxTableView.reloadData()
-                
             }
-        }
-        
+            
+            })
+    }else
+    {
+        let coachID = KeychainWrapper.standard.integer(forKey: "CoachID")
+        ApiManager.getProfile(studentID: coachID!).responseData(completionHandler: { [weak self] (response) in
+            let jsonData = response.data!
+            let decoder = JSONDecoder()
+            Studentprofile = try? decoder.decode(Student.self, from: jsonData)
+            tutorantenProfiles.insert(Studentprofile!, at: indexnumber)
+            self!.InboxTableView.reloadData()
+            UserDefaults.standard.set(tutorantenProfiles.count, forKey: "NumberOfTutoranten")
         })
+        self.InboxTableView.reloadData()
+    }
+    
     
     }
     
-    func CheckLatestMessage(){
-    ApiManager.getMessages(senderID: 710 , receiverID: 701).responseData(completionHandler: { [weak self] (responseReceiver) in
-        let jsonData = responseReceiver.data!
-        let decoder = JSONDecoder()
-        let NewMessagesReceiver = try? decoder.decode([Messages].self, from: jsonData)
-        ApiManager.getMessages(senderID: 701 , receiverID: 710).responseData(completionHandler: { [weak self] (responseSender) in
-            let jsonData = responseSender.data!
+    func CheckLatestMessage(tutorID: Int, coachID: Int){
+        var NewChat = true
+        var NewMessagesReceiver: [Messages] = []
+    ApiManager.getMessages(senderID: tutorID , receiverID: coachID).responseData(completionHandler: { [weak self] (responseReceiver) in
+        print(responseReceiver.response?.statusCode)
+        if responseReceiver.response?.statusCode == 201{
+            NewChat = false
+            let jsonData = responseReceiver.data!
             let decoder = JSONDecoder()
-            let NewMessagesSender = try? decoder.decode([Messages].self, from: jsonData)
-            let size1 = NewMessagesSender!.count - 1
-            let size2 = NewMessagesReceiver!.count - 1
-            totalNewMessages = (NewMessagesReceiver!.count + NewMessagesSender!.count)
-            if NewMessagesSender![size1].messageid < NewMessagesReceiver![size2].messageid {
-                LatestMessage = NewMessagesReceiver![size2].payload
-                latestMessageDate = NewMessagesReceiver![size2].created
-            }else
-            {
-                LatestMessage = NewMessagesSender![size1].payload
-                latestMessageDate = NewMessagesSender![size1].created
-                
+            NewMessagesReceiver = try! decoder.decode([Messages].self, from: jsonData)
+        }
+        ApiManager.getMessages(senderID: coachID , receiverID: tutorID).responseData(completionHandler: { [weak self] (responseSender) in
+            print(responseReceiver.response?.statusCode)
+            if responseReceiver.response?.statusCode == 201{
+                NewChat = false
+                let jsonData = responseSender.data!
+                let decoder = JSONDecoder()
+                let NewMessagesSender = try? decoder.decode([Messages].self, from: jsonData)
+                let size1 = NewMessagesSender!.count - 1
+                let size2 = NewMessagesReceiver.count - 1
+                totalNewMessages = (NewMessagesReceiver.count + NewMessagesSender!.count)
+                if NewMessagesSender![size1].messageid < NewMessagesReceiver[size2].messageid {
+                    LatestMessage = NewMessagesReceiver[size2].payload
+                    latestMessageDate = NewMessagesReceiver[size2].created
+                }else
+                {
+                    LatestMessage = NewMessagesSender![size1].payload
+                    latestMessageDate = NewMessagesSender![size1].created
+                    
+                }
+                self?.InboxTableView.reloadData()
             }
-            self?.InboxTableView.reloadData()
         })
     })
     
+        if NewChat == true{
+            LatestMessage = NSLocalizedString("newchat", comment: "")
+        }
     }
  
 }
@@ -120,7 +174,7 @@ func loadnewtutorants(){
 extension inboxviewcontroller: UITableViewDataSource, UITableViewDelegate{
     
         func tableView(_ TableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            print(tutorantenProfiles.count)
+            print("tutoranten profile count is: ", tutorantenProfiles.count)
             return  tutorantenProfiles.count
         }
     
@@ -133,6 +187,13 @@ extension inboxviewcontroller: UITableViewDataSource, UITableViewDelegate{
             print(indexPath)
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "messagesviewcontroller") as! messagesviewcontroller
+            if userIsCoach == true {
+                vc.senderID = Int(KeychainWrapper.standard.string(forKey: "StudentID")!)!
+                vc.receivedID = tutorantenOfCoach[indexPath.row]
+            }else{
+                vc.senderID = Int(KeychainWrapper.standard.string(forKey: "StudentID")!)!
+                vc.receivedID = KeychainWrapper.standard.integer(forKey: "CoachID")!
+            }
             vc.ChatName = tutorantenProfiles[indexPath.row].firstname
             navigationController?.pushViewController(vc, animated: true)
             
