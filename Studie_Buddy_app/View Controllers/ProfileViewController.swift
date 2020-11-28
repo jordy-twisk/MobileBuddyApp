@@ -212,23 +212,41 @@ UINavigationControllerDelegate, UITextViewDelegate {
     func Makeprofilecall(){
         let studentID = Int(KeychainWrapper.standard.string(forKey: "StudentID")!)
         //print(studentID)
+     
+        
+        //---------------------API NOT WORKING---------------------
+        self.ProfileNameTextbox.placeholder =  KeychainWrapper.standard.string(forKey: "Name")
+        //BioPlaceholder =  KeychainWrapper.standard.string(forKey: "Bio")
+        self.BioTextBox.text =  KeychainWrapper.standard.string(forKey: "Bio")
+        self.BioTextBox.textColor = .lightGray
+        self.StudyTextbox.placeholder =  KeychainWrapper.standard.string(forKey: "Study")
+        self.CityTextbox.placeholder =  KeychainWrapper.standard.string(forKey: "Degree")
+        self.PreStudyTextbox.placeholder =  KeychainWrapper.standard.string(forKey: "Interests")
+        if (KeychainWrapper.standard.string(forKey: "Photo") != "") {
+            let ImageUrl = URL(string:  KeychainWrapper.standard.string(forKey: "Photo")!)
+            self.ProfileImageView.kf.setImage(with: ImageUrl)
+        }
+        //self.UpdateIndicator.isHidden = true
+        /*-----------------------API CALL--------------------------
         ApiManager.getProfile(studentID: studentID!).responseData(completionHandler: { [weak self] (response) in
             self!.UpdateIndicator.isHidden = false
-        let jsonData = response.data!
-        let decoder = JSONDecoder()
-        Studentprofile = try? decoder.decode(Student.self, from: jsonData)
-        self!.ProfileNameTextbox.placeholder = Studentprofile?.firstname
-        BioPlaceholder = Studentprofile!.description
-        self!.BioTextBox.text = Studentprofile?.description
-        self!.BioTextBox.textColor = .lightGray
-        self!.StudyTextbox.placeholder = Studentprofile?.study
-        self!.CityTextbox.placeholder = Studentprofile?.degree
-        self!.PreStudyTextbox.placeholder = Studentprofile?.interests
-        let ImageUrl = URL(string: Studentprofile!.photo)
-        self!.ProfileImageView.kf.setImage(with: ImageUrl)
+            let jsonData = response.data!
+            let decoder = JSONDecoder()
+            Studentprofile = try? decoder.decode(Student.self, from: jsonData)
+            self!.ProfileNameTextbox.placeholder = Studentprofile?.firstname
+            BioPlaceholder = Studentprofile!.description
+            self!.BioTextBox.text = Studentprofile?.description
+            self!.BioTextBox.textColor = .lightGray
+            self!.StudyTextbox.placeholder = Studentprofile?.study
+            self!.CityTextbox.placeholder = Studentprofile?.degree
+            self!.PreStudyTextbox.placeholder = Studentprofile?.interests
+            let ImageUrl = URL(string: Studentprofile!.photo)
+            self!.ProfileImageView.kf.setImage(with: ImageUrl)
             self!.UpdateIndicator.isHidden = true
 
         })
+ 
+        */
     }
     
     @IBAction func SaveButtonClicked(_ sender: Any) {

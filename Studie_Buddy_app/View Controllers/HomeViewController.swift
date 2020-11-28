@@ -51,11 +51,11 @@ class homeviewcontroller: UIViewController {
         self.navigationController?.view.backgroundColor = .clear
         
         if userIsCoach == true {
-            getTutoranten()
+           // getTutoranten()
             
             
         }else if userIsCoach == false{
-            getCoachID()
+            //getCoachID()
         }
         
         //checknewmessages()

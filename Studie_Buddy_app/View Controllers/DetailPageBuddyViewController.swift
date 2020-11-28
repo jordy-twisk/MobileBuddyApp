@@ -45,7 +45,6 @@ class detailpagebuddyviewcontroller: UIViewController{
             navigationController?.isNavigationBarHidden = true
             ChooseBuddyButton.isHidden = true
         }
-        
         ChooseBuddyButton.tintColor = .InhollandPink
         //        print("screen width is: ", screenWidth)
                 
