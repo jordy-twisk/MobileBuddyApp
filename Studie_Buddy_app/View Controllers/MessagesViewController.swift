@@ -12,6 +12,60 @@ import Kingfisher
 import Alamofire
 //import SwiftyJSON
 
+//-----------API NOT WORKING --------------
+class NewMessagesArray: Equatable, Hashable{
+    static func == (lhs: NewMessagesArray, rhs: NewMessagesArray) -> Bool {
+        return lhs.messageid == rhs.messageid && lhs.type == rhs.type && lhs.payload == rhs.payload && lhs.created == rhs.created && lhs.lastmodified == rhs.lastmodified && lhs.senderid == rhs.senderid && lhs.receiverid == rhs.receiverid
+    }
+        var messageid: Int
+        var type: String
+        var payload: String
+        var created: String
+        var lastmodified: String
+        var senderid: Int
+        var receiverid: Int
+    
+    init(messageid: Int, type: String, payload: String, created: String, lastmodified: String, senderid: Int, receiverid: Int) {
+            self.messageid = messageid
+            self.type = type
+            self.payload = payload
+            self.created = created
+            self.lastmodified = lastmodified
+            self.senderid = senderid
+            self.receiverid = receiverid
+        }
+
+    var hashValue: Int {
+            get {
+                return messageid.hashValue + type.hashValue + payload.hashValue + created.hashValue + lastmodified.hashValue + senderid.hashValue + receiverid.hashValue
+            }
+        }
+}
+
+class ChatsArray: Equatable, Hashable{
+    static func == (lhs: ChatsArray, rhs: ChatsArray) -> Bool {
+        return lhs.studentID == rhs.studentID && lhs.coachID == rhs.coachID && lhs.messages == rhs.messages
+    }
+    
+    var studentID: String
+    var coachID: String
+    var messages: [NewMessagesArray]
+    
+    init(studentID: String, coachID: String, messages: [NewMessagesArray]) {
+            self.studentID = studentID
+            self.coachID = coachID
+            self.messages = messages
+        }
+
+    var hashValue: Int {
+            get {
+                return studentID.hashValue + coachID.hashValue + messages.hashValue
+            }
+        }
+}
+
+
+
 var MessageArray: [Messages] = []
 
 var testarray: [Int] = [1,2,3,4,5]

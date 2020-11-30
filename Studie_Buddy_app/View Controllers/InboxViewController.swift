@@ -12,12 +12,62 @@ import Kingfisher
 import Alamofire
 import SwiftKeychainWrapper
 
+/* --------extra might not needed----------------
+class CoachConnection: Equatable, Hashable{
+    static func == (lhs: CoachConnection, rhs: CoachConnection) -> Bool {
+        return lhs.studentID == rhs.studentID && lhs.coachID == rhs.coachID
+    }
+    
+    var studentID: String
+    var coachID: String
+    
+    init(studentID: String, coachID: String) {
+            self.studentID = studentID
+            self.coachID = coachID
+        }
+
+    var hashValue: Int {
+            get {
+                return studentID.hashValue + coachID.hashValue
+            }
+        }
+}
+*/
+class Chats: Equatable, Hashable{
+    static func == (lhs: Chats, rhs: Chats) -> Bool {
+        return lhs.studentID == rhs.studentID && lhs.name == rhs.name && lhs.profilePic == rhs.profilePic && lhs.latestMessage == rhs.latestMessage && lhs.date == rhs.date
+    }
+    
+    var studentID: String
+    var name: String
+    var profilePic: String
+    var latestMessage: String
+    var date: String
+    
+    init(studentID: String, name: String, profilePic: String, latestMessage: String, date: String) {
+            self.studentID = studentID
+            self.name = name
+            self.profilePic = profilePic
+            self.latestMessage = latestMessage
+            self.date = date
+        }
+
+    var hashValue: Int {
+            get {
+                return studentID.hashValue + name.hashValue + profilePic.hashValue + latestMessage.hashValue + date.hashValue
+            }
+        }
+}
+
+
 
 var tutoranten: [Tutorants] = []
 var tutorantenProfiles: [Student] = []
 var LatestMessage: String = ""
 var latestMessageDate: String = "2000-01-01T00:00:00+0000"
 var totalNewMessages = 0
+
+var incommingChats: [Chats] = []
 
 class inboxviewcontroller: UIViewController {
     
@@ -26,6 +76,9 @@ class inboxviewcontroller: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+       
+        
+        
         self.InboxTableView.dataSource = self
         self.InboxTableView.delegate = self
         self.InboxTableView.register(UINib(nibName: "InboxTableViewCell", bundle: nil), forCellReuseIdentifier: "InboxTableViewCell")
@@ -38,13 +91,20 @@ class inboxviewcontroller: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.view.backgroundColor = .clear
         
+        
+        
+        incommingChats.append(Chats(studentID: "570111", name: "Willem", profilePic: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Zijne_Majesteit_Koning_Willem-Alexander_met_koningsmantel_april_2013.jpeg/440px-Zijne_Majesteit_Koning_Willem-Alexander_met_koningsmantel_april_2013.jpeg", latestMessage: "Hoi hoe gaat het", date: "test"))
+        
+        
+        
+        
         if userIsCoach == true{
             if tutorantenOfCoach.count > 0{
                 print(tutorantenOfCoach)
                 for item in tutorantenOfCoach
                 {
                     let studentID = Int(KeychainWrapper.standard.string(forKey: "StudentID")!)
-                    CheckLatestMessage(tutorID: tutorantenOfCoach[item], coachID: studentID!)
+                    //CheckLatestMessage(tutorID: tutorantenOfCoach[item], coachID: studentID!)
                 }
             }else {
                 print("No matches yet...")
@@ -54,7 +114,7 @@ class inboxviewcontroller: UIViewController {
             print(coachID)
             if coachID != nil{
                 let studentID = Int(KeychainWrapper.standard.string(forKey: "StudentID")!)
-                CheckLatestMessage(tutorID: studentID!, coachID: coachID!)
+                //CheckLatestMessage(tutorID: studentID!, coachID: coachID!)
             }
             else
             {
@@ -73,6 +133,8 @@ class inboxviewcontroller: UIViewController {
 
 
 func loadnewChats(){
+    
+    /*
     tutorantenProfiles = []
     let studentID = Int(KeychainWrapper.standard.string(forKey: "StudentID")!)
     var indexnumber = 0
@@ -126,7 +188,7 @@ func loadnewChats(){
         self.InboxTableView.reloadData()
     }
     
-    
+    */
     }
     
     func CheckLatestMessage(tutorID: Int, coachID: Int){
@@ -175,7 +237,9 @@ extension inboxviewcontroller: UITableViewDataSource, UITableViewDelegate{
     
         func tableView(_ TableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             print("tutoranten profile count is: ", tutorantenProfiles.count)
-            return  tutorantenProfiles.count
+            
+            return incommingChats.count
+            //return  tutorantenProfiles.count
         }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -187,6 +251,12 @@ extension inboxviewcontroller: UITableViewDataSource, UITableViewDelegate{
             print(indexPath)
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "messagesviewcontroller") as! messagesviewcontroller
+            //-----------API NOT WORKING: ------------------
+            vc.senderID = Int(KeychainWrapper.standard.string(forKey: "StudentID")!)!
+            vc.receivedID = Int(incommingChats[indexPath.row].studentID)!
+            
+            //-----------API WORKING: ------------------
+            /*
             if userIsCoach == true {
                 vc.senderID = Int(KeychainWrapper.standard.string(forKey: "StudentID")!)!
                 vc.receivedID = tutorantenOfCoach[indexPath.row]
@@ -194,7 +264,12 @@ extension inboxviewcontroller: UITableViewDataSource, UITableViewDelegate{
                 vc.senderID = Int(KeychainWrapper.standard.string(forKey: "StudentID")!)!
                 vc.receivedID = KeychainWrapper.standard.integer(forKey: "CoachID")!
             }
-            vc.ChatName = tutorantenProfiles[indexPath.row].firstname
+ */
+            
+            //____________API NOT WORKING: -----------
+            vc.ChatName = incommingChats[indexPath.row].name
+            //-----------API WORKING: ------------------
+            //vc.ChatName = tutorantenProfiles[indexPath.row].firstname
             navigationController?.pushViewController(vc, animated: true)
             
             
@@ -203,10 +278,41 @@ extension inboxviewcontroller: UITableViewDataSource, UITableViewDelegate{
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: "InboxTableViewCell",
             for: indexPath) as! InboxTableViewCell
+            
+            /*--------------------API CALL NOT WORKING---------------*/
+            cell.InboxProfileImage.image = UIImage(named: "Profile")
+            //print("tutoranten profiles count is :", tutorantenProfiles.count)
+           
+            
+            if incommingChats.count != 0 {
+                cell.InboxChatName.text = incommingChats[indexPath.row].name
+            }
+            
+            /*let dateFormatter = DateFormatter()
+            dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+            dateFormatter.dateFormat = "HH:mm"
+            let MessDate = dateFormatter.date(from:latestMessageDate)
+            */
+            if (incommingChats[indexPath.row].profilePic != "") {
+                let ImageUrl = URL(string: incommingChats[indexPath.row].profilePic)
+                cell.InboxProfileImage.kf.setImage(with: ImageUrl)
+            }
+            
+            cell.InboxDateLabel.text = incommingChats[indexPath.row].date
+            
+            let message = incommingChats[indexPath.row].latestMessage
+            let trimmed = message.trimmingCharacters(in: .whitespacesAndNewlines)
+            let newMessage = trimmed.data(using: .utf8)
+            cell.InboxLatestChat.text = String(data: newMessage!, encoding: .nonLossyASCII)
+            
+            
+            /* ------------------API CALL WORKING ------------------
             cell.InboxProfileImage.image = UIImage(named: "Profile")
             print("tutoranten profiles count is :", tutorantenProfiles.count)
+           
+            
             if tutorantenProfiles.count != 0 {
-            cell.InboxChatName.text = tutorantenProfiles[indexPath.row].firstname
+                cell.InboxChatName.text = tutorantenProfiles[indexPath.row].firstname
             }
             
             /*let dateFormatter = DateFormatter()
@@ -228,7 +334,7 @@ extension inboxviewcontroller: UITableViewDataSource, UITableViewDelegate{
             let trimmed = message.trimmingCharacters(in: .whitespacesAndNewlines)
             let newMessage = trimmed.data(using: .utf8)
             cell.InboxLatestChat.text = String(data: newMessage!, encoding: .nonLossyASCII)
-            
+            */
             
             return cell
         }

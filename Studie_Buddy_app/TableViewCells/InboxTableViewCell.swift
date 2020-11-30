@@ -28,6 +28,7 @@ final class InboxTableViewCell: UITableViewCell{
     var leadingConstraint: NSLayoutConstraint!
     var trailingConstraint: NSLayoutConstraint!
     let bubblebackgroundview = UIView()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -37,6 +38,10 @@ final class InboxTableViewCell: UITableViewCell{
         InboxChatName.textColor = .black
         bubblebackgroundview.backgroundColor = .InhollandPink
         NewMessagesLabel.textColor = .black
+        
+        InboxProfileImage.contentMode = .scaleAspectFill
+        InboxProfileImage.layer.cornerRadius = InboxProfileImage.frame.size.width / 2
+        InboxProfileImage.clipsToBounds = true
         
         //NewMessagesLabel.text = "10"
             

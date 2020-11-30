@@ -101,23 +101,26 @@ UINavigationControllerDelegate, UITextViewDelegate {
         //let InhollandPink = UIColor(red: 235.0/255.0, green: 0.0/255.0, blue: 145.0/255.0, alpha: 1.0)
         ProfileImageView.image = UIImage(named: "Profile")
             //ProfileImageView.image = UIImage(named: "Profile")
+        ProfileImageView.contentMode = .scaleAspectFill
+        ProfileImageView.layer.cornerRadius = ProfileImageView.frame.size.width / 2
+        ProfileImageView.clipsToBounds = true
+        
         
         Makeprofilecall()
         NavigationBar.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Logout", comment: ""), style: .plain, target: self, action: #selector(LogUserOut))
         NavigationBar.leftBarButtonItem = nil
         
         
-        let viewtap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profileviewcontroller.dismissing))
-        view.addGestureRecognizer(viewtap)
+       // let viewtap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(profileviewcontroller.dismissing))
+       // view.addGestureRecognizer(viewtap)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil )
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil )
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil )
         
-        RegisterButton.backgroundColor = .gray
-        RegisterButton.tintColor = UIColor.white
-        RegisterButton.setTitle(NSLocalizedString("save", comment: ""), for: .normal)
-            
+       // RegisterButton.backgroundColor = .gray
+       // RegisterButton.tintColor = UIColor.white
+       // RegisterButton.setTitle(NSLocalizedString("save", comment: ""), for: .normal)
         self.navigationController!.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
         self.navigationController!.navigationBar.tintColor = #colorLiteral(red: 1, green: 0.99997437, blue: 0.9999912977, alpha: 1)
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "Header4"), for: .default)
@@ -143,6 +146,12 @@ UINavigationControllerDelegate, UITextViewDelegate {
         KeychainWrapper.standard.set("", forKey: "AuthToken")
         KeychainWrapper.standard.set("", forKey: "Password")
         KeychainWrapper.standard.set("", forKey: "CoachID")
+        KeychainWrapper.standard.set("", forKey: "Name")
+        KeychainWrapper.standard.set("", forKey: "Bio")
+        KeychainWrapper.standard.set("", forKey: "Study")
+        KeychainWrapper.standard.set("", forKey: "Degree")
+        KeychainWrapper.standard.set("", forKey: "Interests")
+        KeychainWrapper.standard.set("", forKey: "Photo")
         newMessages = false
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "LoginPageViewController") as UIViewController
@@ -210,13 +219,12 @@ UINavigationControllerDelegate, UITextViewDelegate {
     }
     
     func Makeprofilecall(){
-        let studentID = Int(KeychainWrapper.standard.string(forKey: "StudentID")!)
+        //let studentID = Int(KeychainWrapper.standard.string(forKey: "StudentID")!)
         //print(studentID)
      
         
         //---------------------API NOT WORKING---------------------
         self.ProfileNameTextbox.placeholder =  KeychainWrapper.standard.string(forKey: "Name")
-        //BioPlaceholder =  KeychainWrapper.standard.string(forKey: "Bio")
         self.BioTextBox.text =  KeychainWrapper.standard.string(forKey: "Bio")
         self.BioTextBox.textColor = .lightGray
         self.StudyTextbox.placeholder =  KeychainWrapper.standard.string(forKey: "Study")
@@ -287,16 +295,27 @@ UINavigationControllerDelegate, UITextViewDelegate {
         CityTextbox.placeholder = Studentprofile?.degree
         PreStudyTextbox.placeholder = Studentprofile?.interests
  */
+        //-----------------API CALL NOT WORKING-------
+            KeychainWrapper.standard.set(Studentprofile!.firstname, forKey: "Name")
+            KeychainWrapper.standard.set(Studentprofile!.description, forKey: "Bio")
+            KeychainWrapper.standard.set(Studentprofile!.study, forKey: "Study")
+            KeychainWrapper.standard.set(Studentprofile!.degree, forKey: "Degree")
+            KeychainWrapper.standard.set(Studentprofile!.interests, forKey: "Interests")
+            
+            Makeprofilecall()
         
+        //-----------------API CALL WORKING------------
+            /*
         ApiManager.updateProfile(student: Studentprofile!).responseData(completionHandler: { [weak self] (response) in
             self!.UpdateIndicator.isHidden = false
             self!.RegisterButton.backgroundColor = .gray
            // let jsonData = response.data!
             self!.Makeprofilecall()
         })
-        
+        */
         
         }
     }
 
 }
+

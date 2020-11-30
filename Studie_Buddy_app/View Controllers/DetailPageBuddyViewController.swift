@@ -25,9 +25,15 @@ class detailpagebuddyviewcontroller: UIViewController{
     @IBOutlet weak var InterestALabel: UILabel!
     @IBOutlet weak var BioQLabel: UILabel!
     @IBOutlet weak var BioALabel: UITextView!
+    
+    @IBOutlet weak var IconStudyImage: UIImageView!
+    @IBOutlet weak var IconStudyyearImage: UIImageView!
+    @IBOutlet weak var IconPreStudyImage: UIImageView!
+    @IBOutlet weak var IconInterestsImage: UIImageView!
+    @IBOutlet weak var IconBioImage: UIImageView!
+    
     //@IBOutlet weak var BioALabel: UILabel!
     @IBOutlet weak var ChooseBuddyButton: UIButton!
-    
     
     var name: String = ""
     var photo: String = ""
@@ -48,9 +54,29 @@ class detailpagebuddyviewcontroller: UIViewController{
         ChooseBuddyButton.tintColor = .InhollandPink
         //        print("screen width is: ", screenWidth)
                 
-        NameLabel.textAlignment = .center
-        NameLabel.font = .boldSystemFont(ofSize: 22)
+        NameLabel.font = .boldSystemFont(ofSize: 25)
+        
+        IconStudyImage.image = UIImage(systemName: "books.vertical")
+        IconStudyImage.tintColor = .InhollandPink
+        
+        IconStudyyearImage.image = UIImage(systemName: "calendar")
+        IconStudyyearImage.tintColor = .InhollandPink
+        
+        IconPreStudyImage.image = UIImage(systemName: "graduationcap.fill")
+        IconPreStudyImage.tintColor = .InhollandPink
+        
+        IconInterestsImage.image = UIImage(systemName: "exclamationmark.bubble.fill")
+        IconInterestsImage.tintColor = .InhollandPink
+        
+        
+        IconBioImage.image = UIImage(systemName: "person.crop.square.fill.and.at.rectangle")
+        IconBioImage.tintColor = .InhollandPink
+        
+        ProfileImageView.contentMode = .scaleAspectFill
+        ProfileImageView.layer.cornerRadius = ProfileImageView.frame.size.width / 2
+        ProfileImageView.clipsToBounds = true
                 
+        
         StudyQLabel.text = NSLocalizedString("study", comment: "")
         StudyQLabel.textColor = .InhollandPink
         StudyQLabel.font = .boldSystemFont(ofSize: 16)
@@ -66,6 +92,10 @@ class detailpagebuddyviewcontroller: UIViewController{
         BioQLabel.text = NSLocalizedString("bio", comment: "")
         BioQLabel.textColor = .InhollandPink
         BioQLabel.font = .boldSystemFont(ofSize: 16)
+        
+        ChooseBuddyButton.tintColor = .white
+        ChooseBuddyButton.backgroundColor = .InhollandPink
+        ChooseBuddyButton.layer.cornerRadius = ChooseBuddyButton.frame.size.height / 2
         ChooseBuddyButton.setTitle(NSLocalizedString("ChooseThisBuddy", comment: ""), for: .normal)
         //ProfileImageView.image = UIImage(named: "Profile")
         let ImageUrl = URL(string: photo)

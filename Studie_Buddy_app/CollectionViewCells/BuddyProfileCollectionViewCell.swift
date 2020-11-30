@@ -43,6 +43,10 @@ class BuddyProfileCollectionViewCell: UICollectionViewCell {
         NameLabel.font = .boldSystemFont(ofSize: 20)
         StudyLabel.textAlignment = .center
         
+        ProfileImageView.contentMode = .scaleAspectFill
+        ProfileImageView.layer.cornerRadius = ProfileImageView.frame.size.width / 2
+        ProfileImageView.clipsToBounds = true
+        
         
         LocationQLabel.text = NSLocalizedString("location", comment: "")
         LocationQLabel.textColor = .InhollandPink
@@ -71,3 +75,5 @@ class BuddyProfileCollectionViewCell: UICollectionViewCell {
 //        fatalError("init(coder:) has not been implemented")
 //    }
 }
+
+

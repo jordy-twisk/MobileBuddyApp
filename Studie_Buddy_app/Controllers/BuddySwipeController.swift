@@ -9,6 +9,41 @@
 import Foundation
 import UIKit
 
+class CoachesToChoose: Equatable, Hashable{
+    static func == (lhs: CoachesToChoose, rhs: CoachesToChoose) -> Bool {
+        return lhs.name == rhs.name && lhs.bio == rhs.bio && lhs.study == rhs.study && lhs.degree == rhs.degree && lhs.interests == rhs.interests && lhs.photo == rhs.photo && lhs.studyyear == rhs.studyyear && lhs.studentid == rhs.studentid
+    }
+    var name: String
+    var bio: String
+    var study: String
+    var degree: String
+    var interests: String
+    var photo: String
+    var studyyear: String
+    var studentid: String
+    
+    init(name: String, bio: String, study: String, degree: String, interests: String, photo: String, studyyear: String, studentid: String) {
+            self.name = name
+            self.bio = bio
+            self.study = study
+            self.degree = degree
+            self.interests = interests
+            self.photo = photo
+            self.studyyear = studyyear
+            self.studentid = studentid
+        }
+
+    var hashValue: Int {
+            get {
+                return name.hashValue + bio.hashValue + study.hashValue + degree.hashValue + degree.hashValue + interests.hashValue + photo.hashValue + studyyear.hashValue + studentid.hashValue
+            }
+        }
+}
+
+
+
+var NewCoashesArray: [CoachesToChoose] = []
+
 var CoachesArray: [Coaches] = []
 let Max_Pages: Int = 10
 
@@ -52,7 +87,10 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
     @objc private func handleNext() {
         let pagewidth = collectionView.frame.size.width
         let currentPage = collectionView.contentOffset.x / pagewidth
-        let nextIndex = min(Int(currentPage) + 1, CoachesArray.count - 1)
+        //------------------API WORKING: ----------------------------
+        //let nextIndex = min(Int(currentPage) + 1, CoachesArray.count - 1)
+        //------------------API NOT WORKING:-------------------------
+        let nextIndex = min(Int(currentPage) + 1, NewCoashesArray.count - 1)
         nextPage(nextIndex: nextIndex)
     }
     
@@ -60,7 +98,13 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
         let pagewidth = collectionView.frame.size.width
         let currentPage = collectionView.contentOffset.x / pagewidth
         let pageControlNumbersOfPages = PageControl.numberOfPages - 1
-        let datasourceCount = CGFloat(CoachesArray.count - 1)
+        
+        //------------------API WORKING: ----------------------------
+        //let datasourceCount = CGFloat(CoachesArray.count - 1)
+        //------------------API NOT WORKING: ----------------------------
+        let datasourceCount = CGFloat(NewCoashesArray.count - 1)
+        
+        
         let maxDotCountReduced = CGFloat(Max_Pages - 1)
         let indexPath = IndexPath(item: nextIndex, section: 0)
         if datasourceCount > maxDotCountReduced {
@@ -116,7 +160,21 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        CheckIfBuddyExist()
+        //------------API NOT WORKING:--------
+        NewCoashesArray.append(CoachesToChoose(name: "Demi", bio: "", study: "Economie", degree: "HBO", interests: "Sporten", photo: "https://image.shutterstock.com/image-photo/beautiful-african-american-woman-smiling-260nw-402466177.jpg", studyyear: "2", studentid: "570221"))
+        NewCoashesArray.append(CoachesToChoose(name: "Jason", bio: "", study: "Wiskunde", degree: "HBO", interests: "tennis", photo: "https://st.focusedcollection.com/14026668/i/650/focused_172100334-stock-photo-portrait-young-smiling-businessman-profile.jpg", studyyear: "2", studentid: "570222"))
+        NewCoashesArray.append(CoachesToChoose(name: "Erik", bio: "", study: "Informatica", degree: "HBO", interests: "Uitgaan", photo: "https://avatars2.githubusercontent.com/u/273509?s=400&u=66cc2a005c432ba73aebf3495314bf5db0d98d96&v=4", studyyear: "3", studentid: "570223"))
+        NewCoashesArray.append(CoachesToChoose(name: "Martijn", bio: "", study: "Scheikunde", degree: "HBO", interests: "Voetbal, uitgaan, gamen", photo: "https://images.pexels.com/photos/2589653/pexels-photo-2589653.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500", studyyear: "2", studentid: "570224"))
+        NewCoashesArray.append(CoachesToChoose(name: "Sarah", bio: "", study: "Sportkunde", degree: "HBO", interests: "badminton, netflix", photo: "https://t4.ftcdn.net/jpg/03/64/20/99/360_F_364209944_kGGn4OUmBU2ySzpgXILSlMKkcH43PCs0.jpg", studyyear: "3", studentid: "570225"))
+        NewCoashesArray.append(CoachesToChoose(name: "elise", bio: "", study: "Economie", degree: "HBO", interests: "Sporten, netflix", photo: "https://media.istockphoto.com/photos/close-up-portrait-of-brunette-woman-picture-id1154642632?k=6&m=1154642632&s=612x612&w=0&h=YTiNxRGupHJpMqQRu7Xh-U976mur5fp-cM_WEczpx04=", studyyear: "2", studentid: "570226"))
+        
+        
+        print(NewCoashesArray.count)
+        
+        //-------------------WOKRING API:
+        //CheckIfBuddyExist()
+        //-------------------API NOT WORKING :
+        //Checkifuserhasbuddy()
 
             NavigationBar.title = NSLocalizedString("ChooseBuddy", comment: "")
              self.navigationController!.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
@@ -130,10 +188,24 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
         collectionView?.register(UINib(nibName: "BuddyProfileCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "BuddyProfileCollectionViewCell")
         
         collectionView?.isPagingEnabled = true
+        //--------------------API WORKING
+        //MakeApiCall()
         
-        MakeApiCall()
         
+        ConfigControl()
         
+    }
+    
+    func ConfigControl(){
+        self.collectionView.reloadData()
+        if (NewCoashesArray.count > 10)
+               {
+                    self.PageControl.numberOfPages = 10
+               }else{
+                    self.PageControl.numberOfPages = NewCoashesArray.count
+               }
+       
+        self.setupBottomControls()
     }
     
     
@@ -221,18 +293,32 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-            return CoachesArray.count
+            //----------------WORKING API:
+            //return CoachesArray.count
+            //----------------API NOT WORKING:
+        return NewCoashesArray.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BuddyProfileCollectionViewCell", for: indexPath) as! BuddyProfileCollectionViewCell
+        // ------------------------WORKING API-------------------------
+        /*
         cell.NameLabel.text = CoachesArray[indexPath.item].student.firstname
         cell.StudyLabel.text = CoachesArray[indexPath.item].student.study
         cell.LocationALabel.text = String(CoachesArray[indexPath.item].student.studentid)
         cell.PreStudyALabel.text = CoachesArray[indexPath.item].student.degree
         cell.BioALabel.text = CoachesArray[indexPath.item].student.description
         let ImageUrl = URL(string: CoachesArray[indexPath.item].student.photo)
+        cell.ProfileImageView.kf.setImage(with: ImageUrl)
+        */
+        //-------------------------API NOT WORKING__________________
+        print(NewCoashesArray[indexPath.item].name)
+        cell.NameLabel.text = NewCoashesArray[indexPath.item].name
+        cell.StudyLabel.text = NewCoashesArray[indexPath.item].study
+        cell.LocationALabel.text = NewCoashesArray[indexPath.item].studentid
+        cell.PreStudyALabel.text = NewCoashesArray[indexPath.item].degree
+        cell.BioALabel.text = NewCoashesArray[indexPath.item].bio
+        let ImageUrl = URL(string: NewCoashesArray[indexPath.item].photo)
         cell.ProfileImageView.kf.setImage(with: ImageUrl)
 
         return cell
@@ -243,7 +329,8 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
         let index = indexPath.item
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let DetailBuddyPage = (storyboard.instantiateViewController(withIdentifier:"detailpagebuddyviewcontroller") as? detailpagebuddyviewcontroller)!
-        
+        //--------------------API WORKING:-----------------------
+        /*
         DetailBuddyPage.photo = CoachesArray[index].student.photo
         DetailBuddyPage.name = CoachesArray[index].student.firstname
         DetailBuddyPage.study = CoachesArray[index].student.study
@@ -252,6 +339,20 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
         DetailBuddyPage.interests = CoachesArray[index].student.interests
         DetailBuddyPage.bio = CoachesArray[index].student.description
         DetailBuddyPage.coachID = CoachesArray[index].coach.studentid
+    */
+        //-------------------API NOT WORKING------------------------
+        DetailBuddyPage.photo = NewCoashesArray[index].photo
+        DetailBuddyPage.name = NewCoashesArray[index].name
+        DetailBuddyPage.study = NewCoashesArray[index].study
+        DetailBuddyPage.studyyear = NewCoashesArray[index].studyyear
+        DetailBuddyPage.degree = NewCoashesArray[index].degree
+        DetailBuddyPage.interests = NewCoashesArray[index].interests
+        DetailBuddyPage.bio = NewCoashesArray[index].bio
+        DetailBuddyPage.coachID = Int(NewCoashesArray[index].studentid)!
+        
+        
+        
+        
         DetailBuddyPage.ShowBackButton = true
         navigationController?.pushViewController(DetailBuddyPage, animated: true)
     }
