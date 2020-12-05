@@ -21,6 +21,7 @@
 		3C4AB837246972C700C71C88 /* DetailPageBuddyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4AB836246972C700C71C88 /* DetailPageBuddyViewController.swift */; };
 		3C678A1223C3BC0600DB26D5 /* Tutorants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C678A1123C3BC0600DB26D5 /* Tutorants.swift */; };
 		3C678A1423C5132700DB26D5 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C678A1323C5132700DB26D5 /* Notification.swift */; };
+		3C7A5678257BA52D00CBE93F /* ChatMessages.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3C7A5676257BA52D00CBE93F /* ChatMessages.xcdatamodeld */; };
 		3C91C3AD239FBD390081F7B7 /* Student.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C91C3AC239FBD390081F7B7 /* Student.swift */; };
 		3C9E81DA237B007C00284CDC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9E81D9237B007C00284CDC /* AppDelegate.swift */; };
 		3C9E81DC237B007C00284CDC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9E81DB237B007C00284CDC /* SceneDelegate.swift */; };
@@ -81,6 +82,7 @@
 		3C4AB836246972C700C71C88 /* DetailPageBuddyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPageBuddyViewController.swift; sourceTree = "<group>"; };
 		3C678A1123C3BC0600DB26D5 /* Tutorants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tutorants.swift; sourceTree = "<group>"; };
 		3C678A1323C5132700DB26D5 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		3C7A5677257BA52D00CBE93F /* ChatMessages.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ChatMessages.xcdatamodel; sourceTree = "<group>"; };
 		3C91C3AC239FBD390081F7B7 /* Student.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Student.swift; sourceTree = "<group>"; };
 		3C9E81D6237B007C00284CDC /* Studie_Buddy_app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Studie_Buddy_app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C9E81D9237B007C00284CDC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -205,6 +207,14 @@
 			path = Api;
 			sourceTree = "<group>";
 		};
+		3C7A5675257BA4FE00CBE93F /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				3C7A5676257BA52D00CBE93F /* ChatMessages.xcdatamodeld */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 		3C9E81CD237B007C00284CDC = {
 			isa = PBXGroup;
 			children = (
@@ -233,6 +243,7 @@
 				3C9E81D9237B007C00284CDC /* AppDelegate.swift */,
 				3CD4884523A4FD78001FBB47 /*  UIColor+FlatColors.swift */,
 				3C06C37C23951C5100E05EAE /* Localizable.strings */,
+				3C7A5675257BA4FE00CBE93F /* CoreData */,
 				3C3B2FC023995DE2000A445D /* Api */,
 				3C9E81DB237B007C00284CDC /* SceneDelegate.swift */,
 				3CA113352459A1D100DD39DE /* CollectionViewCells */,
@@ -530,6 +541,7 @@
 				3CA1133B245C4F7100DD39DE /* Coach.swift in Sources */,
 				3C3B2FC6239962BF000A445D /* MessagesViewController.swift in Sources */,
 				3CD4884623A4FD78001FBB47 /*  UIColor+FlatColors.swift in Sources */,
+				3C7A5678257BA52D00CBE93F /* ChatMessages.xcdatamodeld in Sources */,
 				3C3B2FC223995DF9000A445D /* ApiManager.swift in Sources */,
 				3CA113372459A1F000DD39DE /* BuddyProfileCollectionViewCell.swift in Sources */,
 				3C3B2FC423996142000A445D /* Messages.swift in Sources */,
@@ -893,6 +905,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		3C7A5676257BA52D00CBE93F /* ChatMessages.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				3C7A5677257BA52D00CBE93F /* ChatMessages.xcdatamodel */,
+			);
+			currentVersion = 3C7A5677257BA52D00CBE93F /* ChatMessages.xcdatamodel */;
+			path = ChatMessages.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 3C9E81CE237B007C00284CDC /* Project object */;
 }

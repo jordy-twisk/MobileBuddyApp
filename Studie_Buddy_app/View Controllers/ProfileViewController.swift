@@ -32,6 +32,18 @@ UINavigationControllerDelegate, UITextViewDelegate {
     @IBOutlet weak var ChoosePictureButton: UIButton!
     @IBOutlet weak var UpdateIndicator: UIActivityIndicatorView!
     
+   
+    @IBOutlet weak var BioProfileLabel: UILabel!
+    @IBOutlet weak var InterestsProfileLabel: UILabel!
+    @IBOutlet weak var StudyyearProfileLabel: UILabel!
+    @IBOutlet weak var StudyLabelProfile: UILabel!
+    @IBOutlet weak var NameProfileLabel: UILabel!
+    @IBOutlet weak var IconBioProfileImage: UIImageView!
+    @IBOutlet weak var IconStudyProfileImage: UIImageView!
+    
+    @IBOutlet weak var IconInterestsProfileImage: UIImageView!
+    @IBOutlet weak var IconStudyyearProfileImage: UIImageView!
+    
     @IBAction func TakePicture(_ sender: Any) {
         
        /* if UIImagePickerController.isSourceTypeAvailable(.camera) {
@@ -88,7 +100,11 @@ UINavigationControllerDelegate, UITextViewDelegate {
     
     
     
-    
+    override func viewDidDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+    }
     
         
     override func viewDidLoad() {
@@ -98,12 +114,45 @@ UINavigationControllerDelegate, UITextViewDelegate {
         UpdateIndicator.startAnimating()
         NavigationBar.title = NSLocalizedString("profile", comment: "")
         ChoosePictureButton.setTitle(NSLocalizedString("ChoosePic", comment: ""), for: .normal)
+        ChoosePictureButton.tintColor = .InhollandPink
         //let InhollandPink = UIColor(red: 235.0/255.0, green: 0.0/255.0, blue: 145.0/255.0, alpha: 1.0)
         ProfileImageView.image = UIImage(named: "Profile")
             //ProfileImageView.image = UIImage(named: "Profile")
         ProfileImageView.contentMode = .scaleAspectFill
         ProfileImageView.layer.cornerRadius = ProfileImageView.frame.size.width / 2
         ProfileImageView.clipsToBounds = true
+        StudyLabelProfile.text = NSLocalizedString("study", comment: "")
+        StudyLabelProfile.textColor = .InhollandPink
+        StudyLabelProfile.font = .boldSystemFont(ofSize: 16)
+        
+        NameProfileLabel.text = NSLocalizedString("name", comment: "")
+        NameProfileLabel.textColor = .InhollandPink
+        NameProfileLabel.font = .boldSystemFont(ofSize: 16)
+        
+        StudyyearProfileLabel.text = NSLocalizedString("StudyYear", comment: "")
+        StudyyearProfileLabel.textColor = .InhollandPink
+        StudyyearProfileLabel.font = .boldSystemFont(ofSize: 16)
+
+        InterestsProfileLabel.text = NSLocalizedString("Interests", comment: "")
+        InterestsProfileLabel.textColor = .InhollandPink
+        InterestsProfileLabel.font = .boldSystemFont(ofSize: 16)
+        
+        BioProfileLabel.text = NSLocalizedString("bio", comment: "")
+        BioProfileLabel.textColor = .InhollandPink
+        BioProfileLabel.font = .boldSystemFont(ofSize: 16)
+        
+        IconStudyProfileImage.image = UIImage(systemName: "books.vertical")
+        IconStudyProfileImage.tintColor = .InhollandPink
+        
+        IconStudyyearProfileImage.image = UIImage(systemName: "calendar")
+        IconStudyyearProfileImage.tintColor = .InhollandPink
+        
+        IconInterestsProfileImage.image = UIImage(systemName: "exclamationmark.bubble.fill")
+        IconInterestsProfileImage.tintColor = .InhollandPink
+        
+        
+        IconBioProfileImage.image = UIImage(systemName: "person.crop.square.fill.and.at.rectangle")
+        IconBioProfileImage.tintColor = .InhollandPink
         
         
         Makeprofilecall()
@@ -118,9 +167,11 @@ UINavigationControllerDelegate, UITextViewDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil )
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil )
         
-       // RegisterButton.backgroundColor = .gray
-       // RegisterButton.tintColor = UIColor.white
-       // RegisterButton.setTitle(NSLocalizedString("save", comment: ""), for: .normal)
+        
+        
+        RegisterButton.backgroundColor = .gray
+        RegisterButton.tintColor = UIColor.white
+        RegisterButton.setTitle(NSLocalizedString("save", comment: ""), for: .normal)
         self.navigationController!.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
         self.navigationController!.navigationBar.tintColor = #colorLiteral(red: 1, green: 0.99997437, blue: 0.9999912977, alpha: 1)
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "Header4"), for: .default)
@@ -153,6 +204,9 @@ UINavigationControllerDelegate, UITextViewDelegate {
         KeychainWrapper.standard.set("", forKey: "Interests")
         KeychainWrapper.standard.set("", forKey: "Photo")
         newMessages = false
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "LoginPageViewController") as UIViewController
         self.navigationController?.pushViewController(vc, animated: true)
@@ -258,33 +312,52 @@ UINavigationControllerDelegate, UITextViewDelegate {
     }
     
     @IBAction func SaveButtonClicked(_ sender: Any) {
+        
+        //-----------------API NOT WORKING: --------------
+        var name =  KeychainWrapper.standard.string(forKey: "Name")!
+        var bio =  KeychainWrapper.standard.string(forKey: "Bio")!
+        var study =  KeychainWrapper.standard.string(forKey: "Study")!
+        var degree =  KeychainWrapper.standard.string(forKey: "Degree")!
+        var interests =  KeychainWrapper.standard.string(forKey: "Interests")!
+       
+        
+        
         if (ProfileNameTextbox.text!.isEmpty == false || BioTextBox.text!.isEmpty == false || StudyTextbox.text!.isEmpty == false || CityTextbox.text!.isEmpty == false || PreStudyTextbox.text!.isEmpty == false) {
             
        
             
         if self.ProfileNameTextbox.text != ""{
-            Studentprofile?.firstname = ProfileNameTextbox.text!
             
+            //Studentprofile?.firstname = ProfileNameTextbox.text!
+            name = ProfileNameTextbox.text!
             ProfileNameTextbox.text = ""
             
         }
         if self.BioTextBox.text != ""{
-            Studentprofile?.description = BioTextBox.text!
+            
+            //Studentprofile?.description = BioTextBox.text!
+            bio = BioTextBox.text!
             BioTextBox.text = ""
             
             
         }
         if self.StudyTextbox.text != ""{
-            Studentprofile?.study = StudyTextbox.text!
+            
+            //Studentprofile?.study = StudyTextbox.text!
+            study = StudyTextbox.text!
             StudyTextbox.text = ""
                     }
         if self.CityTextbox.text != ""{
-            Studentprofile?.degree = CityTextbox.text!
+            
+            //Studentprofile?.degree = CityTextbox.text!
+            degree = CityTextbox.text!
             CityTextbox.text = ""
             
         }
         if self.PreStudyTextbox.text != ""{
-            Studentprofile?.interests = PreStudyTextbox.text!
+            
+            //Studentprofile?.interests = PreStudyTextbox.text!
+            interests = PreStudyTextbox.text!
             PreStudyTextbox.text = ""
             
         }
@@ -296,11 +369,11 @@ UINavigationControllerDelegate, UITextViewDelegate {
         PreStudyTextbox.placeholder = Studentprofile?.interests
  */
         //-----------------API CALL NOT WORKING-------
-            KeychainWrapper.standard.set(Studentprofile!.firstname, forKey: "Name")
-            KeychainWrapper.standard.set(Studentprofile!.description, forKey: "Bio")
-            KeychainWrapper.standard.set(Studentprofile!.study, forKey: "Study")
-            KeychainWrapper.standard.set(Studentprofile!.degree, forKey: "Degree")
-            KeychainWrapper.standard.set(Studentprofile!.interests, forKey: "Interests")
+            KeychainWrapper.standard.set(name, forKey: "Name")
+            KeychainWrapper.standard.set(bio, forKey: "Bio")
+            KeychainWrapper.standard.set(study, forKey: "Study")
+            KeychainWrapper.standard.set(degree, forKey: "Degree")
+            KeychainWrapper.standard.set(interests, forKey: "Interests")
             
             Makeprofilecall()
         

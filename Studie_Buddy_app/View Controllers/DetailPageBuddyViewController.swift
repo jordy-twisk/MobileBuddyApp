@@ -109,9 +109,13 @@ class detailpagebuddyviewcontroller: UIViewController{
         BioALabel.isEditable = false
         BioALabel.isSelectable = false
         
-        
-        ChooseBuddyButton.addTarget(self, action: #selector(ChooseThisbuddyCall), for: .touchUpInside)
+        //----------------API WORKING:--------------------
+        //ChooseBuddyButton.addTarget(self, action: #selector(ChooseThisbuddyCall), for: .touchUpInside)
+        //----------------API NOT WORKING:--------------------
+        ChooseBuddyButton.addTarget(self, action: #selector(ChooseThisbuddy), for: .touchUpInside)
     }
+    
+    //API WORKING
     
     @objc func ChooseThisbuddyCall(){
         ApiManager.chooseBuddy(coachID: coachID).responseData(completionHandler: { [weak self] (response) in
@@ -144,5 +148,29 @@ class detailpagebuddyviewcontroller: UIViewController{
         
         
     }
+    
+    //API NOT WORKING:
+    
+    @objc func ChooseThisbuddy(){
+        let thisstudentid = KeychainWrapper.standard.string(forKey: "StudentID")
+        CoachConnections.append(CoachConnection(studentID: thisstudentid!, coachID: String(coachID)))
+        
+                KeychainWrapper.standard.set(self.coachID, forKey: "CoachID")
+//
+                let confettiView = SAConfettiView(frame: self.view.bounds)
+                confettiView.type = .Confetti
+                confettiView.colors = [UIColor.InhollandPink, UIColor.purple, UIColor.red]
+                confettiView.intensity = 1
+                self.view.addSubview(confettiView)
+                confettiView.startConfetti()
+                let alert = UIAlertController(title: NSLocalizedString("NewCoachTitle", comment: ""), message: NSLocalizedString("NewCoachMSG", comment: ""), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: "") , style: .default, handler: {(action) in
+                alert.dismiss(animated: true, completion: nil)
+                confettiView.stopConfetti()
+                self.navigationController?.popViewController(animated: true)
+                
+                }))
+                self.present(alert, animated: true, completion: nil)
+        }
     
 }

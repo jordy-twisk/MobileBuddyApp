@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SwiftKeychainWrapper
 
 class CoachesToChoose: Equatable, Hashable{
     static func == (lhs: CoachesToChoose, rhs: CoachesToChoose) -> Bool {
@@ -40,10 +41,29 @@ class CoachesToChoose: Equatable, Hashable{
         }
 }
 
+class CoachConnection: Equatable, Hashable{
+    static func == (lhs: CoachConnection, rhs: CoachConnection) -> Bool {
+        return lhs.studentID == rhs.studentID && lhs.coachID == rhs.coachID
+    }
+    var studentID: String
+    var coachID: String
+   
+    
+    init(studentID: String, coachID: String) {
+        self.studentID = studentID
+        self.coachID = coachID
+    }
+
+    var hashValue: Int {
+            get {
+                return studentID.hashValue + coachID.hashValue
+            }
+        }
+}
 
 
 var NewCoashesArray: [CoachesToChoose] = []
-
+var CoachConnections: [CoachConnection] = []
 var CoachesArray: [Coaches] = []
 let Max_Pages: Int = 10
 
@@ -157,8 +177,14 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
         PageControl.currentPage = Int(x / view.frame.width)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        Checkifuserhasbuddy()
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         //------------API NOT WORKING:--------
         NewCoashesArray.append(CoachesToChoose(name: "Demi", bio: "", study: "Economie", degree: "HBO", interests: "Sporten", photo: "https://image.shutterstock.com/image-photo/beautiful-african-american-woman-smiling-260nw-402466177.jpg", studyyear: "2", studentid: "570221"))
@@ -174,7 +200,7 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
         //-------------------WOKRING API:
         //CheckIfBuddyExist()
         //-------------------API NOT WORKING :
-        //Checkifuserhasbuddy()
+        Checkifuserhasbuddy()
 
             NavigationBar.title = NSLocalizedString("ChooseBuddy", comment: "")
              self.navigationController!.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
@@ -194,6 +220,36 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
         
         ConfigControl()
         
+    }
+    
+    func Checkifuserhasbuddy(){
+        let studentID = KeychainWrapper.standard.string(forKey: "StudentID")
+        let coachIDtocheck =  KeychainWrapper.standard.string(forKey: "CoachID")
+        print("check if user has buddy....")
+        if CoachConnections.isEmpty == false && coachIDtocheck != "" {
+            if CoachConnections.contains(where: { $0.studentID == studentID}){
+                let indexOfUser = CoachConnections.firstIndex(where: { $0.studentID == studentID })
+                let coachID = CoachConnections[indexOfUser!].coachID
+                if NewCoashesArray.contains(where: { $0.studentid == coachID}){
+                    let indexOfUser = NewCoashesArray.firstIndex(where: { $0.studentid == coachID })
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let DetailBuddyPage = (storyboard.instantiateViewController(withIdentifier:"detailpagebuddyviewcontroller") as? detailpagebuddyviewcontroller)!
+                    
+                    DetailBuddyPage.photo = NewCoashesArray[indexOfUser!].photo
+                    DetailBuddyPage.name = NewCoashesArray[indexOfUser!].name
+                    DetailBuddyPage.study = NewCoashesArray[indexOfUser!].study
+                    DetailBuddyPage.studyyear = NewCoashesArray[indexOfUser!].studyyear
+                    DetailBuddyPage.degree = NewCoashesArray[indexOfUser!].degree
+                    DetailBuddyPage.interests = NewCoashesArray[indexOfUser!].interests
+                    DetailBuddyPage.bio = NewCoashesArray[indexOfUser!].bio
+                    DetailBuddyPage.coachID = Int(NewCoashesArray[indexOfUser!].studentid)!
+                    DetailBuddyPage.ShowBackButton = false
+                    
+                    self.navigationController?.pushViewController(DetailBuddyPage, animated: true)
+                }
+            }
+            
+        }
     }
     
     func ConfigControl(){

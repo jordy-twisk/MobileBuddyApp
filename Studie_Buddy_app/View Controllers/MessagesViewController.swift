@@ -140,9 +140,15 @@ class messagesviewcontroller: UIViewController {
             UIView.animate(withDuration: 0, delay: 0, options: UIView.AnimationOptions.curveEaseOut , animations: {
                 self.view.layoutIfNeeded()
             }, completion:{ (completed) in
-                    let lastSection: Int = (self.MessagesTableView.numberOfSections - 1)
-                    let lastRow: Int = (self.MessagesTableView.numberOfRows(inSection: lastSection) - 1)
-                    self.MessagesTableView.scrollToRow(at: IndexPath(row: lastRow, section: lastSection), at: .bottom, animated: false)
+                var lastSection = 0
+                var lastRow = 0
+                if self.MessagesTableView.numberOfSections >= 1{
+                    lastSection = (self.MessagesTableView.numberOfSections - 1)
+                }
+                if lastSection >= 1 {
+                    lastRow = (self.MessagesTableView.numberOfRows(inSection: lastSection) - 1)
+                }
+                self.MessagesTableView.scrollToRow(at: IndexPath(row: lastRow, section: lastSection), at: .bottom, animated: false)
                 
             })
         }
