@@ -49,5 +49,7 @@
 "Interests" = "Interests";
 "Logout" = "Logout";
 "newchat" = "Send the first message!";
+"NoBuddy" = "No match found!";
+"NoBuddyMSG" = "You don't have a connection yet, make a connection!";
 
 

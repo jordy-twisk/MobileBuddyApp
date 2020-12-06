@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import Kingfisher
 import Alamofire
+import SwiftKeychainWrapper
 //import SwiftyJSON
 
 //-----------API NOT WORKING --------------
@@ -91,6 +92,8 @@ class messagesviewcontroller: UIViewController {
     var receivedID: Int = 0
     
     var bottomconstraint: NSLayoutConstraint?
+    
+    
     override func viewDidLoad() {
     super.viewDidLoad()
       
@@ -128,6 +131,7 @@ class messagesviewcontroller: UIViewController {
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
+    
     
    
     @objc func handleKeyboardNotification(notifcation: NSNotification){

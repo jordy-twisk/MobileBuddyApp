@@ -73,6 +73,14 @@ class inboxviewcontroller: UIViewController {
     
     @IBOutlet weak var NavigationBar: UINavigationItem!
     @IBOutlet weak var InboxTableView: UITableView!
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print("buddy check 1....")
+        CheckForBuddy()
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -91,10 +99,9 @@ class inboxviewcontroller: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.view.backgroundColor = .clear
         
-        
+        CheckForBuddy()
         
         incommingChats.append(Chats(studentID: "570111", name: "Willem", profilePic: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Zijne_Majesteit_Koning_Willem-Alexander_met_koningsmantel_april_2013.jpeg/440px-Zijne_Majesteit_Koning_Willem-Alexander_met_koningsmantel_april_2013.jpeg", latestMessage: "Hoi hoe gaat het", date: "test"))
-        
         
         
         
@@ -131,6 +138,20 @@ class inboxviewcontroller: UIViewController {
        // _ = Timer.scheduledTimer(timeInterval: 5.0,target: self,selector: #selector(execute),userInfo: nil,repeats: true)
     }
 
+    
+    func CheckForBuddy(){
+        let coachIDtocheck =  KeychainWrapper.standard.string(forKey: "CoachID")
+        print("check if user has buddy....")
+        if coachIDtocheck == "" {
+            let alert = UIAlertController(title: NSLocalizedString("NoBuddy", comment: ""), message: NSLocalizedString("NoBuddyMSG", comment: ""), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: "") , style: .default, handler: {(action) in
+            alert.dismiss(animated: true, completion: nil)
+            self.navigationController?.popViewController(animated: true)
+            self.tabBarController?.selectedIndex = 2
+            }))
+            self.present(alert, animated: true, completion: nil)
+                }
+    }
 
 func loadnewChats(){
     
