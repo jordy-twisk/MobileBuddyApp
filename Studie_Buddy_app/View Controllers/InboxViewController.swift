@@ -12,7 +12,7 @@ import Kingfisher
 import Alamofire
 import SwiftKeychainWrapper
 
-/* --------extra might not needed----------------
+/* --------extra might not be needed----------------
 class CoachConnection: Equatable, Hashable{
     static func == (lhs: CoachConnection, rhs: CoachConnection) -> Bool {
         return lhs.studentID == rhs.studentID && lhs.coachID == rhs.coachID
@@ -101,7 +101,7 @@ class inboxviewcontroller: UIViewController {
         
         CheckForBuddy()
         
-        incommingChats.append(Chats(studentID: "570111", name: "Willem", profilePic: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Zijne_Majesteit_Koning_Willem-Alexander_met_koningsmantel_april_2013.jpeg/440px-Zijne_Majesteit_Koning_Willem-Alexander_met_koningsmantel_april_2013.jpeg", latestMessage: "Hoi hoe gaat het", date: "test"))
+        //incommingChats.append(Chats(studentID: "570111", name: "Willem", profilePic: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Zijne_Majesteit_Koning_Willem-Alexander_met_koningsmantel_april_2013.jpeg/440px-Zijne_Majesteit_Koning_Willem-Alexander_met_koningsmantel_april_2013.jpeg", latestMessage: "Hoi hoe gaat het", date: "test"))
         
         
         
@@ -141,8 +141,12 @@ class inboxviewcontroller: UIViewController {
     
     func CheckForBuddy(){
         let coachIDtocheck =  KeychainWrapper.standard.string(forKey: "CoachID")
-        print("check if user has buddy....")
+        let studentID = KeychainWrapper.standard.string(forKey: "AuthID")
+        
+        print("check if there is a buddy for user: ", studentID)
         if coachIDtocheck == "" {
+            incommingChats = []
+            InboxTableView.reloadData()
             let alert = UIAlertController(title: NSLocalizedString("NoBuddy", comment: ""), message: NSLocalizedString("NoBuddyMSG", comment: ""), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: "") , style: .default, handler: {(action) in
             alert.dismiss(animated: true, completion: nil)
@@ -150,7 +154,27 @@ class inboxviewcontroller: UIViewController {
             self.tabBarController?.selectedIndex = 2
             }))
             self.present(alert, animated: true, completion: nil)
+        }else { //buddy exists:
+            print("user has a buddy now check data")
+            print("Coach id is: ", coachIDtocheck)
+            if NewCoashesArray.contains(where: { $0.studentid == coachIDtocheck}){
+                let indexOfUser = NewCoashesArray.firstIndex(where: { $0.studentid == coachIDtocheck })
+                if incommingChats.contains(where: { $0.studentID == coachIDtocheck}) == false{
+                    let newChat: Chats = Chats(studentID: coachIDtocheck!, name: NewCoashesArray[indexOfUser!].name, profilePic: NewCoashesArray[indexOfUser!].photo, latestMessage: "test", date: "today")
+                    incommingChats.append(newChat)
+                    print("new data inserted reload tableview....")
+                    InboxTableView.reloadData()
                 }
+            }else
+            {
+                print("No data found", NewCoashesArray)
+            }
+            
+            
+            
+        }
+        
+        
     }
 
 func loadnewChats(){

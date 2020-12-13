@@ -21,7 +21,7 @@
 		3C4AB837246972C700C71C88 /* DetailPageBuddyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4AB836246972C700C71C88 /* DetailPageBuddyViewController.swift */; };
 		3C678A1223C3BC0600DB26D5 /* Tutorants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C678A1123C3BC0600DB26D5 /* Tutorants.swift */; };
 		3C678A1423C5132700DB26D5 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C678A1323C5132700DB26D5 /* Notification.swift */; };
-		3C7A5678257BA52D00CBE93F /* ChatMessages.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3C7A5676257BA52D00CBE93F /* ChatMessages.xcdatamodeld */; };
+		3C7A5678257BA52D00CBE93F /* Buddyconnection.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3C7A5676257BA52D00CBE93F /* Buddyconnection.xcdatamodeld */; };
 		3C91C3AD239FBD390081F7B7 /* Student.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C91C3AC239FBD390081F7B7 /* Student.swift */; };
 		3C9E81DA237B007C00284CDC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9E81D9237B007C00284CDC /* AppDelegate.swift */; };
 		3C9E81DC237B007C00284CDC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9E81DB237B007C00284CDC /* SceneDelegate.swift */; };
@@ -169,6 +169,7 @@
 		3C3B2FB823992802000A445D /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				3CA11333245993E200DD39DE /* BuddySwipeController.swift */,
 				3C9E81DD237B007C00284CDC /* ViewController.swift */,
 				3C4AB836246972C700C71C88 /* DetailPageBuddyViewController.swift */,
 				3C06C382239548E500E05EAE /* ProfileViewController.swift */,
@@ -210,7 +211,7 @@
 		3C7A5675257BA4FE00CBE93F /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				3C7A5676257BA52D00CBE93F /* ChatMessages.xcdatamodeld */,
+				3C7A5676257BA52D00CBE93F /* Buddyconnection.xcdatamodeld */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -247,7 +248,6 @@
 				3C3B2FC023995DE2000A445D /* Api */,
 				3C9E81DB237B007C00284CDC /* SceneDelegate.swift */,
 				3CA113352459A1D100DD39DE /* CollectionViewCells */,
-				3CA11332245993CB00DD39DE /* Controllers */,
 				3C3B2FBB23992FBF000A445D /* TableViewCells */,
 				3C3B2FB823992802000A445D /* View Controllers */,
 				3C9E81DF237B007C00284CDC /* Main.storyboard */,
@@ -274,14 +274,6 @@
 				3C9E81FD237B007E00284CDC /* Info.plist */,
 			);
 			path = Studie_Buddy_appUITests;
-			sourceTree = "<group>";
-		};
-		3CA11332245993CB00DD39DE /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				3CA11333245993E200DD39DE /* BuddySwipeController.swift */,
-			);
-			path = Controllers;
 			sourceTree = "<group>";
 		};
 		3CA113352459A1D100DD39DE /* CollectionViewCells */ = {
@@ -541,7 +533,7 @@
 				3CA1133B245C4F7100DD39DE /* Coach.swift in Sources */,
 				3C3B2FC6239962BF000A445D /* MessagesViewController.swift in Sources */,
 				3CD4884623A4FD78001FBB47 /*  UIColor+FlatColors.swift in Sources */,
-				3C7A5678257BA52D00CBE93F /* ChatMessages.xcdatamodeld in Sources */,
+				3C7A5678257BA52D00CBE93F /* Buddyconnection.xcdatamodeld in Sources */,
 				3C3B2FC223995DF9000A445D /* ApiManager.swift in Sources */,
 				3CA113372459A1F000DD39DE /* BuddyProfileCollectionViewCell.swift in Sources */,
 				3C3B2FC423996142000A445D /* Messages.swift in Sources */,
@@ -907,13 +899,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		3C7A5676257BA52D00CBE93F /* ChatMessages.xcdatamodeld */ = {
+		3C7A5676257BA52D00CBE93F /* Buddyconnection.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				3C7A5677257BA52D00CBE93F /* ChatMessages.xcdatamodel */,
 			);
 			currentVersion = 3C7A5677257BA52D00CBE93F /* ChatMessages.xcdatamodel */;
-			path = ChatMessages.xcdatamodeld;
+			path = Buddyconnection.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

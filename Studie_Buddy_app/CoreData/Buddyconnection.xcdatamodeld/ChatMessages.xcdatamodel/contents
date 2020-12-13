@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17511" systemVersion="20B29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ChatMessage" representedClassName="ChatMessage" syncable="YES" codeGenerationType="class">
+        <attribute name="created" optional="YES" attributeType="String"/>
+        <attribute name="lastmodified" optional="YES" attributeType="String"/>
+        <attribute name="messageid" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="payload" optional="YES" attributeType="String"/>
+        <attribute name="receiverid" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="senderid" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
+        <relationship name="coachconnection" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CoachToTutorantConnection" inverseName="chatmessage" inverseEntity="CoachToTutorantConnection"/>
+    </entity>
+    <entity name="CoachProfile" representedClassName="CoachProfile" syncable="YES" codeGenerationType="class">
+        <attribute name="bio" optional="YES" attributeType="String"/>
+        <attribute name="degree" optional="YES" attributeType="String"/>
+        <attribute name="firstname" optional="YES" attributeType="String"/>
+        <attribute name="interests" optional="YES" attributeType="String"/>
+        <attribute name="isCoach" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="phonenumber" optional="YES" attributeType="String"/>
+        <attribute name="photo" optional="YES" attributeType="String"/>
+        <attribute name="studentid" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="study" optional="YES" attributeType="String"/>
+        <attribute name="studyyear" optional="YES" attributeType="String"/>
+        <attribute name="surname" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="CoachToTutorantConnection" representedClassName="CoachToTutorantConnection" syncable="YES" codeGenerationType="class">
+        <attribute name="coachID" optional="YES" attributeType="String"/>
+        <attribute name="studentID" optional="YES" attributeType="String"/>
+        <relationship name="chatmessage" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ChatMessage" inverseName="coachconnection" inverseEntity="ChatMessage"/>
+        <relationship name="studentprofile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="StudentProfile" inverseName="coachconnection" inverseEntity="StudentProfile"/>
+    </entity>
+    <entity name="StudentProfile" representedClassName="StudentProfile" syncable="YES" codeGenerationType="class">
+        <attribute name="bio" optional="YES" attributeType="String"/>
+        <attribute name="degree" optional="YES" attributeType="String"/>
+        <attribute name="firstname" optional="YES" attributeType="String"/>
+        <attribute name="interests" optional="YES" attributeType="String"/>
+        <attribute name="isCoach" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="phonenumber" optional="YES" attributeType="String"/>
+        <attribute name="photo" optional="YES" attributeType="String"/>
+        <attribute name="studentid" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="study" optional="YES" attributeType="String"/>
+        <attribute name="studyyear" optional="YES" attributeType="String"/>
+        <attribute name="surname" optional="YES" attributeType="String"/>
+        <relationship name="coachconnection" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CoachToTutorantConnection" inverseName="studentprofile" inverseEntity="CoachToTutorantConnection"/>
+    </entity>
+    <elements>
+        <element name="ChatMessage" positionX="-626.2304077148438" positionY="-28.81982421875" width="128" height="163"/>
+        <element name="CoachToTutorantConnection" positionX="-637.9178466796875" positionY="227.5273132324219" width="128" height="103"/>
+        <element name="StudentProfile" positionX="-619.8893432617188" positionY="446.9308471679688" width="128" height="223"/>
+        <element name="CoachProfile" positionX="-630" positionY="135" width="128" height="194"/>
+    </elements>
+</model>

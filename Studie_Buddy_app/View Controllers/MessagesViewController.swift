@@ -78,7 +78,7 @@ var shownMessages: Int = 0
 let userDefaults = UserDefaults.standard
 var ScrollToBottom = true
 var NewMessages = false
-
+var lastMessageID: Int = 0
 
 class messagesviewcontroller: UIViewController {
     
@@ -90,7 +90,7 @@ class messagesviewcontroller: UIViewController {
     var ChatName: String = ""
     var senderID: Int = 0
     var receivedID: Int = 0
-    
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistenceContainer.viewContext
     var bottomconstraint: NSLayoutConstraint?
     
     
@@ -164,7 +164,38 @@ class messagesviewcontroller: UIViewController {
     }
 
     @IBAction func SendButtonClicked() {
+        //-----------------API NOT WORKING --------------------
         let textmessage = NewMessageTextbox.text
+        if textmessage != ""
+        {
+            let message = textmessage!.data(using: .nonLossyASCII)
+            let newMessage = String(data: message!, encoding: .utf8)
+            print("new message is: ", newMessage!)
+            let sendMessage = ChatMessage(context: self.context)
+        
+            sendMessage.type = "Message"
+            sendMessage.senderid = Int64(senderID)
+            sendMessage.receiverid = Int64(receivedID)
+            sendMessage.payload = newMessage!
+            sendMessage.messageid = 1
+            
+            let today = Date()
+            sendMessage.lastmodified = today.toString(dateFormat: "dd-MM")
+            sendMessage.created = today.toString(dateFormat: "dd-MM")
+        
+            do{
+                try context.save()
+                NewMessageTextbox.text = ""
+                ScrollToBottom = true
+            }catch{
+                //catch error to let user know of error
+            }
+            
+        }
+        
+        
+        //------------------API WORKING ----------------
+        /*let textmessage = NewMessageTextbox.text
         if textmessage != ""
         {
         let message = textmessage!.data(using: .nonLossyASCII)
@@ -179,7 +210,7 @@ class messagesviewcontroller: UIViewController {
         NewMessageTextbox.text = ""
         ScrollToBottom = true
         MakeApiCall()
-        }
+        */
     }
 
     
@@ -390,4 +421,15 @@ extension messagesviewcontroller: UITableViewDataSource, UITableViewDelegate{
             }
             return cell
         }
+}
+
+extension Date
+{
+    func toString( dateFormat format  : String ) -> String
+    {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        return dateFormatter.string(from: self)
+    }
+
 }

@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import SwiftKeychainWrapper
+import CoreData
 
 class CoachesToChoose: Equatable, Hashable{
     static func == (lhs: CoachesToChoose, rhs: CoachesToChoose) -> Bool {
@@ -63,16 +64,16 @@ class CoachConnection: Equatable, Hashable{
 
 
 var NewCoashesArray: [CoachesToChoose] = []
-var CoachConnections: [CoachConnection] = []
+var NewCoachConnections: [CoachConnection] = []
 var CoachesArray: [Coaches] = []
 let Max_Pages: Int = 10
-
-
+var CoachesProfiles: [CoachProfile]?
+let context = (UIApplication.shared.delegate as! AppDelegate).persistenceContainer.viewContext
 
 class BuddySwipeController: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     
     @IBOutlet weak var NavigationBar: UINavigationItem!
-    
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistenceContainer.viewContext
     
     override func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let pagewidth = collectionView.frame.size.width
@@ -185,6 +186,8 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         
+       
+       
         
         //------------API NOT WORKING:--------
         NewCoashesArray.append(CoachesToChoose(name: "Demi", bio: "", study: "Economie", degree: "HBO", interests: "Sporten", photo: "https://image.shutterstock.com/image-photo/beautiful-african-american-woman-smiling-260nw-402466177.jpg", studyyear: "2", studentid: "570221"))
@@ -194,8 +197,9 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
         NewCoashesArray.append(CoachesToChoose(name: "Sarah", bio: "", study: "Sportkunde", degree: "HBO", interests: "badminton, netflix", photo: "https://t4.ftcdn.net/jpg/03/64/20/99/360_F_364209944_kGGn4OUmBU2ySzpgXILSlMKkcH43PCs0.jpg", studyyear: "3", studentid: "570225"))
         NewCoashesArray.append(CoachesToChoose(name: "elise", bio: "", study: "Economie", degree: "HBO", interests: "Sporten, netflix", photo: "https://media.istockphoto.com/photos/close-up-portrait-of-brunette-woman-picture-id1154642632?k=6&m=1154642632&s=612x612&w=0&h=YTiNxRGupHJpMqQRu7Xh-U976mur5fp-cM_WEczpx04=", studyyear: "2", studentid: "570226"))
         
-        
-        print(NewCoashesArray.count)
+        //AddCoachestoArray()
+        addcoachesfirsttime()
+        //print(NewCoashesArray.count)
         
         //-------------------WOKRING API:
         //CheckIfBuddyExist()
@@ -222,16 +226,44 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
         
     }
     
+    func addcoachesfirsttime(){
+        if NewCoachConnections.isEmpty == true{
+            let saveCoach = CoachProfile(context: self.context)
+
+            for item in NewCoashesArray{
+                saveCoach.firstname = item.name
+                saveCoach.bio = item.bio
+                saveCoach.study = item.study
+                saveCoach.degree = item.degree
+                saveCoach.interests = item.interests
+                saveCoach.photo = item.photo
+                saveCoach.studyyear = item.studyyear
+                saveCoach.studentid = Int64(item.studentid)!
+                do{
+                    try context.save()
+                }catch{
+                    //catch error to let user know of error
+                }
+                
+            }
+            collectionView.reloadData()
+        }
+            
+        
+    }
+    
+    
     func Checkifuserhasbuddy(){
         let studentID = KeychainWrapper.standard.string(forKey: "StudentID")
         let coachIDtocheck =  KeychainWrapper.standard.string(forKey: "CoachID")
-        print("check if user has buddy....")
-        if CoachConnections.isEmpty == false && coachIDtocheck != "" {
-            if CoachConnections.contains(where: { $0.studentID == studentID}){
-                let indexOfUser = CoachConnections.firstIndex(where: { $0.studentID == studentID })
-                let coachID = CoachConnections[indexOfUser!].coachID
-                if NewCoashesArray.contains(where: { $0.studentid == coachID}){
-                    let indexOfUser = NewCoashesArray.firstIndex(where: { $0.studentid == coachID })
+        
+        print("check if user has buddy....", coachIDtocheck)
+        //if coachIDtocheck != "" {
+          //  if NewCoachConnections.contains(where: { $0.studentID == studentID}){
+            //    let indexOfUser = NewCoachConnections.firstIndex(where: { $0.studentID == studentID })
+              //  let coachID = NewCoachConnections[indexOfUser!].coachID
+                if NewCoashesArray.contains(where: { $0.studentid == coachIDtocheck}){
+                    let indexOfUser = NewCoashesArray.firstIndex(where: { $0.studentid == coachIDtocheck })
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
                     let DetailBuddyPage = (storyboard.instantiateViewController(withIdentifier:"detailpagebuddyviewcontroller") as? detailpagebuddyviewcontroller)!
                     
@@ -246,11 +278,12 @@ class BuddySwipeController: UICollectionViewController, UICollectionViewDelegate
                     DetailBuddyPage.ShowBackButton = false
                     
                     self.navigationController?.pushViewController(DetailBuddyPage, animated: true)
-                }
-            }
+                //}
+            //}
             
         }
     }
+    
     
     func ConfigControl(){
         self.collectionView.reloadData()

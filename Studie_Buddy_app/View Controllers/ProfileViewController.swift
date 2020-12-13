@@ -10,8 +10,10 @@ import Foundation
 import UIKit
 import Kingfisher
 import SwiftKeychainWrapper
+import CoreData
 
 var Studentprofile: Student?
+var profileOfStudent: [StudentProfile]?
 var loggedin: Bool = true
 var BioPlaceholder: String = ""
 class profileviewcontroller: UIViewController,
@@ -43,6 +45,9 @@ UINavigationControllerDelegate, UITextViewDelegate {
     
     @IBOutlet weak var IconInterestsProfileImage: UIImageView!
     @IBOutlet weak var IconStudyyearProfileImage: UIImageView!
+    
+    
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistenceContainer.viewContext
     
     @IBAction func TakePicture(_ sender: Any) {
         
@@ -97,6 +102,60 @@ UINavigationControllerDelegate, UITextViewDelegate {
         RegisterButton.backgroundColor = .InhollandPink
     }
     
+    /* core data fetch data */
+    
+    func fetchStudentProfile(){
+        
+        let studentid = KeychainWrapper.standard.string(forKey: "AuthID")
+        if studentid != ""{
+            do {
+                
+                let filter = NSPredicate(format: "studentid CONTAINS '581433'")
+                let request = StudentProfile.fetchRequest() as NSFetchRequest<StudentProfile>
+                request.predicate = filter
+
+                profileOfStudent = try context.fetch(StudentProfile.fetchRequest())
+                if profileOfStudent?.isEmpty == false {
+                    self.ProfileNameTextbox.placeholder =  profileOfStudent![0].firstname
+                    self.BioTextBox.text =  profileOfStudent![0].bio
+                    self.BioTextBox.textColor = .lightGray
+                    self.StudyTextbox.placeholder =  profileOfStudent![0].study
+                    self.CityTextbox.placeholder =  profileOfStudent![0].studyyear
+                    self.PreStudyTextbox.placeholder =  profileOfStudent![0].interests
+                    if (profileOfStudent![0].photo?.isEmpty == false) {
+                        let ImageUrl = URL(string:  profileOfStudent![0].photo!)
+                        self.ProfileImageView.kf.setImage(with: ImageUrl)
+                    }
+                }
+                else{
+                    let savePerson = StudentProfile(context: self.context)
+                    
+                    savePerson.studentid = Int64(studentid!)!
+                    savePerson.firstname = "Name"
+                    savePerson.bio = "Bio"
+                    savePerson.study = "Study"
+                    savePerson.studyyear = "Studyyear"
+                    savePerson.interests = "Interests"
+                    
+                    do{
+                        try context.save()
+                    }catch{
+                        //catch error to let user know of error
+                    }
+                    fetchStudentProfile()
+                }
+                
+            }catch{
+            
+            }
+            
+        }
+            
+        
+        
+       
+    }
+ 
     
     
     
@@ -155,7 +214,8 @@ UINavigationControllerDelegate, UITextViewDelegate {
         IconBioProfileImage.tintColor = .InhollandPink
         
         
-        Makeprofilecall()
+        //Makeprofilecall()
+        fetchStudentProfile()
         NavigationBar.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Logout", comment: ""), style: .plain, target: self, action: #selector(LogUserOut))
         NavigationBar.leftBarButtonItem = nil
         
@@ -275,19 +335,6 @@ UINavigationControllerDelegate, UITextViewDelegate {
     func Makeprofilecall(){
         //let studentID = Int(KeychainWrapper.standard.string(forKey: "StudentID")!)
         //print(studentID)
-     
-        
-        //---------------------API NOT WORKING---------------------
-        self.ProfileNameTextbox.placeholder =  KeychainWrapper.standard.string(forKey: "Name")
-        self.BioTextBox.text =  KeychainWrapper.standard.string(forKey: "Bio")
-        self.BioTextBox.textColor = .lightGray
-        self.StudyTextbox.placeholder =  KeychainWrapper.standard.string(forKey: "Study")
-        self.CityTextbox.placeholder =  KeychainWrapper.standard.string(forKey: "Degree")
-        self.PreStudyTextbox.placeholder =  KeychainWrapper.standard.string(forKey: "Interests")
-        if (KeychainWrapper.standard.string(forKey: "Photo") != "") {
-            let ImageUrl = URL(string:  KeychainWrapper.standard.string(forKey: "Photo")!)
-            self.ProfileImageView.kf.setImage(with: ImageUrl)
-        }
         //self.UpdateIndicator.isHidden = true
         /*-----------------------API CALL--------------------------
         ApiManager.getProfile(studentID: studentID!).responseData(completionHandler: { [weak self] (response) in
@@ -313,13 +360,26 @@ UINavigationControllerDelegate, UITextViewDelegate {
     
     @IBAction func SaveButtonClicked(_ sender: Any) {
         
+        
         //-----------------API NOT WORKING: --------------
-        var name =  KeychainWrapper.standard.string(forKey: "Name")!
-        var bio =  KeychainWrapper.standard.string(forKey: "Bio")!
-        var study =  KeychainWrapper.standard.string(forKey: "Study")!
-        var degree =  KeychainWrapper.standard.string(forKey: "Degree")!
-        var interests =  KeychainWrapper.standard.string(forKey: "Interests")!
+        do{
+            let filter = NSPredicate(format: "studentid CONTAINS '581433'")
+            let request = StudentProfile.fetchRequest() as NSFetchRequest<StudentProfile>
+            request.predicate = filter
+
+            profileOfStudent = try context.fetch(StudentProfile.fetchRequest())
+            
+        }catch{
+            
+        }
        
+        
+        
+        var name = profileOfStudent![0].firstname
+        var bio = profileOfStudent![0].bio
+        var study = profileOfStudent![0].study
+        var studyyear = profileOfStudent![0].studyyear
+        var interests = profileOfStudent![0].interests
         
         
         if (ProfileNameTextbox.text!.isEmpty == false || BioTextBox.text!.isEmpty == false || StudyTextbox.text!.isEmpty == false || CityTextbox.text!.isEmpty == false || PreStudyTextbox.text!.isEmpty == false) {
@@ -350,7 +410,7 @@ UINavigationControllerDelegate, UITextViewDelegate {
         if self.CityTextbox.text != ""{
             
             //Studentprofile?.degree = CityTextbox.text!
-            degree = CityTextbox.text!
+            studyyear = CityTextbox.text!
             CityTextbox.text = ""
             
         }
@@ -369,13 +429,29 @@ UINavigationControllerDelegate, UITextViewDelegate {
         PreStudyTextbox.placeholder = Studentprofile?.interests
  */
         //-----------------API CALL NOT WORKING-------
-            KeychainWrapper.standard.set(name, forKey: "Name")
-            KeychainWrapper.standard.set(bio, forKey: "Bio")
-            KeychainWrapper.standard.set(study, forKey: "Study")
-            KeychainWrapper.standard.set(degree, forKey: "Degree")
-            KeychainWrapper.standard.set(interests, forKey: "Interests")
+            //KeychainWrapper.standard.set(name, forKey: "Name")
+            //KeychainWrapper.standard.set(bio, forKey: "Bio")
+            //KeychainWrapper.standard.set(study, forKey: "Study")
+            //KeychainWrapper.standard.set(studyyear, forKey: "Degree")
+            //KeychainWrapper.standard.set(interests, forKey: "Interests")
             
-            Makeprofilecall()
+            
+            let savePerson = profileOfStudent![0]
+            
+            savePerson.firstname = name
+            savePerson.bio = bio
+            savePerson.study = study
+            savePerson.studyyear = studyyear
+            savePerson.interests = interests
+            
+            do{
+                try context.save()
+                fetchStudentProfile()
+            }catch{
+                //catch error to let user know of error
+            }
+            
+            //Makeprofilecall()
         
         //-----------------API CALL WORKING------------
             /*

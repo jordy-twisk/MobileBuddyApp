@@ -10,6 +10,9 @@ import Foundation
 import UIKit
 import SwiftKeychainWrapper
 import SAConfettiView
+import CoreData
+
+
 
 class detailpagebuddyviewcontroller: UIViewController{
     
@@ -35,6 +38,7 @@ class detailpagebuddyviewcontroller: UIViewController{
     //@IBOutlet weak var BioALabel: UILabel!
     @IBOutlet weak var ChooseBuddyButton: UIButton!
     
+    var ConnectionsOfCoaches: [CoachToTutorantConnection]?
     var name: String = ""
     var photo: String = ""
     var bio: String = ""
@@ -44,6 +48,7 @@ class detailpagebuddyviewcontroller: UIViewController{
     var interests: String = ""
     var coachID: Int = 0
     var ShowBackButton = true
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistenceContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -153,9 +158,21 @@ class detailpagebuddyviewcontroller: UIViewController{
     
     @objc func ChooseThisbuddy(){
         let thisstudentid = KeychainWrapper.standard.string(forKey: "StudentID")
-        CoachConnections.append(CoachConnection(studentID: thisstudentid!, coachID: String(coachID)))
+        NewCoachConnections.append(CoachConnection(studentID: thisstudentid!, coachID: String(coachID)))
+        let saveConnection = CoachToTutorantConnection(context: context)
+        print("Connection made with coach: ", coachID)
         
-                KeychainWrapper.standard.set(self.coachID, forKey: "CoachID")
+        saveConnection.studentID = thisstudentid
+        saveConnection.coachID = String(coachID)
+        
+        do{
+            try context.save()
+        }catch{
+            //catch error to let user know of error
+        }
+        
+        
+                KeychainWrapper.standard.set(String(coachID), forKey: "CoachID")
 //
                 let confettiView = SAConfettiView(frame: self.view.bounds)
                 confettiView.type = .Confetti
